@@ -1,6 +1,7 @@
 library squares;
 
 export 'board.dart';
+export 'piece_set.dart';
 
 /// A Calculator.
 class Calculator {

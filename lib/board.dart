@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:squares/piece_set.dart';
 import 'package:squares/square.dart';
 
 class Board extends StatelessWidget {
+  final PieceSet pieceSet;
   final int ranks;
   final int files;
   final Color? light;
   final Color? dark;
 
   Board({
+    required this.pieceSet,
     this.ranks = 8,
     this.files = 8,
     this.light,
@@ -31,6 +34,7 @@ class Board extends StatelessWidget {
                         (file) => Square(
                               id: rank * files + file,
                               colour: ((rank + file) % 2 == 0) ? _light : _dark,
+                              piece: pieceSet.piece(context, 'k'),
                             )),
                   ))),
         )));

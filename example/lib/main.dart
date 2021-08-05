@@ -36,7 +36,11 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Board(files: 5, ranks: 5),
+                child: Board(
+                  pieceSet: PieceSet.merida(),
+                  files: 5,
+                  ranks: 5,
+                ),
               ),
             ]),
       ),
