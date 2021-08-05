@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:squares/board_state.dart';
 import 'package:squares/piece_set.dart';
 import 'package:squares/square.dart';
 
 class Board extends StatelessWidget {
   final PieceSet pieceSet;
+  final BoardState state;
   final int ranks;
   final int files;
   final Color? light;
@@ -11,6 +13,7 @@ class Board extends StatelessWidget {
 
   Board({
     required this.pieceSet,
+    required this.state,
     this.ranks = 8,
     this.files = 8,
     this.light,
@@ -29,13 +32,16 @@ class Board extends StatelessWidget {
               ranks,
               (rank) => Expanded(
                       child: Row(
-                    children: List.generate(
-                        files,
-                        (file) => Square(
-                              id: rank * files + file,
-                              colour: ((rank + file) % 2 == 0) ? _light : _dark,
-                              piece: pieceSet.piece(context, 'k'),
-                            )),
+                    children: List.generate(files, (file) {
+                      int id = rank * files + file;
+                      String symbol = state.board[id];
+                      Widget? piece = symbol.isNotEmpty ? pieceSet.piece(context, symbol) : null;
+                      return Square(
+                        id: rank * files + file,
+                        colour: ((rank + file) % 2 == 0) ? _light : _dark,
+                        piece: piece,
+                      );
+                    }),
                   ))),
         )));
   }

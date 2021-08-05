@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import 'package:bishop/bishop.dart' as bishop;
+import 'package:squares/board_state.dart';
 import 'package:squares/squares.dart';
 
 void main() {
@@ -24,6 +27,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bishop.Game game = bishop.Game(variant: bishop.Variant.standard());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,9 +41,10 @@ class _MyHomePageState extends State<MyHomePage> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
                 child: Board(
+                  state: BoardState(board: game.boardSymbols()),
                   pieceSet: PieceSet.merida(),
-                  files: 5,
-                  ranks: 5,
+                  files: 8,
+                  ranks: 8,
                 ),
               ),
             ]),
