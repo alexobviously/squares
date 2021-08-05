@@ -29,6 +29,22 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bishop.Game game = bishop.Game(variant: bishop.Variant.standard());
+
+  void onMove(Move move) {
+    BoardSize size = BoardSize(game.size.h, game.size.v);
+    String from = size.squareName(move.from);
+    String to = size.squareName(move.to);
+    String alg = '$from$to';
+    print('onMove $alg');
+    bishop.Move? m = game.getMove(alg);
+    if (m == null)
+      print('move $alg not found');
+    else {
+      game.makeMove(m);
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     BoardSize size = BoardSize(game.size.h, game.size.v);
@@ -57,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   state: BoardState(board: game.boardSymbols()),
                   pieceSet: PieceSet.merida(),
                   size: size,
-                  onMove: (m) => print(m),
+                  onMove: onMove,
                   moves: moves,
                   // selectedFrom: 16,
                   // checkSquare: 4,
