@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 
 class PieceSet {
   static const List<String> DEFAULT_SYMBOLS = ['P', 'N', 'B', 'R', 'Q', 'K'];
+  static const List<String> EXTENDED_SYMBOLS = ['P', 'N', 'B', 'R', 'Q', 'K', 'A', 'C', 'H', 'E', 'S'];
   final Map<String, WidgetBuilder> pieces;
   PieceSet({required this.pieces});
 
@@ -23,7 +24,7 @@ class PieceSet {
   factory PieceSet.merida() => PieceSet.fromSvgAssets(
         folder: 'lib/piece_sets/merida/',
         package: 'squares',
-        symbols: DEFAULT_SYMBOLS,
+        symbols: EXTENDED_SYMBOLS,
       );
 
   // factory PieceSet.merida() => PieceSet(

@@ -27,7 +27,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bishop.Game game = bishop.Game(variant: bishop.Variant.standard());
+  bishop.Game game = bishop.Game(variant: bishop.Variant.capablanca());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,8 +43,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Board(
                   state: BoardState(board: game.boardSymbols()),
                   pieceSet: PieceSet.merida(),
-                  files: 8,
-                  ranks: 8,
+                  files: game.size.h,
+                  ranks: game.size.v,
                 ),
               ),
             ]),
