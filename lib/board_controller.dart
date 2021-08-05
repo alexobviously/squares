@@ -3,41 +3,39 @@ import 'package:squares/board.dart';
 import 'package:squares/board_state.dart';
 import 'package:squares/move.dart';
 import 'package:squares/piece_set.dart';
+import 'package:squares/squares.dart';
 
-class BoardWrapper extends StatefulWidget {
+class BoardController extends StatefulWidget {
   final PieceSet pieceSet;
   final BoardState state;
-  final int ranks;
-  final int files;
+  final BoardSize size;
   final Function(Move)? onMove;
   final Map<int, List<int>> moves;
 
-  BoardWrapper({
+  BoardController({
     required this.pieceSet,
     required this.state,
-    required this.ranks,
-    required this.files,
+    this.size = const BoardSize(8, 8),
     this.onMove,
     this.moves = const {},
   });
 
   @override
-  _BoardWrapperState createState() => _BoardWrapperState();
+  _BoardControllerState createState() => _BoardControllerState();
 }
 
-class _BoardWrapperState extends State<BoardWrapper> {
+class _BoardControllerState extends State<BoardController> {
   int? selection;
   List<int> dests = [];
 
   void onTap(int square) {
-    int? newSelection;
     if (square == selection) {
       deselectSquare();
     } else {
       if (widget.moves.containsKey(square)) {
         selectSquare(square);
-      } else if (dests.contains(square)) {
-        if (widget.onMove != null) widget.onMove!(Move(from: selection!, to: square));
+      } else {
+        if (dests.contains(square) && widget.onMove != null) widget.onMove!(Move(from: selection!, to: square));
         deselectSquare();
       }
     }
@@ -62,8 +60,7 @@ class _BoardWrapperState extends State<BoardWrapper> {
     return Board(
       pieceSet: widget.pieceSet,
       state: widget.state,
-      ranks: widget.ranks,
-      files: widget.files,
+      size: widget.size,
       selectedTo: selection,
       onTap: onTap,
       highlights: dests,

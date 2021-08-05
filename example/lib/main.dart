@@ -31,6 +31,18 @@ class _MyHomePageState extends State<MyHomePage> {
   bishop.Game game = bishop.Game(variant: bishop.Variant.standard());
   @override
   Widget build(BuildContext context) {
+    BoardSize size = BoardSize(game.size.h, game.size.v);
+    List<bishop.Move> legalMoves = game.generateLegalMoves();
+    print(legalMoves.map((e) => game.toAlgebraic(e)).toList());
+    Map<int, List<int>> moves = {};
+    for (bishop.Move move in legalMoves) {
+      String algebraic = game.toAlgebraic(move);
+      Move _move = moveFromAlgebraic(algebraic, size);
+      if (moves.containsKey(_move.from))
+        moves[_move.from]!.add(_move.to);
+      else
+        moves[_move.from] = [_move.to];
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Squares'),
@@ -41,15 +53,12 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: BoardWrapper(
+                child: BoardController(
                   state: BoardState(board: game.boardSymbols()),
                   pieceSet: PieceSet.merida(),
-                  files: game.size.h,
-                  ranks: game.size.v,
+                  size: size,
                   onMove: (m) => print(m),
-                  moves: {
-                    57: [40, 42]
-                  },
+                  moves: moves,
                   // selectedFrom: 16,
                   // checkSquare: 4,
                   // gameOver: true,
@@ -59,4 +68,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+}
+
+Move moveFromAlgebraic(String alg, BoardSize size) {
+  int from = size.squareNumber(alg.substring(0, 2));
+  int to = size.squareNumber(alg.substring(2, 4));
+  return Move(from: from, to: to);
 }

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:squares/board_state.dart';
 import 'package:squares/piece_set.dart';
 import 'package:squares/square.dart';
+import 'package:squares/squares.dart';
 import 'package:squares/types.dart';
 
 class Board extends StatelessWidget {
   final PieceSet pieceSet;
   final BoardState state;
-  final int ranks;
-  final int files;
+  final BoardSize size;
   final Color? light;
   final Color? dark;
   final Color? highlightFromColour;
@@ -25,8 +25,7 @@ class Board extends StatelessWidget {
   Board({
     required this.pieceSet,
     required this.state,
-    this.ranks = 8,
-    this.files = 8,
+    this.size = const BoardSize(8, 8),
     this.light,
     this.dark,
     this.highlightFromColour,
@@ -51,15 +50,15 @@ class Board extends StatelessWidget {
     Color _check = checkColour ?? theme.secondaryHeaderColor;
     Color _checkmate = checkmateColour ?? theme.errorColor;
     return AspectRatio(
-        aspectRatio: files / ranks,
+        aspectRatio: size.h / size.v,
         child: Container(
             child: Column(
           children: List.generate(
-              ranks,
+              size.v,
               (rank) => Expanded(
                       child: Row(
-                    children: List.generate(files, (file) {
-                      int id = rank * files + file;
+                    children: List.generate(size.h, (file) {
+                      int id = rank * size.h + file;
                       String symbol = state.board[id];
                       Widget? piece = symbol.isNotEmpty ? pieceSet.piece(context, symbol) : null;
                       Color squareColour = ((rank + file) % 2 == 0) ? _light : _dark;
@@ -68,7 +67,7 @@ class Board extends StatelessWidget {
                       if (checkSquare == id) squareColour = gameOver ? _checkmate : _check;
                       bool hasHighlight = highlights.contains(id);
                       return Square(
-                        id: rank * files + file,
+                        id: rank * size.h + file,
                         colour: squareColour,
                         piece: piece,
                         onTap: onTap != null ? () => onTap!(id) : null,
