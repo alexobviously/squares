@@ -1,10 +1,8 @@
 library squares;
 
 export 'board.dart';
+export 'board_state.dart';
+export 'board_wrapper.dart';
+export 'piece.dart';
 export 'piece_set.dart';
-
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'square.dart';
