@@ -11,6 +11,7 @@ class BoardController extends StatefulWidget {
   final BoardSize size;
   final Function(Move)? onMove;
   final Map<int, List<int>> moves;
+  final bool canMove;
 
   BoardController({
     required this.pieceSet,
@@ -18,6 +19,7 @@ class BoardController extends StatefulWidget {
     this.size = const BoardSize(8, 8),
     this.onMove,
     this.moves = const {},
+    required this.canMove,
   });
 
   @override

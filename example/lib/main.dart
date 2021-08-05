@@ -28,7 +28,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bishop.Game game = bishop.Game(variant: bishop.Variant.standard());
+  bishop.Game game = bishop.Game(variant: bishop.Variant.capablanca());
 
   void onMove(Move move) {
     BoardSize size = BoardSize(game.size.h, game.size.v);
@@ -42,22 +42,32 @@ class _MyHomePageState extends State<MyHomePage> {
     else {
       game.makeMove(m);
       setState(() {});
+      Future.delayed(Duration(seconds: 3)).then((_) => randomMove());
     }
+  }
+
+  void randomMove() {
+    if (game.gameOver) return;
+    game.makeRandomMove();
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    bool canMove = game.turn == 0;
     BoardSize size = BoardSize(game.size.h, game.size.v);
     List<bishop.Move> legalMoves = game.generateLegalMoves();
     print(legalMoves.map((e) => game.toAlgebraic(e)).toList());
     Map<int, List<int>> moves = {};
-    for (bishop.Move move in legalMoves) {
-      String algebraic = game.toAlgebraic(move);
-      Move _move = moveFromAlgebraic(algebraic, size);
-      if (moves.containsKey(_move.from))
-        moves[_move.from]!.add(_move.to);
-      else
-        moves[_move.from] = [_move.to];
+    if (canMove) {
+      for (bishop.Move move in legalMoves) {
+        String algebraic = game.toAlgebraic(move);
+        Move _move = moveFromAlgebraic(algebraic, size);
+        if (moves.containsKey(_move.from))
+          moves[_move.from]!.add(_move.to);
+        else
+          moves[_move.from] = [_move.to];
+      }
     }
     return Scaffold(
       appBar: AppBar(
@@ -75,6 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   size: size,
                   onMove: onMove,
                   moves: moves,
+                  canMove: canMove,
                   // selectedFrom: 16,
                   // checkSquare: 4,
                   // gameOver: true,

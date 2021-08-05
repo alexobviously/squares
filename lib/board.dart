@@ -19,6 +19,7 @@ class Board extends StatelessWidget {
   final int? selectedTo;
   final int? checkSquare;
   final bool gameOver;
+  final bool canMove;
   final Function(int)? onTap;
   final List<int> highlights;
 
@@ -36,6 +37,7 @@ class Board extends StatelessWidget {
     this.selectedTo,
     this.checkSquare,
     this.gameOver = false,
+    this.canMove = false,
     this.onTap,
     this.highlights = const [],
   });
