@@ -5,17 +5,20 @@ class Square extends StatelessWidget {
   final int id;
   final Color colour;
   final Widget? piece;
-  final VoidCallback? onTap;
+  final void Function(GlobalKey)? onTap;
   final Color? highlight;
+  late GlobalKey _key;
   bool get hasPiece => piece != null;
   bool get hasHighlight => highlight != null;
-  const Square({
+  Square({
     required this.id,
     required this.colour,
     this.piece,
     this.onTap,
     this.highlight,
-  });
+  }) {
+    _key = GlobalKey();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +26,10 @@ class Square extends StatelessWidget {
       aspectRatio: 1.0,
       child: GestureDetector(
         //behavior: HitTestBehavior.translucent,
-        onTap: () => onTap!(),
+        onTap: onTap != null ? () => onTap!(_key) : null,
         onLongPress: () => print('lp $id'),
         child: Container(
+          key: _key,
           color: colour,
           child: Stack(
             children: [

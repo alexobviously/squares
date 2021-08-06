@@ -8,4 +8,5 @@ export 'constants.dart';
 export 'move.dart';
 export 'piece.dart';
 export 'piece_set.dart';
+export 'promo_selector.dart';
 export 'square.dart';

@@ -33,8 +33,8 @@ class GameController extends Cubit<GameState> {
     );
   }
 
-  void startGame(bishop.Variant variant) {
-    game = bishop.Game(variant: variant);
+  void startGame(bishop.Variant variant, {String? fen}) {
+    game = bishop.Game(variant: variant, fen: fen);
     emitState();
   }
 
@@ -44,6 +44,7 @@ class GameController extends Cubit<GameState> {
     String from = size.squareName(move.from);
     String to = size.squareName(move.to);
     String alg = '$from$to';
+    if (move.promotion) alg = '$alg${move.promo}';
     bishop.Move? m = game!.getMove(alg);
     if (m == null)
       print('move $alg not found');
@@ -86,5 +87,6 @@ enum PlayState {
 Move moveFromAlgebraic(String alg, BoardSize size) {
   int from = size.squareNumber(alg.substring(0, 2));
   int to = size.squareNumber(alg.substring(2, 4));
-  return Move(from: from, to: to);
+  String? promo = (alg.length > 4) ? alg[4] : null;
+  return Move(from: from, to: to, promo: promo);
 }

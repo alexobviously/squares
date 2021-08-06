@@ -6,6 +6,7 @@ import 'package:squares/squares.dart';
 import 'package:squares/types.dart';
 
 class Board extends StatelessWidget {
+  final GlobalKey boardKey;
   final PieceSet pieceSet;
   final BoardState state;
   final BoardSize size;
@@ -20,10 +21,11 @@ class Board extends StatelessWidget {
   final int? checkSquare;
   final bool gameOver;
   final bool canMove;
-  final Function(int)? onTap;
+  final Function(int, GlobalKey)? onTap;
   final List<int> highlights;
 
   Board({
+    required this.boardKey,
     required this.pieceSet,
     required this.state,
     this.size = const BoardSize(8, 8),
@@ -52,6 +54,7 @@ class Board extends StatelessWidget {
     Color _check = checkColour ?? theme.secondaryHeaderColor;
     Color _checkmate = checkmateColour ?? theme.errorColor;
     return AspectRatio(
+        key: boardKey,
         aspectRatio: size.h / size.v,
         child: Container(
             child: Column(
@@ -72,7 +75,7 @@ class Board extends StatelessWidget {
                         id: rank * size.h + file,
                         colour: squareColour,
                         piece: piece,
-                        onTap: onTap != null ? () => onTap!(id) : null,
+                        onTap: onTap != null ? (key) => onTap!(id, key) : null,
                         highlight: hasHighlight ? Colors.orange.withAlpha(120) : null,
                       );
                     }),

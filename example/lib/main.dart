@@ -59,20 +59,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    bool canMove = game.turn == 0;
-    BoardSize size = BoardSize(game.size.h, game.size.v);
-    List<bishop.Move> legalMoves = game.generateLegalMoves();
-    print(legalMoves.map((e) => game.toAlgebraic(e)).toList());
-    Map<int, List<int>> moves = {};
-    if (canMove) {
-      for (bishop.Move move in legalMoves) {
-        String algebraic = game.toAlgebraic(move);
-        Move _move = moveFromAlgebraic(algebraic, size);
-        if (moves.containsKey(_move.from))
-          moves[_move.from]!.add(_move.to);
-        else
-          moves[_move.from] = [_move.to];
-      }
+    PieceSet pieceSet = PieceSet.merida();
+    List<Widget> promos = [];
+    for (String symbol in ['Q', 'R', 'B', 'N']) {
+      Widget? piece = symbol.isNotEmpty ? pieceSet.piece(context, symbol) : null;
+      if (piece != null) promos.add(piece);
     }
     return Scaffold(
       appBar: AppBar(
@@ -83,6 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           //crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            // Row(
+            //   children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: BlocBuilder<GameController, GameState>(
@@ -91,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   print(state);
                   return BoardController(
                     state: state.board,
-                    pieceSet: PieceSet.merida(),
+                    pieceSet: pieceSet,
                     size: state.size,
                     onMove: onMove,
                     moves: state.moves,
@@ -103,6 +96,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
               ),
             ),
+            // Container(
+            //   height: 400,
+            //   width: 100,
+            //   child: PromoSelector(pieces: promos),
+            // ),
+            //   ],
+            // ),
             Container(height: 100),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -117,6 +117,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: Icon(Icons.minimize),
                   label: Text('Mini'),
                 ),
+                ElevatedButton.icon(
+                  onPressed: () => startGame(bishop.Variant.mini(), fen: '4k/P4/5/5/4K w Qq - 0 1'),
+                  icon: Icon(Icons.upgrade),
+                  label: Text('Promo test'),
+                ),
               ],
             ),
           ],
@@ -125,8 +130,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void startGame(bishop.Variant variant) {
-    gc.startGame(variant);
+  void startGame(bishop.Variant variant, {String? fen}) {
+    gc.startGame(variant, fen: fen);
   }
 }
 

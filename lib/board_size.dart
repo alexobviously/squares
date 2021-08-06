@@ -33,4 +33,7 @@ class BoardSize {
     int square = _rank * h + _file;
     return square;
   }
+
+  int squareRank(int square) => v - (square ~/ h);
+  int squareFile(int square) => square % h;
 }
