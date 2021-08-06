@@ -61,7 +61,7 @@ class Board extends StatelessWidget {
                       child: Row(
                     children: List.generate(size.h, (file) {
                       int id = rank * size.h + file;
-                      String symbol = state.board[id];
+                      String symbol = state.board.length > id ? state.board[id] : '';
                       Widget? piece = symbol.isNotEmpty ? pieceSet.piece(context, symbol) : null;
                       Color squareColour = ((rank + file) % 2 == 0) ? _light : _dark;
                       if (selectedFrom == id) squareColour = _highlightFrom;

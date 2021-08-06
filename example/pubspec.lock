@@ -11,10 +11,19 @@ packages:
   bishop:
     dependency: "direct main"
     description:
-      name: bishop
+      path: "."
+      ref: master
+      resolved-ref: c0677c36ab80eaec0a7ac679f025ff90ace41b2d
+      url: "git@github.com:alexobviously/bishop.git"
+    source: git
+    version: "0.2.3"
+  bloc:
+    dependency: "direct main"
+    description:
+      name: bloc
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.1"
+    version: "7.0.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -50,13 +59,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0"
-  cupertino_icons:
+  equatable:
     dependency: "direct main"
     description:
-      name: cupertino_icons
+      name: equatable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "2.0.3"
   fake_async:
     dependency: transitive
     description:
@@ -69,6 +78,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_bloc:
+    dependency: "direct main"
+    description:
+      name: flutter_bloc
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "7.1.0"
   flutter_svg:
     dependency: transitive
     description:
@@ -95,6 +111,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.0"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   path:
     dependency: transitive
     description:
@@ -123,6 +146,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.1.0"
+  provider:
+    dependency: transitive
+    description:
+      name: provider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.0"
   sky_engine:
     dependency: transitive
     description: flutter

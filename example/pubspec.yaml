@@ -12,8 +12,13 @@ dependencies:
   flutter:
     sdk: flutter
 
-  bishop: ^0.2.1
-  cupertino_icons: ^1.0.2
+  bishop: 
+    git:
+      url: git@github.com:alexobviously/bishop.git
+      ref: master
+  bloc: ^7.0.0
+  equatable: ^2.0.3
+  flutter_bloc: ^7.1.0
   squares:
     path: ../
 

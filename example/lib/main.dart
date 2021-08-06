@@ -1,6 +1,8 @@
+import 'package:example/game_controller.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bishop/bishop.dart' as bishop;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:squares/board_state.dart';
 import 'package:squares/squares.dart';
 
@@ -28,28 +30,31 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bishop.Game game = bishop.Game(variant: bishop.Variant.capablanca());
+  bishop.Game game = bishop.Game(variant: bishop.Variant.mini());
+  GameController gc = GameController();
 
   void onMove(Move move) {
-    BoardSize size = BoardSize(game.size.h, game.size.v);
-    String from = size.squareName(move.from);
-    String to = size.squareName(move.to);
-    String alg = '$from$to';
-    print('onMove $alg');
-    bishop.Move? m = game.getMove(alg);
-    if (m == null)
-      print('move $alg not found');
-    else {
-      game.makeMove(m);
-      setState(() {});
-      Future.delayed(Duration(seconds: 3)).then((_) => randomMove());
-    }
+    gc.makeMove(move);
+    // BoardSize size = BoardSize(game.size.h, game.size.v);
+    // String from = size.squareName(move.from);
+    // String to = size.squareName(move.to);
+    // String alg = '$from$to';
+    // print('onMove $alg');
+    // bishop.Move? m = game.getMove(alg);
+    // if (m == null)
+    //   print('move $alg not found');
+    // else {
+    //   game.makeMove(m);
+    //   setState(() {});
+    //   Future.delayed(Duration(seconds: 3)).then((_) => randomMove());
+    // }
   }
 
   void randomMove() {
-    if (game.gameOver) return;
-    game.makeRandomMove();
-    setState(() {});
+    gc.randomMove();
+    // if (game.gameOver) return;
+    // game.makeRandomMove();
+    // setState(() {});
   }
 
   @override
@@ -74,26 +79,54 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text('Squares'),
       ),
       body: Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center,
-            //crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: BoardController(
-                  state: BoardState(board: game.boardSymbols()),
-                  pieceSet: PieceSet.merida(),
-                  size: size,
-                  onMove: onMove,
-                  moves: moves,
-                  canMove: canMove,
-                  // selectedFrom: 16,
-                  // checkSquare: 4,
-                  // gameOver: true,
-                ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          //crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: BlocBuilder<GameController, GameState>(
+                bloc: gc,
+                builder: (context, state) {
+                  print(state);
+                  return BoardController(
+                    state: state.board,
+                    pieceSet: PieceSet.merida(),
+                    size: state.size,
+                    onMove: onMove,
+                    moves: state.moves,
+                    canMove: state.canMove,
+                    // selectedFrom: 16,
+                    // checkSquare: 4,
+                    // gameOver: true,
+                  );
+                },
               ),
-            ]),
+            ),
+            Container(height: 100),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: () => startGame(bishop.Variant.standard()),
+                  icon: Icon(Icons.star_rate),
+                  label: Text('Standard'),
+                ),
+                ElevatedButton.icon(
+                  onPressed: () => startGame(bishop.Variant.mini()),
+                  icon: Icon(Icons.minimize),
+                  label: Text('Mini'),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  void startGame(bishop.Variant variant) {
+    gc.startGame(variant);
   }
 }
 

@@ -10,17 +10,26 @@ class BoardController extends StatefulWidget {
   final BoardState state;
   final BoardSize size;
   final Function(Move)? onMove;
-  final Map<int, List<int>> moves;
+  final List<Move> moves;
   final bool canMove;
+  late final Map<int, List<Move>> moveMap;
 
   BoardController({
     required this.pieceSet,
     required this.state,
     this.size = const BoardSize(8, 8),
     this.onMove,
-    this.moves = const {},
+    this.moves = const [],
     required this.canMove,
-  });
+  }) {
+    moveMap = {};
+    for (Move m in moves) {
+      if (!moveMap.containsKey(m.from))
+        moveMap[m.from] = [m];
+      else
+        moveMap[m.from]!.add(m);
+    }
+  }
 
   @override
   _BoardControllerState createState() => _BoardControllerState();
@@ -28,13 +37,13 @@ class BoardController extends StatefulWidget {
 
 class _BoardControllerState extends State<BoardController> {
   int? selection;
-  List<int> dests = [];
+  List<int> dests = []; // TODO: replace this with List<Move>, search it, do promotions
 
   void onTap(int square) {
     if (square == selection) {
       deselectSquare();
     } else {
-      if (widget.moves.containsKey(square)) {
+      if (widget.moveMap.containsKey(square)) {
         selectSquare(square);
       } else {
         if (dests.contains(square) && widget.onMove != null) widget.onMove!(Move(from: selection!, to: square));
@@ -46,7 +55,7 @@ class _BoardControllerState extends State<BoardController> {
   void selectSquare(int square) {
     setState(() {
       selection = square;
-      dests = widget.moves[square] ?? [];
+      dests = widget.moveMap[square]?.map((e) => e.to).toList() ?? [];
     });
   }
 
