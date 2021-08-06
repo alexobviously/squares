@@ -1,12 +1,13 @@
 library squares;
 
-export 'board.dart';
-export 'board_size.dart';
-export 'board_state.dart';
-export 'board_controller.dart';
-export 'constants.dart';
-export 'move.dart';
-export 'piece.dart';
-export 'piece_set.dart';
-export 'promo_selector.dart';
-export 'square.dart';
+export 'src/board.dart';
+export 'src/board_controller.dart';
+export 'src/board_size.dart';
+export 'src/board_state.dart';
+export 'src/board_theme.dart';
+export 'src/constants.dart';
+export 'src/move.dart';
+export 'src/piece.dart';
+export 'src/piece_set.dart';
+export 'src/promo_selector.dart';
+export 'src/square.dart';

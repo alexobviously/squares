@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:squares/board.dart';
-import 'package:squares/board_state.dart';
-import 'package:squares/move.dart';
-import 'package:squares/piece_set.dart';
 import 'package:squares/squares.dart';
 
 class BoardController extends StatefulWidget {

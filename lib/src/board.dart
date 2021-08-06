@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:squares/board_state.dart';
-import 'package:squares/piece_set.dart';
-import 'package:squares/square.dart';
 import 'package:squares/squares.dart';
-import 'package:squares/types.dart';
 
 class Board extends StatelessWidget {
   final GlobalKey boardKey;

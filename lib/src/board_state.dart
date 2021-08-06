@@ -1,4 +1,4 @@
-import 'package:squares/board.dart';
+import 'package:squares/squares.dart';
 
 class BoardState {
   final List<String> board;

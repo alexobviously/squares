@@ -5,7 +5,6 @@ import 'package:bishop/bishop.dart' as bishop;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:squares/board_state.dart';
 import 'package:squares/squares.dart';
 
 void main() {

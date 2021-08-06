@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:squares/square.dart';
+import 'package:squares/squares.dart';
 
 class PromoSelector extends StatelessWidget {
   final double squareSize;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:squares/piece_set.dart';
+import 'package:squares/squares.dart';
 
 class Square extends StatelessWidget {
   final int id;
