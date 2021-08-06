@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:bishop/bishop.dart' as bishop;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:squares/board_state.dart';
 import 'package:squares/squares.dart';
 
@@ -35,26 +36,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void onMove(Move move) {
     gc.makeMove(move);
-    // BoardSize size = BoardSize(game.size.h, game.size.v);
-    // String from = size.squareName(move.from);
-    // String to = size.squareName(move.to);
-    // String alg = '$from$to';
-    // print('onMove $alg');
-    // bishop.Move? m = game.getMove(alg);
-    // if (m == null)
-    //   print('move $alg not found');
-    // else {
-    //   game.makeMove(m);
-    //   setState(() {});
-    //   Future.delayed(Duration(seconds: 3)).then((_) => randomMove());
-    // }
   }
 
   void randomMove() {
     gc.randomMove();
-    // if (game.gameOver) return;
-    // game.makeRandomMove();
-    // setState(() {});
   }
 
   @override
@@ -68,6 +53,18 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Squares'),
+        actions: [
+          BlocBuilder<GameController, GameState>(
+            bloc: gc,
+            builder: (context, state) {
+              return Container(
+                width: 32,
+                height: 32,
+                child: state.thinking ? SpinKitFadingCircle(size: 28, color: Colors.white) : Icon(Icons.check),
+              );
+            },
+          ),
+        ],
       ),
       body: Center(
         child: Column(

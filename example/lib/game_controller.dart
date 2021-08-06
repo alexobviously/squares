@@ -1,14 +1,15 @@
 import 'package:bishop/bishop.dart' as bishop;
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:squares/squares.dart';
 
 class GameController extends Cubit<GameState> {
   GameController() : super(GameState.initial());
   bishop.Game? game;
+  bishop.Engine? engine;
 
   void emitState() {
-    print('emit');
     if (game == null) emit(GameState.initial());
     BoardSize size = BoardSize(game!.size.h, game!.size.v);
     BoardState board = BoardState(board: game!.boardSymbols());
@@ -35,6 +36,7 @@ class GameController extends Cubit<GameState> {
 
   void startGame(bishop.Variant variant, {String? fen}) {
     game = bishop.Game(variant: variant, fen: fen);
+    engine = bishop.Engine(game: game!);
     emitState();
   }
 
@@ -51,7 +53,8 @@ class GameController extends Cubit<GameState> {
     else {
       game!.makeMove(m);
       emitState();
-      Future.delayed(Duration(seconds: 3)).then((_) => randomMove());
+      //Future.delayed(Duration(milliseconds: 200)).then((_) => engineMove());
+      engineMove();
     }
   }
 
@@ -60,6 +63,29 @@ class GameController extends Cubit<GameState> {
     game!.makeRandomMove();
     emitState();
   }
+
+  void engineMove() async {
+    emit(state.copyWith(thinking: true));
+    await Future.delayed(Duration(milliseconds: 250));
+    //bishop.EngineResult result = await engine!.search();
+    bishop.EngineResult result = await compute(engineSearch, game!);
+    if (result.hasMove) {
+      print('Best Move: ${formatResult(result)}');
+      game!.makeMove(result.move!);
+      emitState();
+    }
+  }
+
+  String formatResult(bishop.EngineResult res) {
+    if (game == null) return 'No Game';
+    if (!res.hasMove) return 'No Move';
+    String san = game!.toSan(res.move!);
+    return '$san (${res.eval}) [depth ${res.depth}]';
+  }
+}
+
+Future<bishop.EngineResult> engineSearch(bishop.Game game) async {
+  return await bishop.Engine(game: game).search();
 }
 
 class GameState extends Equatable {
@@ -67,14 +93,37 @@ class GameState extends Equatable {
   final BoardSize size;
   final BoardState board;
   final List<Move> moves;
+  final bool thinking;
 
   bool get canMove => state == PlayState.ourTurn;
 
-  GameState({required this.state, required this.size, required this.board, required this.moves});
+  GameState({
+    required this.state,
+    required this.size,
+    required this.board,
+    required this.moves,
+    this.thinking = false,
+  });
   factory GameState.initial() =>
       GameState(state: PlayState.idle, size: BoardSize.standard(), board: BoardState.empty(), moves: []);
 
-  List<Object> get props => [state, size, board, moves];
+  GameState copyWith({
+    PlayState? state,
+    BoardSize? size,
+    BoardState? board,
+    List<Move>? moves,
+    bool? thinking,
+  }) {
+    return GameState(
+      state: state ?? this.state,
+      size: size ?? this.size,
+      board: board ?? this.board,
+      moves: moves ?? this.moves,
+      thinking: thinking ?? this.thinking,
+    );
+  }
+
+  List<Object> get props => [state, size, board, moves, thinking];
   bool get stringify => true;
 }
 

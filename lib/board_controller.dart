@@ -69,7 +69,6 @@ class _BoardControllerState extends State<BoardController> {
   }
 
   void onPromo(int piece) {
-    print('onpromo $piece');
     if (promoState == null || selection == null || widget.onMove == null) {
       closePromoSelector();
       return;
