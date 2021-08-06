@@ -12,7 +12,6 @@ class GameController extends Cubit<GameState> {
   void emitState() {
     if (game == null) emit(GameState.initial());
     BoardSize size = BoardSize(game!.size.h, game!.size.v);
-    BoardState board = BoardState(board: game!.boardSymbols());
     bool canMove = game!.turn == 0;
     List<bishop.Move> legalMoves = game!.generateLegalMoves();
     List<Move> moves = [];
@@ -23,6 +22,13 @@ class GameController extends Cubit<GameState> {
         moves.add(_move);
       }
     }
+    bishop.GameInfo gameInfo = game!.info;
+    BoardState board = BoardState(
+      board: game!.boardSymbols(),
+      lastFrom: gameInfo.lastFrom != null ? size.squareNumber(gameInfo.lastFrom!) : null,
+      lastTo: gameInfo.lastTo != null ? size.squareNumber(gameInfo.lastTo!) : null,
+      checkSquare: gameInfo.checkSq != null ? size.squareNumber(gameInfo.checkSq!) : null,
+    );
     PlayState state = game!.gameOver ? PlayState.finished : (canMove ? PlayState.ourTurn : PlayState.theirTurn);
     emit(
       GameState(

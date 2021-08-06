@@ -77,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   return BoardController(
                     state: state.board,
                     pieceSet: pieceSet,
+                    theme: BROWN_THEME,
                     size: state.size,
                     onMove: onMove,
                     moves: state.moves,

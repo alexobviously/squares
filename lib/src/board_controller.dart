@@ -4,6 +4,7 @@ import 'package:squares/squares.dart';
 class BoardController extends StatefulWidget {
   final PieceSet pieceSet;
   final BoardState state;
+  final BoardTheme theme;
   final BoardSize size;
   final Function(Move)? onMove;
   final List<Move> moves;
@@ -13,6 +14,7 @@ class BoardController extends StatefulWidget {
   BoardController({
     required this.pieceSet,
     required this.state,
+    required this.theme,
     this.size = const BoardSize(8, 8),
     this.onMove,
     this.moves = const [],
@@ -122,19 +124,22 @@ class _BoardControllerState extends State<BoardController> {
   @override
   Widget build(BuildContext context) {
     List<Widget> promos = [];
-    List<String> symbols = ['Q', 'R', 'B', 'N'];
-    for (String symbol in symbols) {
-      Widget? piece = symbol.isNotEmpty ? widget.pieceSet.piece(context, symbol) : null;
-      if (piece != null) promos.add(piece);
+    if (hasPromo) {
+      for (String symbol in promoState!.pieces) {
+        Widget? piece = symbol.isNotEmpty ? widget.pieceSet.piece(context, symbol) : null;
+        if (piece != null) promos.add(piece);
+      }
     }
+
     return Stack(
       children: [
         Board(
           boardKey: boardKey,
           pieceSet: widget.pieceSet,
           state: widget.state,
+          theme: widget.theme,
           size: widget.size,
-          selectedTo: selection,
+          selection: selection,
           onTap: onTap,
           highlights: dests.map((e) => e.to).toList(),
         ),
@@ -143,6 +148,7 @@ class _BoardControllerState extends State<BoardController> {
             left: promoState!.offset.dx,
             top: promoState!.offset.dy,
             child: PromoSelector(
+              theme: widget.theme,
               squareSize: promoState!.squareSize,
               pieces: promos,
               startOnLight: promoState!.startLight,
@@ -161,10 +167,11 @@ class PromoState {
   final bool startLight;
   final List<String> pieces;
 
-  PromoState(
-      {required this.square,
-      required this.offset,
-      required this.squareSize,
-      required this.startLight,
-      required this.pieces});
+  PromoState({
+    required this.square,
+    required this.offset,
+    required this.squareSize,
+    required this.startLight,
+    required this.pieces,
+  });
 }
