@@ -13,7 +13,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: d2cbe0758940dbcad69ee49bd5ec8e002cf2ba47
+      resolved-ref: fcdad4e1cc20c0adb1f4513d417d449f43596d83
       url: "git@github.com:alexobviously/bishop.git"
     source: git
     version: "0.2.4"
@@ -111,6 +111,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.10"
+  material_design_icons_flutter:
+    dependency: "direct main"
+    description:
+      name: material_design_icons_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.5955-rc.1"
   meta:
     dependency: transitive
     description:

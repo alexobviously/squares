@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:bishop/bishop.dart' as bishop;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:squares/board_state.dart';
 import 'package:squares/squares.dart';
 
@@ -45,11 +46,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     PieceSet pieceSet = PieceSet.merida();
-    List<Widget> promos = [];
-    for (String symbol in ['Q', 'R', 'B', 'N']) {
-      Widget? piece = symbol.isNotEmpty ? pieceSet.piece(context, symbol) : null;
-      if (piece != null) promos.add(piece);
-    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Squares'),
@@ -93,31 +89,24 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
               ),
             ),
-            // Container(
-            //   height: 400,
-            //   width: 100,
-            //   child: PromoSelector(pieces: promos),
-            // ),
-            //   ],
-            // ),
             Container(height: 100),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton.icon(
                   onPressed: () => startGame(bishop.Variant.standard()),
-                  icon: Icon(Icons.star_rate),
+                  icon: Icon(MdiIcons.chessKing),
                   label: Text('Standard'),
                 ),
                 ElevatedButton.icon(
                   onPressed: () => startGame(bishop.Variant.mini()),
-                  icon: Icon(Icons.minimize),
+                  icon: Icon(MdiIcons.sizeXs),
                   label: Text('Mini'),
                 ),
                 ElevatedButton.icon(
-                  onPressed: () => startGame(bishop.Variant.mini(), fen: '4k/P4/5/5/4K w Qq - 0 1'),
-                  icon: Icon(Icons.upgrade),
-                  label: Text('Promo test'),
+                  onPressed: () => startGame(bishop.Variant.micro()),
+                  icon: Icon(MdiIcons.sizeXxs),
+                  label: Text('Micro'),
                 ),
               ],
             ),
