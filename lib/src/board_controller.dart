@@ -40,7 +40,8 @@ class _BoardControllerState extends State<BoardController> {
   GlobalKey boardKey = GlobalKey();
   bool get hasPromo => promoState != null;
 
-  void onTap(int square, GlobalKey key) {
+  void onTap(int square, GlobalKey squareKey) {
+    print('onTap $square');
     if (square == selection) {
       deselectSquare();
     } else {
@@ -58,7 +59,7 @@ class _BoardControllerState extends State<BoardController> {
               if (widget.onMove != null) widget.onMove!(targetMoves.first);
               deselectSquare();
             } else {
-              openPromoSelector(square, key);
+              openPromoSelector(square, squareKey);
             }
           }
         }
@@ -78,6 +79,21 @@ class _BoardControllerState extends State<BoardController> {
     );
     widget.onMove!(move);
     deselectSquare();
+  }
+
+  void onDragCancel(int square) {
+    if (selection == square) deselectSquare();
+  }
+
+  bool validateDrag(int from, int to) {
+    if (widget.moveMap[from] == null) return false;
+    Move? move = widget.moveMap[from]!.firstWhereOrNull((m) => m.to == to);
+    return move != null;
+  }
+
+  void acceptDrag(int from, int to, GlobalKey squareKey) {
+    selection = from;
+    onTap(to, squareKey);
   }
 
   void selectSquare(int square) {
@@ -141,6 +157,9 @@ class _BoardControllerState extends State<BoardController> {
           size: widget.size,
           selection: selection,
           onTap: onTap,
+          onDragCancel: onDragCancel,
+          validateDrag: validateDrag,
+          acceptDrag: acceptDrag,
           highlights: dests.map((e) => e.to).toList(),
         ),
         if (hasPromo)

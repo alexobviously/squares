@@ -11,6 +11,9 @@ class Board extends StatelessWidget {
   final bool gameOver;
   final bool canMove;
   final Function(int, GlobalKey)? onTap;
+  final Function(int)? onDragCancel;
+  final bool Function(int, int)? validateDrag;
+  final Function(int, int, GlobalKey)? acceptDrag;
   final List<int> highlights;
 
   Board({
@@ -23,8 +26,25 @@ class Board extends StatelessWidget {
     this.gameOver = false,
     this.canMove = false,
     this.onTap,
+    this.onDragCancel,
+    this.validateDrag,
+    this.acceptDrag,
     this.highlights = const [],
   });
+
+  void _onDragCancel(int square) {
+    if (onDragCancel != null) onDragCancel!(square);
+  }
+
+  bool _validateDrag(int? from, int to) {
+    if (from == null || validateDrag == null) return false;
+    return validateDrag!(from, to);
+  }
+
+  void _acceptDrag(int? from, int to, GlobalKey squareKey) {
+    if (from == null || acceptDrag == null) return;
+    acceptDrag!(from, to, squareKey);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +59,7 @@ class Board extends StatelessWidget {
                       child: Row(
                     children: List.generate(size.h, (file) {
                       int id = rank * size.h + file;
+                      GlobalKey squareKey = GlobalKey();
                       String symbol = state.board.length > id ? state.board[id] : '';
                       Widget? piece = symbol.isNotEmpty ? pieceSet.piece(context, symbol) : null;
                       Color squareColour = ((rank + file) % 2 == 0) ? theme.lightSquare : theme.darkSquare;
@@ -48,12 +69,21 @@ class Board extends StatelessWidget {
                       if (state.checkSquare == id)
                         squareColour = Color.alphaBlend(gameOver ? theme.checkmate : theme.check, squareColour);
                       bool hasHighlight = highlights.contains(id);
-                      return Square(
-                        id: rank * size.h + file,
-                        colour: squareColour,
-                        piece: piece,
-                        onTap: onTap != null ? (key) => onTap!(id, key) : null,
-                        highlight: hasHighlight ? theme.selected : null,
+                      return DragTarget<int>(
+                        builder: (context, accepted, rejected) {
+                          return Square(
+                            id: id,
+                            squareKey: squareKey,
+                            colour: squareColour,
+                            piece: piece,
+                            draggable: true,
+                            onTap: onTap != null ? (key) => onTap!(id, key) : null,
+                            onDragCancel: () => _onDragCancel(id),
+                            highlight: hasHighlight ? theme.selected : null,
+                          );
+                        },
+                        onWillAccept: (from) => _validateDrag(from, id),
+                        onAccept: (from) => _acceptDrag(from, id, squareKey),
                       );
                     }),
                   ))),

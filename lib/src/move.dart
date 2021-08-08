@@ -10,3 +10,10 @@ class Move {
   @override
   String toString() => '$from-$to';
 }
+
+class DragMove {
+  final int from;
+  final int to;
+
+  DragMove({required this.from, required this.to});
+}

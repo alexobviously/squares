@@ -21,6 +21,7 @@ class PromoSelector extends StatelessWidget {
     for (int i = 0; i < pieces.length; i++) {
       Square square = Square(
         id: i,
+        squareKey: GlobalKey(),
         colour: i % 2 == (startOnLight ? 0 : 1) ? theme.lightSquare : theme.darkSquare,
         piece: pieces[i],
         onTap: onTap != null ? (key) => onTap!(i) : null,
