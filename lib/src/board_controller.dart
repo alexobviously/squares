@@ -7,6 +7,7 @@ class BoardController extends StatefulWidget {
   final BoardTheme theme;
   final BoardSize size;
   final Function(Move)? onMove;
+  final Function(Move?)? onPremove;
   final List<Move> moves;
   final bool canMove;
   late final Map<int, List<Move>> moveMap;
@@ -17,6 +18,7 @@ class BoardController extends StatefulWidget {
     required this.theme,
     this.size = const BoardSize(8, 8),
     this.onMove,
+    this.onPremove,
     this.moves = const [],
     required this.canMove,
   }) {
@@ -35,6 +37,7 @@ class BoardController extends StatefulWidget {
 
 class _BoardControllerState extends State<BoardController> {
   int? selection;
+  int? target;
   List<Move> dests = [];
   PromoState? promoState;
   GlobalKey boardKey = GlobalKey();
@@ -55,8 +58,13 @@ class _BoardControllerState extends State<BoardController> {
           } else {
             List<Move> promoMoves = targetMoves.where((m) => m.promotion).toList();
             if (promoMoves.isEmpty) {
-              if (widget.onMove != null) widget.onMove!(targetMoves.first);
-              deselectSquare();
+              if (widget.canMove) {
+                if (widget.onMove != null) widget.onMove!(targetMoves.first);
+                deselectSquare();
+              } else {
+                setTarget(square);
+                if (widget.onPremove != null) widget.onPremove!(targetMoves.first);
+              }
             } else {
               openPromoSelector(square, squareKey);
             }
@@ -99,6 +107,7 @@ class _BoardControllerState extends State<BoardController> {
     setState(() {
       selection = square;
       dests = widget.moveMap[square] ?? [];
+      target = null;
     });
   }
 
@@ -106,6 +115,14 @@ class _BoardControllerState extends State<BoardController> {
     closePromoSelector();
     setState(() {
       selection = null;
+      dests = [];
+      target = null;
+    });
+  }
+
+  void setTarget(int square) {
+    setState(() {
+      target = square;
       dests = [];
     });
   }
@@ -155,6 +172,7 @@ class _BoardControllerState extends State<BoardController> {
           theme: widget.theme,
           size: widget.size,
           selection: selection,
+          target: target,
           onTap: onTap,
           onDragCancel: onDragCancel,
           validateDrag: validateDrag,

@@ -34,9 +34,16 @@ class _MyHomePageState extends State<MyHomePage> {
   bishop.Game game = bishop.Game(variant: bishop.Variant.mini());
   GameController gc = GameController();
   int boardOrientation = WHITE;
+  Move? premove;
 
   void onMove(Move move) {
     gc.makeMove(move);
+    premove = null;
+  }
+
+  void onPremove(Move? move) {
+    premove = move;
+    print("set premove ${move?.from}-${move?.to}}");
   }
 
   void randomMove() {
@@ -59,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
           BlocBuilder<GameController, GameState>(
             bloc: gc,
             builder: (context, state) {
+              if (state.canMove && premove != null) onMove(premove!);
               return Container(
                 width: 32,
                 height: 32,
@@ -87,11 +95,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     theme: BROWN_THEME,
                     size: state.size,
                     onMove: onMove,
+                    onPremove: onPremove,
                     moves: state.moves,
                     canMove: state.canMove,
-                    // selectedFrom: 16,
-                    // checkSquare: 4,
-                    // gameOver: true,
                   );
                 },
               ),

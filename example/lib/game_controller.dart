@@ -12,7 +12,7 @@ class GameController extends Cubit<GameState> {
   void emitState([bool thinking = false]) {
     if (game == null) emit(GameState.initial());
     BoardSize size = BoardSize(game!.size.h, game!.size.v);
-    bool canMove = game!.turn == 0;
+    bool canMove = game!.turn == WHITE;
     List<bishop.Move> _moves = canMove ? game!.generateLegalMoves() : game!.generatePremoves();
     List<Move> moves = [];
     for (bishop.Move move in _moves) {

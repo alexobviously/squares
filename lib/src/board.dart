@@ -70,6 +70,7 @@ class Board extends StatelessWidget {
                       if (selection == id) squareColour = Color.alphaBlend(theme.selected, squareColour);
                       if (state.checkSquare == id)
                         squareColour = Color.alphaBlend(gameOver ? theme.checkmate : theme.check, squareColour);
+                      if (target == id) squareColour = Color.alphaBlend(theme.premove, squareColour);
                       bool hasHighlight = highlights.contains(id);
                       return DragTarget<int>(
                         builder: (context, accepted, rejected) {
