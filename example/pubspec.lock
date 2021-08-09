@@ -13,7 +13,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "6ef7c5cbfebddf68ba20b87b4db550531e2e4391"
+      resolved-ref: cc323962a556bb7d34fa19629ecb8ec4ad0ebcde
       url: "git@github.com:alexobviously/bishop.git"
     source: git
     version: "0.2.4"

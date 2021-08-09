@@ -9,18 +9,16 @@ class GameController extends Cubit<GameState> {
   bishop.Game? game;
   bishop.Engine? engine;
 
-  void emitState() {
+  void emitState([bool thinking = false]) {
     if (game == null) emit(GameState.initial());
     BoardSize size = BoardSize(game!.size.h, game!.size.v);
     bool canMove = game!.turn == 0;
-    List<bishop.Move> legalMoves = game!.generateLegalMoves();
+    List<bishop.Move> _moves = canMove ? game!.generateLegalMoves() : game!.generatePremoves();
     List<Move> moves = [];
-    if (canMove) {
-      for (bishop.Move move in legalMoves) {
-        String algebraic = game!.toAlgebraic(move);
-        Move _move = moveFromAlgebraic(algebraic, size);
-        moves.add(_move);
-      }
+    for (bishop.Move move in _moves) {
+      String algebraic = game!.toAlgebraic(move);
+      Move _move = moveFromAlgebraic(algebraic, size);
+      moves.add(_move);
     }
     bishop.GameInfo gameInfo = game!.info;
     BoardState board = BoardState(
@@ -33,6 +31,7 @@ class GameController extends Cubit<GameState> {
     emit(
       GameState(
         state: state,
+        thinking: thinking,
         size: size,
         board: board,
         moves: moves,
@@ -71,7 +70,7 @@ class GameController extends Cubit<GameState> {
   }
 
   void engineMove() async {
-    emit(state.copyWith(thinking: true));
+    emitState(true);
     await Future.delayed(Duration(milliseconds: 250));
     //bishop.EngineResult result = await engine!.search();
     bishop.EngineResult result = await compute(engineSearch, game!);
