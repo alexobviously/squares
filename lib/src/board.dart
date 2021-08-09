@@ -8,6 +8,7 @@ class Board extends StatelessWidget {
   final BoardTheme theme;
   final BoardSize size;
   final int? selection;
+  final int? target;
   final bool gameOver;
   final bool canMove;
   final Function(int, GlobalKey)? onTap;
@@ -23,6 +24,7 @@ class Board extends StatelessWidget {
     required this.theme,
     this.size = const BoardSize(8, 8),
     this.selection,
+    this.target,
     this.gameOver = false,
     this.canMove = false,
     this.onTap,
@@ -58,7 +60,7 @@ class Board extends StatelessWidget {
               (rank) => Expanded(
                       child: Row(
                     children: List.generate(size.h, (file) {
-                      int id = rank * size.h + file;
+                      int id = (state.orientation == WHITE ? rank : size.v - rank - 1) * size.h + file;
                       GlobalKey squareKey = GlobalKey();
                       String symbol = state.board.length > id ? state.board[id] : '';
                       Widget? piece = symbol.isNotEmpty ? pieceSet.piece(context, symbol) : null;

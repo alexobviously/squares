@@ -35,13 +35,12 @@ class BoardController extends StatefulWidget {
 
 class _BoardControllerState extends State<BoardController> {
   int? selection;
-  List<Move> dests = []; // TODO: replace this with List<Move>, search it, do promotions
+  List<Move> dests = [];
   PromoState? promoState;
   GlobalKey boardKey = GlobalKey();
   bool get hasPromo => promoState != null;
 
   void onTap(int square, GlobalKey squareKey) {
-    print('onTap $square');
     if (square == selection) {
       deselectSquare();
     } else {

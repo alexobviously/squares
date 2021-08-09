@@ -62,7 +62,7 @@ class Square extends StatelessWidget {
               if (hasHighlight)
                 Padding(
                   // TODO: make padding dynamic
-                  padding: EdgeInsets.all(hasPiece ? 1 : 10),
+                  padding: EdgeInsets.all(hasPiece ? 1 : 15),
                   child: Container(
                     decoration: BoxDecoration(
                       color: highlight,

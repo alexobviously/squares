@@ -33,6 +33,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bishop.Game game = bishop.Game(variant: bishop.Variant.mini());
   GameController gc = GameController();
+  int boardOrientation = WHITE;
 
   void onMove(Move move) {
     gc.makeMove(move);
@@ -40,6 +41,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void randomMove() {
     gc.randomMove();
+  }
+
+  void flipBoard() {
+    setState(() {
+      boardOrientation = 1 - boardOrientation;
+    });
   }
 
   @override
@@ -75,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 builder: (context, state) {
                   print(state);
                   return BoardController(
-                    state: state.board,
+                    state: state.board.copyWith(orientation: boardOrientation),
                     pieceSet: pieceSet,
                     theme: BROWN_THEME,
                     size: state.size,
@@ -107,6 +114,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () => startGame(bishop.Variant.micro()),
                   icon: Icon(MdiIcons.sizeXxs),
                   label: Text('Micro'),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  icon: Icon(MdiIcons.rotate3DVariant),
+                  onPressed: flipBoard,
                 ),
               ],
             ),
