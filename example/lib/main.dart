@@ -31,9 +31,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  static PieceSet emojiPieceSet = PieceSet.text(
+    strings: {
+      //
+      'P': '🔥', 'p': '😢', 'N': '💯', 'n': '🐴',
+      'B': '🍆', 'b': '🙏', 'R': '🏰', 'r': '🏯',
+      'Q': '💎', 'q': '👸', 'K': '👑', 'k': '🤴',
+      'C': '☁️', 'c': '🐓', 'A': '🌪', 'a': '🐈',
+    },
+  );
+
   bishop.Game game = bishop.Game(variant: bishop.Variant.mini());
   GameController gc = GameController();
   int boardOrientation = WHITE;
+  PieceSet pieceSet = PieceSet.merida();
+  int pieceSetIndex = 0;
+  List<PieceSet> pieceSets = [
+    PieceSet.merida(),
+    PieceSet.letters(),
+    emojiPieceSet,
+  ];
   Move? premove;
 
   void onMove(Move move) {
@@ -56,13 +73,38 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void onChangePieceSet(int? index) {
+    if (index == null) return;
+    setState(() {
+      pieceSetIndex = index;
+      pieceSet = pieceSets[index];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    PieceSet pieceSet = PieceSet.merida();
     return Scaffold(
       appBar: AppBar(
         title: Text('Squares'),
         actions: [
+          DropdownButton<int>(
+            value: pieceSetIndex,
+            items: [
+              DropdownMenuItem(
+                child: Text('Merida'),
+                value: 0,
+              ),
+              DropdownMenuItem(
+                child: Text('Letters'),
+                value: 1,
+              ),
+              DropdownMenuItem(
+                child: Text('Emojis'),
+                value: 2,
+              ),
+            ],
+            onChanged: onChangePieceSet,
+          ),
           BlocBuilder<GameController, GameState>(
             bloc: gc,
             builder: (context, state) {
@@ -88,7 +130,6 @@ class _MyHomePageState extends State<MyHomePage> {
               child: BlocBuilder<GameController, GameState>(
                 bloc: gc,
                 builder: (context, state) {
-                  print(state);
                   return BoardController(
                     state: state.board.copyWith(orientation: boardOrientation),
                     pieceSet: pieceSet,

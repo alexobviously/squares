@@ -6,7 +6,7 @@ class PieceSet {
   static const List<String> DEFAULT_SYMBOLS = ['P', 'N', 'B', 'R', 'Q', 'K'];
   static const List<String> EXTENDED_SYMBOLS = ['P', 'N', 'B', 'R', 'Q', 'K', 'A', 'C', 'H', 'E', 'S'];
   final Map<String, WidgetBuilder> pieces;
-  PieceSet({required this.pieces});
+  const PieceSet({required this.pieces});
 
   Widget piece(BuildContext context, String symbol) => pieces[symbol]!(context);
 
@@ -35,13 +35,13 @@ class PieceSet {
         symbols: EXTENDED_SYMBOLS,
       );
 
-  factory PieceSet.emoji() => PieceSet.text(
+  factory PieceSet.letters() => PieceSet.text(
         strings: {
           //
-          'P': '🔥', 'p': '😢', 'N': '💯', 'n': '🐴',
-          'B': '🍆', 'b': '🙏', 'R': '🏰', 'r': '🏯',
-          'Q': '💎', 'q': '👸', 'K': '👑', 'k': '🤴',
-          'C': '☁️', 'c': '🐓', 'A': '🌪', 'a': '🐈',
+          'P': 'P', 'p': 'p', 'N': 'N', 'n': 'n',
+          'B': 'B', 'b': 'b', 'R': 'R', 'r': 'r',
+          'Q': 'Q', 'q': 'q', 'K': 'K', 'k': 'k',
+          'C': 'C', 'c': 'c', 'A': 'A', 'a': 'a',
         },
       );
 
