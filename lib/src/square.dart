@@ -38,7 +38,9 @@ class Square extends StatelessWidget {
       _piece = Draggable<int>(
         data: id,
         child: _piece,
-        feedback: _piece,
+        dragAnchorStrategy: pointerDragAnchorStrategy,
+        // TODO: generalise this
+        feedback: Transform.translate(offset: Offset(-25, -25), child: _piece),
         childWhenDragging: Opacity(
           opacity: 0.5,
           child: _piece,
