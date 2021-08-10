@@ -21,10 +21,28 @@ class PieceSet {
     return PieceSet(pieces: pieces);
   }
 
+  factory PieceSet.text({required Map<String, String> strings}) {
+    Map<String, WidgetBuilder> pieces = {};
+    strings.forEach((k, v) {
+      pieces[k] = (BuildContext context) => Text(v);
+    });
+    return PieceSet(pieces: pieces);
+  }
+
   factory PieceSet.merida() => PieceSet.fromSvgAssets(
         folder: 'lib/piece_sets/merida/',
         package: 'squares',
         symbols: EXTENDED_SYMBOLS,
+      );
+
+  factory PieceSet.emoji() => PieceSet.text(
+        strings: {
+          //
+          'P': '🔥', 'p': '😢', 'N': '💯', 'n': '🐴',
+          'B': '🍆', 'b': '🙏', 'R': '🏰', 'r': '🏯',
+          'Q': '💎', 'q': '👸', 'K': '👑', 'k': '🤴',
+          'C': '☁️', 'c': '🐓', 'A': '🌪', 'a': '🐈',
+        },
       );
 
   // factory PieceSet.merida() => PieceSet(

@@ -57,27 +57,53 @@ class Square extends StatelessWidget {
         child: Container(
           key: squareKey,
           color: colour,
-          child: Stack(
-            children: [
-              if (hasHighlight)
-                Padding(
-                  // TODO: make padding dynamic
-                  padding: EdgeInsets.all(hasPiece ? 1 : 15),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: highlight,
-                      shape: BoxShape.circle,
+          child: FittedBox(
+            child: Container(
+              child: Stack(
+                children: [
+                  if (hasHighlight && !hasPiece)
+                    Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        child: Padding(
+                          // TODO: make padding dynamic
+                          padding: EdgeInsets.all(hasPiece ? 5 : 35),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: highlight,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              if (hasPiece)
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    child: _piece,
-                  ),
-                ),
-            ],
+                  if (hasHighlight && hasPiece)
+                    Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16.0),
+                        border: Border.all(
+                          color: highlight!,
+                          width: 4.0,
+                        ),
+                      ),
+                    ),
+                  if (hasPiece)
+                    Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        child: _piece,
+                      ),
+                    ),
+                  if (!hasPiece && !hasHighlight) Container(),
+                ],
+              ),
+            ),
           ),
         ),
       ),

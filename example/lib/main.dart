@@ -121,6 +121,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: Icon(MdiIcons.sizeXxs),
                   label: Text('Micro'),
                 ),
+                ElevatedButton.icon(
+                  onPressed: () => startGame(bishop.Variant.grand()),
+                  icon: Icon(MdiIcons.sizeXl),
+                  label: Text('Grand'),
+                ),
               ],
             ),
             Row(
