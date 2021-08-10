@@ -140,6 +140,7 @@ class _BoardControllerState extends State<BoardController> {
         (widget.state.orientation == BLACK && rank == widget.size.maxRank + 1));
     if (flip) {
       promoOffset = promoOffset.translate(0, -squareSize * (pieces.length - 1));
+      rank = rank - pieces.length - 1;
       pieces = pieces.reversed.toList();
     }
 
