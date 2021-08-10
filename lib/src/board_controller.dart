@@ -38,6 +38,7 @@ class BoardController extends StatefulWidget {
 class _BoardControllerState extends State<BoardController> {
   int? selection;
   int? target;
+  int _orientation = WHITE;
   List<Move> dests = [];
   PromoState? promoState;
   GlobalKey boardKey = GlobalKey();
@@ -162,6 +163,12 @@ class _BoardControllerState extends State<BoardController> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.state.orientation != _orientation) {
+      // detect if the board has flipped
+      _orientation = widget.state.orientation;
+      closePromoSelector();
+    }
+
     List<Widget> promos = [];
     if (hasPromo) {
       for (String symbol in promoState!.pieces) {
