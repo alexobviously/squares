@@ -188,6 +188,7 @@ class _BoardControllerState extends State<BoardController> {
           size: widget.size,
           selection: selection,
           target: target,
+          canMove: widget.canMove,
           onTap: onTap,
           onDragCancel: onDragCancel,
           validateDrag: validateDrag,

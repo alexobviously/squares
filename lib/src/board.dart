@@ -82,7 +82,7 @@ class Board extends StatelessWidget {
                             draggable: true,
                             onTap: onTap != null ? (key) => onTap!(id, key) : null,
                             onDragCancel: () => _onDragCancel(id),
-                            highlight: hasHighlight ? theme.selected : null,
+                            highlight: hasHighlight ? (canMove ? theme.selected : theme.premove) : null,
                           );
                         },
                         onWillAccept: (from) => _validateDrag(from, id),
