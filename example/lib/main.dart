@@ -133,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   return BoardController(
                     state: state.board.copyWith(orientation: boardOrientation),
                     pieceSet: pieceSet,
-                    theme: BROWN_THEME,
+                    theme: BOARD_THEME_BLUEGREY,
                     size: state.size,
                     onMove: onMove,
                     onPremove: onPremove,
