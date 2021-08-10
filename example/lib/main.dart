@@ -112,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   label: Text('Standard'),
                 ),
                 ElevatedButton.icon(
-                  onPressed: () => startGame(bishop.Variant.mini()),
+                  onPressed: () => startGame(bishop.Variant.mini(), fen: 'k4/4P/5/5/K4 w - - 0 1'),
                   icon: Icon(MdiIcons.sizeXs),
                   label: Text('Mini'),
                 ),

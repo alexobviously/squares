@@ -128,14 +128,21 @@ class _BoardControllerState extends State<BoardController> {
   }
 
   void openPromoSelector(int square, GlobalKey key) {
+    List<String> pieces = ['Q', 'R', 'B', 'N'];
     RenderBox squareBox = key.currentContext!.findRenderObject() as RenderBox;
     RenderBox boardBox = boardKey.currentContext!.findRenderObject() as RenderBox;
     Offset promoOffset = boardBox.globalToLocal(squareBox.localToGlobal(Offset.zero));
     double squareSize = squareBox.size.width;
     int rank = widget.size.squareRank(square);
     int file = widget.size.squareFile(square);
+    bool flip = ((widget.state.orientation == WHITE && rank == 0) ||
+        (widget.state.orientation == BLACK && rank == widget.size.maxRank + 1));
+    if (flip) {
+      promoOffset = promoOffset.translate(0, -squareSize * (pieces.length - 1));
+      pieces = pieces.reversed.toList();
+    }
+
     bool startLight = (rank + file) % 2 == 1;
-    List<String> pieces = ['Q', 'R', 'B', 'N'];
     setState(() {
       promoState = PromoState(
         square: square,

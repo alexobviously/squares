@@ -25,7 +25,7 @@ class PromoSelector extends StatelessWidget {
         colour: i % 2 == (startOnLight ? 0 : 1) ? theme.lightSquare : theme.darkSquare,
         piece: pieces[i],
         onTap: onTap != null ? (key) => onTap!(i) : null,
-        highlight: Colors.amber.withAlpha(120),
+        highlight: theme.selected,
       );
       squares.add(square);
     }
