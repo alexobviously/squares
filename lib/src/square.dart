@@ -94,11 +94,14 @@ class Square extends StatelessWidget {
                       ),
                     ),
                   if (hasPiece)
-                    Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        width: 100,
-                        height: 100,
+                    Container(
+                      width: 100,
+                      height: 100,
+                      // alignment: Alignment.center,
+                      child: FittedBox(
+                        fit: BoxFit.contain,
+                        // width: 30,
+                        // height: 30,
                         child: _piece,
                       ),
                     ),
