@@ -34,9 +34,9 @@ class _MyHomePageState extends State<MyHomePage> {
   static PieceSet emojiPieceSet = PieceSet.text(
     strings: {
       //
-      'P': '🔥', 'p': '😢', 'N': '💯', 'n': '🐴',
+      'P': '😂', 'p': '😢', 'N': '💯', 'n': '🐴',
       'B': '🍆', 'b': '🙏', 'R': '🏰', 'r': '🏯',
-      'Q': '💎', 'q': '👸', 'K': '👑', 'k': '🤴',
+      'Q': '🍑', 'q': '👸', 'K': '👑', 'k': '🤴',
       'C': '☁️', 'c': '🐓', 'A': '🌪', 'a': '🐈',
     },
   );
@@ -58,9 +58,8 @@ class _MyHomePageState extends State<MyHomePage> {
     premove = null;
   }
 
-  void onPremove(Move? move) {
+  void onPremove(Move move) {
     premove = move;
-    print("set premove ${move?.from}-${move?.to}}");
   }
 
   void randomMove() {
@@ -133,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   return BoardController(
                     state: state.board.copyWith(orientation: boardOrientation),
                     pieceSet: pieceSet,
-                    theme: BOARD_THEME_BLUEGREY,
+                    theme: BOARD_THEME_BROWN,
                     size: state.size,
                     onMove: onMove,
                     onPremove: onPremove,

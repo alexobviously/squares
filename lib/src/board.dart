@@ -67,7 +67,8 @@ class Board extends StatelessWidget {
                       Color squareColour = ((rank + file) % 2 == 0) ? theme.lightSquare : theme.darkSquare;
                       if (state.lastFrom == id || state.lastTo == id)
                         squareColour = Color.alphaBlend(theme.previous, squareColour);
-                      if (selection == id) squareColour = Color.alphaBlend(theme.selected, squareColour);
+                      if (selection == id)
+                        squareColour = Color.alphaBlend(canMove ? theme.selected : theme.premove, squareColour);
                       if (state.checkSquare == id)
                         squareColour = Color.alphaBlend(gameOver ? theme.checkmate : theme.check, squareColour);
                       if (target == id) squareColour = Color.alphaBlend(theme.premove, squareColour);

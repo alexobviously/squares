@@ -7,7 +7,8 @@ class BoardController extends StatefulWidget {
   final BoardTheme theme;
   final BoardSize size;
   final Function(Move)? onMove;
-  final Function(Move?)? onPremove;
+  final Function(Move?)? onSetPremove;
+  final Function(Move)? onPremove;
   final List<Move> moves;
   final bool canMove;
   late final Map<int, List<Move>> moveMap;
@@ -18,6 +19,7 @@ class BoardController extends StatefulWidget {
     required this.theme,
     this.size = const BoardSize(8, 8),
     this.onMove,
+    this.onSetPremove,
     this.onPremove,
     this.moves = const [],
     required this.canMove,
@@ -38,11 +40,12 @@ class BoardController extends StatefulWidget {
 class _BoardControllerState extends State<BoardController> {
   int? selection;
   int? target;
-  int _orientation = WHITE;
   List<Move> dests = [];
   PromoState? promoState;
   GlobalKey boardKey = GlobalKey();
   bool get hasPromo => promoState != null;
+  BoardState? lastState;
+  Move? premove;
 
   void onTap(int square, GlobalKey squareKey) {
     if (square == selection) {
@@ -50,7 +53,12 @@ class _BoardControllerState extends State<BoardController> {
     } else {
       closePromoSelector();
       if (widget.moveMap.containsKey(square)) {
-        selectSquare(square);
+        if (!widget.canMove && selection != null) {
+          setTarget(square);
+          premove = null;
+        } else {
+          selectSquare(square);
+        }
       } else {
         if (selection != null) {
           List<Move> targetMoves = dests.where((m) => m.to == square).toList();
@@ -64,7 +72,8 @@ class _BoardControllerState extends State<BoardController> {
                 deselectSquare();
               } else {
                 setTarget(square);
-                if (widget.onPremove != null) widget.onPremove!(targetMoves.first);
+                premove = targetMoves.first;
+                if (widget.onSetPremove != null) widget.onSetPremove!(premove);
               }
             } else {
               openPromoSelector(square, squareKey);
@@ -85,7 +94,13 @@ class _BoardControllerState extends State<BoardController> {
       to: promoState!.square,
       promo: promoState!.pieces[piece].toLowerCase(),
     );
-    widget.onMove!(move);
+    if (widget.canMove) {
+      if (widget.onMove != null) widget.onMove!(move);
+    } else {
+      premove = move;
+      if (widget.onSetPremove != null) widget.onSetPremove!(premove);
+    }
+
     deselectSquare();
   }
 
@@ -162,13 +177,26 @@ class _BoardControllerState extends State<BoardController> {
     });
   }
 
+  void onNewBoardState() {
+    print('new board state');
+    if (premove != null && widget.onPremove != null) widget.onPremove!(premove!);
+    if (target != null) {
+      target = null;
+      selection = null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (widget.state.orientation != _orientation) {
+    if (widget.state.orientation != lastState?.orientation) {
       // detect if the board has flipped
-      _orientation = widget.state.orientation;
       closePromoSelector();
     }
+
+    if (widget.state != lastState) {
+      onNewBoardState();
+    }
+    lastState = widget.state;
 
     List<Widget> promos = [];
     if (hasPromo) {

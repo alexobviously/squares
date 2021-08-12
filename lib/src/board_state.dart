@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:equatable/equatable.dart';
 import 'package:squares/squares.dart';
 
-class BoardState {
+class BoardState extends Equatable {
   final List<String> board;
   final int player;
   late final int orientation;
@@ -38,4 +39,6 @@ class BoardState {
       checkSquare: checkSquare ?? this.checkSquare,
     );
   }
+
+  List<Object> get props => [board, player];
 }
