@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  badges: ^2.0.1
   equatable: ^2.0.3
   flutter_svg: ^0.22.0
 

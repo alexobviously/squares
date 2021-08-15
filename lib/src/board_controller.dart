@@ -108,14 +108,14 @@ class _BoardControllerState extends State<BoardController> {
     if (selection == square) deselectSquare();
   }
 
-  bool validateDrag(int from, int to) {
-    if (widget.moveMap[from] == null) return false;
-    Move? move = widget.moveMap[from]!.firstWhereOrNull((m) => m.to == to);
+  bool validateDrag(PartialMove partial, int to) {
+    if (widget.moveMap[partial.from] == null) return false;
+    Move? move = widget.moveMap[partial.from]!.firstWhereOrNull((m) => m.to == to);
     return move != null;
   }
 
-  void acceptDrag(int from, int to, GlobalKey squareKey) {
-    selection = from;
+  void acceptDrag(PartialMove partial, int to, GlobalKey squareKey) {
+    selection = partial.from;
     onTap(to, squareKey);
   }
 
@@ -229,8 +229,9 @@ class _BoardControllerState extends State<BoardController> {
             top: promoState!.offset.dy,
             child: PromoSelector(
               theme: widget.theme,
+              pieceSet: widget.pieceSet,
               squareSize: promoState!.squareSize,
-              pieces: promos,
+              pieces: promoState?.pieces ?? [],
               startOnLight: promoState!.startLight,
               onTap: onPromo,
             ),

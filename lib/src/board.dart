@@ -13,8 +13,8 @@ class Board extends StatelessWidget {
   final bool canMove;
   final Function(int, GlobalKey)? onTap;
   final Function(int)? onDragCancel;
-  final bool Function(int, int)? validateDrag;
-  final Function(int, int, GlobalKey)? acceptDrag;
+  final bool Function(PartialMove, int)? validateDrag;
+  final Function(PartialMove, int, GlobalKey)? acceptDrag;
   final List<int> highlights;
 
   Board({
@@ -38,14 +38,14 @@ class Board extends StatelessWidget {
     if (onDragCancel != null) onDragCancel!(square);
   }
 
-  bool _validateDrag(int? from, int to) {
-    if (from == null || validateDrag == null) return false;
-    return validateDrag!(from, to);
+  bool _validateDrag(PartialMove? move, int to) {
+    if (move == null || validateDrag == null) return false;
+    return validateDrag!(move, to);
   }
 
-  void _acceptDrag(int? from, int to, GlobalKey squareKey) {
-    if (from == null || acceptDrag == null) return;
-    acceptDrag!(from, to, squareKey);
+  void _acceptDrag(PartialMove? move, int to, GlobalKey squareKey) {
+    if (move == null || acceptDrag == null) return;
+    acceptDrag!(move, to, squareKey);
   }
 
   @override
@@ -73,13 +73,14 @@ class Board extends StatelessWidget {
                         squareColour = Color.alphaBlend(gameOver ? theme.checkmate : theme.check, squareColour);
                       if (target == id) squareColour = Color.alphaBlend(theme.premove, squareColour);
                       bool hasHighlight = highlights.contains(id);
-                      return DragTarget<int>(
+                      return DragTarget<PartialMove>(
                         builder: (context, accepted, rejected) {
                           return Square(
                             id: id,
                             squareKey: squareKey,
                             colour: squareColour,
                             piece: piece,
+                            symbol: symbol,
                             draggable: true,
                             onTap: onTap != null ? (key) => onTap!(id, key) : null,
                             onDragCancel: () => _onDragCancel(id),

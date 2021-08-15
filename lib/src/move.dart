@@ -1,3 +1,5 @@
+import 'package:squares/squares.dart';
+
 class Move {
   final int from;
   final int to;
@@ -11,9 +13,12 @@ class Move {
   String toString() => '$from-$to';
 }
 
-class DragMove {
+// Used for dragging pieces
+class PartialMove {
   final int from;
-  final int to;
+  final String piece;
 
-  DragMove({required this.from, required this.to});
+  bool get fromHand => from == HAND;
+
+  PartialMove({required this.from, required this.piece});
 }

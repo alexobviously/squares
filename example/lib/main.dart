@@ -31,6 +31,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bishop.Variant variant = bishop.Variant.standard();
+  BoardTheme theme = BOARD_THEME_BROWN;
   static PieceSet emojiPieceSet = PieceSet.text(
     strings: {
       //
@@ -124,15 +126,16 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             // Row(
             //   children: [
+            if (variant.hands) _hand(),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              padding: EdgeInsets.all(16.0),
               child: BlocBuilder<GameController, GameState>(
                 bloc: gc,
                 builder: (context, state) {
                   return BoardController(
                     state: state.board.copyWith(orientation: boardOrientation),
                     pieceSet: pieceSet,
-                    theme: BOARD_THEME_BROWN,
+                    theme: theme,
                     size: state.size,
                     onMove: onMove,
                     onPremove: onPremove,
@@ -142,9 +145,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
               ),
             ),
+            if (variant.hands) _hand(),
             Container(height: 100),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            Wrap(
               children: [
                 ElevatedButton.icon(
                   onPressed: () => startGame(bishop.Variant.standard()),
@@ -166,6 +169,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: Icon(MdiIcons.sizeXl),
                   label: Text('Grand'),
                 ),
+                ElevatedButton.icon(
+                  onPressed: () => startGame(bishop.Variant.crazyhouse()),
+                  icon: Icon(MdiIcons.sizeXl),
+                  label: Text('Crazyhouse'),
+                ),
               ],
             ),
             Row(
@@ -185,6 +193,25 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void startGame(bishop.Variant variant, {String? fen}) {
     gc.startGame(variant, fen: fen);
+    setState(() {
+      this.variant = variant;
+    });
+  }
+
+  Widget _hand() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      child: Container(
+        color: theme.lightSquare,
+        child: Hand(
+          theme: theme,
+          pieceSet: pieceSet,
+          pieces: ['Q', 'Q', 'N'],
+          fixedPieces: ['Q', 'R', 'B', 'N', 'P'],
+          squareSize: 50,
+        ),
+      ),
+    );
   }
 }
 

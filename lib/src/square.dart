@@ -6,6 +6,7 @@ class Square extends StatelessWidget {
   final GlobalKey squareKey;
   final Color colour;
   final Widget? piece;
+  final String? symbol;
   final bool draggable;
   final void Function(GlobalKey)? onTap;
   final void Function()? onDragCancel;
@@ -17,6 +18,7 @@ class Square extends StatelessWidget {
     required this.squareKey,
     required this.colour,
     this.piece,
+    this.symbol,
     this.draggable = true,
     this.onTap,
     this.onDragCancel,
@@ -34,9 +36,12 @@ class Square extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget? _piece = piece;
-    if (_piece != null && draggable) {
-      _piece = Draggable<int>(
-        data: id,
+    if (_piece != null && symbol != null && draggable) {
+      _piece = Draggable<PartialMove>(
+        data: PartialMove(
+          from: id,
+          piece: symbol!,
+        ),
         child: _piece,
         dragAnchorStrategy: pointerDragAnchorStrategy,
         // TODO: generalise this
