@@ -1,6 +1,7 @@
 ### 0.2.3
 - Added some documentation
 - *draggable* option for boards (allows for view-only boards)
+- Piece count badge visual options for hands
 
 ### 0.2.2
 - Promotion improvements
