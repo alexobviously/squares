@@ -158,6 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPremove: onPremove,
                     moves: state.moves,
                     canMove: state.canMove,
+                    draggable: true,
                   );
                 },
               ),

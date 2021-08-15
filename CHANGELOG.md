@@ -1,3 +1,7 @@
+### 0.2.3
+- Added some documentation
+- *draggable* option for boards (allows for view-only boards)
+
 ### 0.2.2
 - Promotion improvements
 - Dragging improvements

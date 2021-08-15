@@ -23,6 +23,10 @@ class BoardController extends StatefulWidget {
 
   /// If false, premoves will be allowed.
   final bool canMove;
+
+  // Whether pieces should be draggable or not.
+  final bool draggable;
+
   late final Map<int, List<Move>> moveMap;
   late final List<Move> drops;
 
@@ -36,6 +40,7 @@ class BoardController extends StatefulWidget {
     this.onPremove,
     this.moves = const [],
     required this.canMove,
+    this.draggable = true,
   }) {
     moveMap = {};
     drops = [];
@@ -261,6 +266,7 @@ class _BoardControllerState extends State<BoardController> {
           selection: selection,
           target: target,
           canMove: widget.canMove,
+          draggable: widget.draggable,
           onTap: onTap,
           onDragCancel: onDragCancel,
           validateDrag: validateDrag,
