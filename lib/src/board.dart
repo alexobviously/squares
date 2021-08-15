@@ -1,20 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:squares/squares.dart';
 
+/// The visual representation of the board. Can be used by itself to simply display
+/// a board, or in conjunction with [BoardController] or some other wrapper to
+/// manage its state and handle interactions.
 class Board extends StatelessWidget {
   final GlobalKey boardKey;
   final PieceSet pieceSet;
   final BoardState state;
   final BoardTheme theme;
   final BoardSize size;
+
+  /// The currently selected square index.
   final int? selection;
+
+  /// The currently selected target square index (for premoves).
   final int? target;
+
+  /// Is the game over?
   final bool gameOver;
+
+  /// If false, premoves will be allowed.
   final bool canMove;
+
+  /// Called when a square is tapped.
   final Function(int, GlobalKey)? onTap;
+
+  /// Called when a piece drag is cancelled.
   final Function(int)? onDragCancel;
+
+  /// Called when a piece moves over a new square. This includes external pieces,
+  /// such as those that came from hands.
   final bool Function(PartialMove, int)? validateDrag;
+
+  /// Called when a square accepts a piece dragged onto it.
   final Function(PartialMove, int, GlobalKey)? acceptDrag;
+
+  /// A list of highlighted square indices. Usually this will correspond to squares
+  /// that the selected piece can move to.
   final List<int> highlights;
 
   Board({

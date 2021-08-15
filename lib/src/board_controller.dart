@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:squares/squares.dart';
 
+/// A wrapper that handles interactions and certain elements of board state
+/// (such as premoves) for a [Board].
 class BoardController extends StatefulWidget {
   final PieceSet pieceSet;
   final BoardState state;
   final BoardTheme theme;
   final BoardSize size;
+
+  /// Called when a move is successfully made.
   final Function(Move)? onMove;
+
+  /// Called when the premove is changed.
   final Function(Move?)? onSetPremove;
+
+  /// Called when a premove is triggered.
   final Function(Move)? onPremove;
+
+  /// A list of moves that can be played/premoved.
   final List<Move> moves;
+
+  /// If false, premoves will be allowed.
   final bool canMove;
   late final Map<int, List<Move>> moveMap;
   late final List<Move> drops;

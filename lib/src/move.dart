@@ -1,6 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:squares/squares.dart';
 
+/// A representation of a move. [from] and [to] are square indices.
+/// [promo] and [piece] (both optional) are uppercase single character piece symbols.
+/// [from] can also be [HAND] (-2), for drops originating off the board.
 class Move {
   final int from;
   final int to;
@@ -18,7 +21,7 @@ class Move {
   String toString() => '$from-$to';
 }
 
-// Used for dragging pieces
+/// Used for dragging pieces.
 class PartialMove extends Equatable {
   final int from;
   final String piece;

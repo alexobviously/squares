@@ -2,12 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
 import 'package:squares/squares.dart';
 
+/// A hand of pieces to drop from, such as in Crazyhouse.
 class Hand extends StatelessWidget {
+  // The width/height of one square.
   final double squareSize;
   final bool stackPieces;
   final BoardTheme theme;
   final PieceSet pieceSet;
+
+  /// A list of the pieces in the hand. These should be single character piece symbols.
+  /// Uppercase symbols will be white, lowercase ones will be black.
   final List<String> pieces;
+
+  /// A list of the piece types that should be fixed in the hand. These will always be
+  /// present in the hand, in dulled form, even if there are no pieces of their type available.
   final List<String>? fixedPieces;
 
   const Hand({
