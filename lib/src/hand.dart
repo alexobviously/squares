@@ -18,6 +18,13 @@ class Hand extends StatelessWidget {
   /// present in the hand, in dulled form, even if there are no pieces of their type available.
   final List<String>? fixedPieces;
 
+  // Position of piece count badges.
+  final BadgePosition? badgePosition;
+  // Shape of piece count badges.
+  final BadgeShape badgeShape;
+  // Colour of piece count badges.
+  final Color badgeColour;
+
   const Hand({
     required this.squareSize,
     this.stackPieces = true,
@@ -25,6 +32,9 @@ class Hand extends StatelessWidget {
     required this.pieceSet,
     required this.pieces,
     this.fixedPieces,
+    this.badgePosition,
+    this.badgeShape = BadgeShape.circle,
+    this.badgeColour = Colors.red,
   });
 
   @override
@@ -52,6 +62,9 @@ class Hand extends StatelessWidget {
       );
       if (num > 0)
         square = Badge(
+          position: badgePosition,
+          shape: badgeShape,
+          badgeColor: badgeColour,
           badgeContent: Text(
             '$num',
             style: TextStyle(color: Colors.white),

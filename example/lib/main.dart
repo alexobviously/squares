@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:example/game_controller.dart';
 import 'package:flutter/material.dart';
 
@@ -235,6 +236,7 @@ class _MyHomePageState extends State<MyHomePage> {
               pieces: state.hands[player],
               fixedPieces: ['Q', 'R', 'B', 'N', 'P'].map((x) => player == WHITE ? x : x.toLowerCase()).toList(),
               squareSize: 50,
+              badgeColour: Colors.blue,
             );
           },
         ),
