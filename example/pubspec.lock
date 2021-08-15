@@ -20,10 +20,10 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "2ec9091625b075df55497a9656f6a1b815154f19"
+      resolved-ref: "3175e9c8025044e3d8e6caca534fc56d90d32e61"
       url: "git@github.com:alexobviously/bishop.git"
     source: git
-    version: "0.2.5"
+    version: "0.2.9"
   bloc:
     dependency: "direct main"
     description:

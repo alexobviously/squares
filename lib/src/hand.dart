@@ -28,7 +28,7 @@ class Hand extends StatelessWidget {
     int i = 0;
     _pieces.forEach((symbol, num) {
       Widget square = Square(
-        id: i,
+        id: HAND,
         draggable: num > 0,
         squareKey: GlobalKey(),
         colour: Color(0x00000000),
@@ -38,6 +38,9 @@ class Hand extends StatelessWidget {
                 child: pieceSet.piece(context, symbol),
               )
             : null,
+        symbol: symbol,
+        onTap: (key) => print('onTap $symbol'),
+        onDragCancel: () => print('onDC $symbol'),
       );
       if (num > 0)
         square = Badge(

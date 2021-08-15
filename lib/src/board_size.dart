@@ -22,6 +22,7 @@ class BoardSize {
 
   int squareNumber(String name) {
     name = name.toLowerCase();
+    if (name == 'hand') return HAND;
     RegExp rx = RegExp(r'([A-Za-z])([0-9]+)');
     RegExpMatch? match = rx.firstMatch(name);
     assert(match != null, 'Invalid square name: $name');

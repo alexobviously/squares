@@ -35,6 +35,7 @@ class GameController extends Cubit<GameState> {
         size: size,
         board: board,
         moves: moves,
+        hands: game!.handSymbols(),
       ),
     );
   }
@@ -47,11 +48,7 @@ class GameController extends Cubit<GameState> {
 
   void makeMove(Move move) {
     if (game == null) return;
-    BoardSize size = state.size;
-    String from = size.squareName(move.from);
-    String to = size.squareName(move.to);
-    String alg = '$from$to';
-    if (move.promotion) alg = '$alg${move.promo}';
+    String alg = moveToAlgebraic(move, state.size);
     bishop.Move? m = game!.getMove(alg);
     if (m == null)
       print('move $alg not found');
@@ -90,7 +87,7 @@ class GameController extends Cubit<GameState> {
 }
 
 Future<bishop.EngineResult> engineSearch(bishop.Game game) async {
-  return await bishop.Engine(game: game).search();
+  return await bishop.Engine(game: game).search(timeLimit: 1000, timeBuffer: 500);
 }
 
 class GameState extends Equatable {
@@ -98,6 +95,7 @@ class GameState extends Equatable {
   final BoardSize size;
   final BoardState board;
   final List<Move> moves;
+  final List<List<String>> hands;
   final bool thinking;
 
   bool get canMove => state == PlayState.ourTurn;
@@ -107,6 +105,7 @@ class GameState extends Equatable {
     required this.size,
     required this.board,
     required this.moves,
+    this.hands = const [[], []],
     this.thinking = false,
   });
   factory GameState.initial() =>
@@ -117,6 +116,7 @@ class GameState extends Equatable {
     BoardSize? size,
     BoardState? board,
     List<Move>? moves,
+    List<List<String>>? hands,
     bool? thinking,
   }) {
     return GameState(
@@ -124,11 +124,12 @@ class GameState extends Equatable {
       size: size ?? this.size,
       board: board ?? this.board,
       moves: moves ?? this.moves,
+      hands: hands ?? this.hands,
       thinking: thinking ?? this.thinking,
     );
   }
 
-  List<Object> get props => [state, size, board, moves, thinking];
+  List<Object> get props => [state, size, board, moves, hands, thinking];
   bool get stringify => true;
 }
 
@@ -139,8 +140,26 @@ enum PlayState {
   finished,
 }
 Move moveFromAlgebraic(String alg, BoardSize size) {
+  if (alg[1] == '@') {
+    // it's a drop
+    int from = HAND;
+    int to = size.squareNumber(alg.substring(2, 4));
+    return Move(from: from, to: to, piece: alg[0].toUpperCase());
+  }
   int from = size.squareNumber(alg.substring(0, 2));
   int to = size.squareNumber(alg.substring(2, 4));
   String? promo = (alg.length > 4) ? alg[4] : null;
   return Move(from: from, to: to, promo: promo);
+}
+
+String moveToAlgebraic(Move move, BoardSize size) {
+  if (move.drop) {
+    return '${move.piece!.toLowerCase()}@${size.squareName(move.to)}';
+  } else {
+    String from = size.squareName(move.from);
+    String to = size.squareName(move.to);
+    String alg = '$from$to';
+    if (move.promotion) alg = '$alg${move.promo}';
+    return alg;
+  }
 }

@@ -12,6 +12,7 @@ class BoardController extends StatefulWidget {
   final List<Move> moves;
   final bool canMove;
   late final Map<int, List<Move>> moveMap;
+  late final List<Move> drops;
 
   BoardController({
     required this.pieceSet,
@@ -25,7 +26,12 @@ class BoardController extends StatefulWidget {
     required this.canMove,
   }) {
     moveMap = {};
+    drops = [];
     for (Move m in moves) {
+      if (m.drop) {
+        drops.add(m);
+        continue;
+      }
       if (!moveMap.containsKey(m.from))
         moveMap[m.from] = [m];
       else
@@ -84,6 +90,24 @@ class _BoardControllerState extends State<BoardController> {
     }
   }
 
+  void onDrop(PartialMove partial, int to, GlobalKey squareKey) {
+    print('onDrop $partial $to');
+    List<Move> targetMoves = widget.drops.where((m) => m.piece == partial.piece && m.to == to).toList();
+    if (targetMoves.isEmpty) {
+      deselectSquare();
+    } else {
+      if (widget.canMove) {
+        print('canMove');
+        if (widget.onMove != null) widget.onMove!(targetMoves.first);
+        deselectSquare();
+      } else {
+        setTarget(to);
+        premove = targetMoves.first;
+        if (widget.onSetPremove != null) widget.onSetPremove!(premove);
+      }
+    }
+  }
+
   void onPromo(int piece) {
     if (promoState == null || selection == null || widget.onMove == null) {
       closePromoSelector();
@@ -109,14 +133,22 @@ class _BoardControllerState extends State<BoardController> {
   }
 
   bool validateDrag(PartialMove partial, int to) {
+    if (partial.drop) {
+      if (widget.drops.isEmpty) return false;
+      return widget.drops.where((m) => m.piece == partial.piece && m.to == to).isNotEmpty;
+    }
     if (widget.moveMap[partial.from] == null) return false;
     Move? move = widget.moveMap[partial.from]!.firstWhereOrNull((m) => m.to == to);
     return move != null;
   }
 
   void acceptDrag(PartialMove partial, int to, GlobalKey squareKey) {
-    selection = partial.from;
-    onTap(to, squareKey);
+    if (partial.drop) {
+      onDrop(partial, to, squareKey);
+    } else {
+      selection = partial.from;
+      onTap(to, squareKey);
+    }
   }
 
   void selectSquare(int square) {
@@ -178,7 +210,7 @@ class _BoardControllerState extends State<BoardController> {
   }
 
   void onNewBoardState() {
-    print('new board state');
+    print('');
     if (premove != null && widget.onPremove != null) widget.onPremove!(premove!);
     if (target != null) {
       target = null;

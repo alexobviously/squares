@@ -32,7 +32,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bishop.Variant variant = bishop.Variant.standard();
-  BoardTheme theme = BOARD_THEME_BROWN;
   static PieceSet emojiPieceSet = PieceSet.text(
     strings: {
       //
@@ -52,6 +51,13 @@ class _MyHomePageState extends State<MyHomePage> {
     PieceSet.merida(),
     PieceSet.letters(),
     emojiPieceSet,
+  ];
+  int themeIndex = 0;
+  BoardTheme theme = BoardTheme.BROWN;
+  List<BoardTheme> themes = [
+    BoardTheme.BROWN,
+    BoardTheme.BLUEGREY,
+    BoardTheme.PINK,
   ];
   Move? premove;
 
@@ -82,12 +88,26 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void onChangeTheme(int? index) {
+    if (index == null) return;
+    setState(() {
+      themeIndex = index;
+      theme = themes[index];
+    });
+  }
+
+  void nextTheme() => onChangeTheme((themeIndex + 1) % themes.length);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Squares'),
         actions: [
+          IconButton(
+            onPressed: nextTheme,
+            icon: Icon(MdiIcons.palette),
+          ),
           DropdownButton<int>(
             value: pieceSetIndex,
             items: [
@@ -122,11 +142,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          //crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Row(
-            //   children: [
-            if (variant.hands) _hand(),
+            if (variant.hands) _hand(gc, BLACK),
             Padding(
               padding: EdgeInsets.all(16.0),
               child: BlocBuilder<GameController, GameState>(
@@ -145,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
               ),
             ),
-            if (variant.hands) _hand(),
+            if (variant.hands) _hand(gc, WHITE),
             Container(height: 100),
             Wrap(
               children: [
@@ -170,8 +187,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   label: Text('Grand'),
                 ),
                 ElevatedButton.icon(
+                  onPressed: () => startGame(bishop.Variant.capablanca()),
+                  icon: Icon(MdiIcons.cubeOutline),
+                  label: Text('Capablanca'),
+                ),
+                ElevatedButton.icon(
                   onPressed: () => startGame(bishop.Variant.crazyhouse()),
-                  icon: Icon(MdiIcons.sizeXl),
+                  icon: Icon(MdiIcons.weatherTornado),
                   label: Text('Crazyhouse'),
                 ),
               ],
@@ -198,17 +220,22 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Widget _hand() {
+  Widget _hand(GameController gc, int player) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       child: Container(
         color: theme.lightSquare,
-        child: Hand(
-          theme: theme,
-          pieceSet: pieceSet,
-          pieces: ['Q', 'Q', 'N'],
-          fixedPieces: ['Q', 'R', 'B', 'N', 'P'],
-          squareSize: 50,
+        child: BlocBuilder<GameController, GameState>(
+          bloc: gc,
+          builder: (_context, state) {
+            return Hand(
+              theme: theme,
+              pieceSet: pieceSet,
+              pieces: state.hands[player],
+              fixedPieces: ['Q', 'R', 'B', 'N', 'P'].map((x) => player == WHITE ? x : x.toLowerCase()).toList(),
+              squareSize: 50,
+            );
+          },
         ),
       ),
     );
