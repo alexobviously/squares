@@ -20,6 +20,25 @@ class BoardTheme {
     required this.premove,
   });
 
+  BoardTheme copyWith({
+    Color? lightSquare,
+    Color? darkSquare,
+    Color? check,
+    Color? checkmate,
+    Color? previous,
+    Color? selected,
+    Color? premove,
+  }) =>
+      BoardTheme(
+        lightSquare: lightSquare ?? this.lightSquare,
+        darkSquare: darkSquare ?? this.darkSquare,
+        check: check ?? this.check,
+        checkmate: checkmate ?? this.checkmate,
+        previous: previous ?? this.previous,
+        selected: selected ?? this.selected,
+        premove: premove ?? this.premove,
+      );
+
   static const BROWN = BoardTheme(
     lightSquare: Color(0xfff0d9b6),
     darkSquare: Color(0xffb58863),
