@@ -1,5 +1,6 @@
 ### 0.3.0
-- **** make images png
+- Now works with flutter web!
+- Removed flutter_svg and replaced merida set with png images
 - **** seirawan drops
 - **** custom square decorations for highlights
 
