@@ -1,6 +1,6 @@
 name: squares
 description: A flexible chessboard widget for Flutter
-version: 0.2.3
+version: 0.3.0
 homepage: https://github.com/alexobviously/squares
 
 environment:
@@ -12,7 +12,6 @@ dependencies:
     sdk: flutter
   badges: ^2.0.1
   equatable: ^2.0.3
-  flutter_svg: ^0.22.0
 
 dev_dependencies:
   flutter_test:

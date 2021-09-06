@@ -1,3 +1,8 @@
+### 0.3.0
+- **** make images png
+- **** seirawan drops
+- **** custom square decorations for highlights
+
 ### 0.2.3
 - Added some documentation
 - *draggable* option for boards (allows for view-only boards)
