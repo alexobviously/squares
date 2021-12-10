@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:squares/squares.dart';
 
+/// A popup widget used to select pieces to be used for promotion, or for gating.
 class PromoSelector extends StatelessWidget {
   final BoardTheme theme;
   final PieceSet pieceSet;

@@ -45,7 +45,7 @@ class BoardController extends StatefulWidget {
     moveMap = {};
     drops = [];
     for (Move m in moves) {
-      if (m.drop) {
+      if (m.handDrop) {
         drops.add(m);
         continue;
       }
@@ -89,7 +89,9 @@ class _BoardControllerState extends State<BoardController> {
             deselectSquare();
           } else {
             List<Move> promoMoves = targetMoves.where((m) => m.promotion).toList();
-            if (promoMoves.isEmpty) {
+            List<Move> gateMoves = targetMoves.where((m) => m.gate).toList();
+            bool gating = gateMoves.isNotEmpty;
+            if (promoMoves.isEmpty && gateMoves.isEmpty) {
               if (widget.canMove) {
                 if (widget.onMove != null) widget.onMove!(targetMoves.first);
                 deselectSquare();
@@ -99,7 +101,7 @@ class _BoardControllerState extends State<BoardController> {
                 if (widget.onSetPremove != null) widget.onSetPremove!(premove);
               }
             } else {
-              openPromoSelector(square, squareKey);
+              openPromoSelector(square, squareKey, gateSquare: 0);
             }
           }
         }
@@ -192,8 +194,13 @@ class _BoardControllerState extends State<BoardController> {
     });
   }
 
-  void openPromoSelector(int square, GlobalKey key) {
+  void openPromoSelector(int square, GlobalKey key, {int? gateSquare}) {
+    bool gate = gateSquare != null;
     List<String> pieces = ['Q', 'R', 'B', 'N'];
+    List<Move> _moves = widget.moves.where((e) => e.from == square && (gate ? e.gate : e.promotion)).toList();
+    pieces = _moves.map((e) => (gate ? e.piece : e.promo) ?? '').toList();
+    print('_moves ${widget.moves}');
+    print('promo pieces $pieces');
     RenderBox squareBox = key.currentContext!.findRenderObject() as RenderBox;
     RenderBox boardBox = boardKey.currentContext!.findRenderObject() as RenderBox;
     Offset promoOffset = boardBox.globalToLocal(squareBox.localToGlobal(Offset.zero));
@@ -216,6 +223,7 @@ class _BoardControllerState extends State<BoardController> {
         squareSize: squareSize,
         startLight: startLight,
         pieces: pieces,
+        gate: gate,
       );
     });
   }
@@ -291,12 +299,14 @@ class _BoardControllerState extends State<BoardController> {
   }
 }
 
+/// Also used for gating.
 class PromoState {
   final int square;
   final Offset offset;
   final double squareSize;
   final bool startLight;
   final List<String> pieces;
+  final bool gate;
 
   PromoState({
     required this.square,
@@ -304,5 +314,6 @@ class PromoState {
     required this.squareSize,
     required this.startLight,
     required this.pieces,
+    this.gate = false,
   });
 }

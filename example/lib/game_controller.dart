@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bishop/bishop.dart' as bishop;
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -148,8 +150,23 @@ Move moveFromAlgebraic(String alg, BoardSize size) {
   }
   int from = size.squareNumber(alg.substring(0, 2));
   int to = size.squareNumber(alg.substring(2, 4));
+
+  String? piece;
+  int? gatingSquare;
+  List<String> _sections = alg.split('/');
+  if (_sections.length > 1) {
+    String _gate = _sections.last;
+    piece = _gate[0];
+    gatingSquare = _gate.length > 2 ? size.squareNumber(_gate.substring(1, 3)) : from;
+  }
   String? promo = (alg.length > 4) ? alg[4] : null;
-  return Move(from: from, to: to, promo: promo);
+  return Move(
+    from: from,
+    to: to,
+    promo: promo,
+    piece: piece,
+    gatingSquare: gatingSquare,
+  );
 }
 
 String moveToAlgebraic(Move move, BoardSize size) {

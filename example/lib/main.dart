@@ -174,12 +174,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   label: Text('Standard'),
                 ),
                 ElevatedButton.icon(
-                  onPressed: () => startGame(bishop.Variant.mini(), fen: 'k4/4P/5/5/K4 w - - 0 1'),
+                  onPressed: () => startGame(bishop.Variant.micro(), fen: 'k4/4P/5/5/K4 w - - 0 1'),
                   icon: Icon(MdiIcons.sizeXs),
                   label: Text('Mini'),
                 ),
                 ElevatedButton.icon(
-                  onPressed: () => startGame(bishop.Variant.micro()),
+                  onPressed: () => startGame(bishop.Variant.nano()),
                   icon: Icon(MdiIcons.sizeXxs),
                   label: Text('Micro'),
                 ),
@@ -197,6 +197,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () => startGame(bishop.Variant.crazyhouse()),
                   icon: Icon(MdiIcons.weatherTornado),
                   label: Text('Crazyhouse'),
+                ),
+                ElevatedButton.icon(
+                  onPressed: () => startGame(bishop.Variant.seirawan()),
+                  icon: Icon(MdiIcons.bird),
+                  label: Text('Seirawan'),
                 ),
               ],
             ),
