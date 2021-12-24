@@ -285,7 +285,7 @@ class _BoardControllerState extends State<BoardController> {
           Positioned(
             left: promoState!.offset.dx,
             top: promoState!.offset.dy,
-            child: PromoSelector(
+            child: PieceSelector(
               theme: widget.theme,
               pieceSet: widget.pieceSet,
               squareSize: promoState!.squareSize,
