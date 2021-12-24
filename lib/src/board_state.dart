@@ -40,5 +40,7 @@ class BoardState extends Equatable {
     );
   }
 
-  List<Object> get props => [board, player];
+  BoardState flipped() => copyWith(orientation: 1 - orientation);
+
+  List<Object?> get props => [board, player, lastFrom, lastTo, checkSquare, orientation];
 }

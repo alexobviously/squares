@@ -86,6 +86,8 @@ class GameController extends Cubit<GameState> {
     String san = game!.toSan(res.move!);
     return '$san (${res.eval}) [depth ${res.depth}]';
   }
+
+  void flipBoard() => emit(state.flipped());
 }
 
 Future<bishop.EngineResult> engineSearch(bishop.Game game) async {
@@ -120,6 +122,7 @@ class GameState extends Equatable {
     List<Move>? moves,
     List<List<String>>? hands,
     bool? thinking,
+    int? orientation,
   }) {
     return GameState(
       state: state ?? this.state,
@@ -130,6 +133,8 @@ class GameState extends Equatable {
       thinking: thinking ?? this.thinking,
     );
   }
+
+  GameState flipped() => copyWith(board: board.flipped());
 
   List<Object> get props => [state, size, board, moves, hands, thinking];
   bool get stringify => true;

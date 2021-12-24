@@ -1,5 +1,7 @@
 import 'package:badges/badges.dart';
 import 'package:example/game_controller.dart';
+import 'package:example/game_manager.dart';
+import 'package:example/home_view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bishop/bishop.dart' as bishop;
@@ -15,13 +17,20 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Squares Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        accentColor: Colors.cyan,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<GameManager>(
+          create: (ctx) => GameManager(),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Squares Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          accentColor: Colors.cyan,
+        ),
+        home: HomeView(),
       ),
-      home: MyHomePage(),
     );
   }
 }
@@ -101,123 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Squares'),
-        actions: [
-          IconButton(
-            onPressed: nextTheme,
-            icon: Icon(MdiIcons.palette),
-          ),
-          DropdownButton<int>(
-            value: pieceSetIndex,
-            items: [
-              DropdownMenuItem(
-                child: Text('Merida'),
-                value: 0,
-              ),
-              DropdownMenuItem(
-                child: Text('Letters'),
-                value: 1,
-              ),
-              DropdownMenuItem(
-                child: Text('Emojis'),
-                value: 2,
-              ),
-            ],
-            onChanged: onChangePieceSet,
-          ),
-          BlocBuilder<GameController, GameState>(
-            bloc: gc,
-            builder: (context, state) {
-              if (state.canMove && premove != null) onMove(premove!);
-              return Container(
-                width: 32,
-                height: 32,
-                child: state.thinking ? SpinKitFadingCircle(size: 28, color: Colors.white) : Icon(Icons.check),
-              );
-            },
-          ),
-        ],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (variant.hands) _hand(gc, BLACK),
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: BlocBuilder<GameController, GameState>(
-                bloc: gc,
-                builder: (context, state) {
-                  return BoardController(
-                    state: state.board.copyWith(orientation: boardOrientation),
-                    pieceSet: pieceSet,
-                    theme: theme,
-                    size: state.size,
-                    onMove: onMove,
-                    onPremove: onPremove,
-                    moves: state.moves,
-                    canMove: state.canMove,
-                    draggable: true,
-                  );
-                },
-              ),
-            ),
-            if (variant.hands) _hand(gc, WHITE),
-            Container(height: 100),
-            Wrap(
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () => startGame(bishop.Variant.standard()),
-                  icon: Icon(MdiIcons.chessKing),
-                  label: Text('Standard'),
-                ),
-                ElevatedButton.icon(
-                  onPressed: () => startGame(bishop.Variant.micro(), fen: 'k4/4P/5/5/K4 w - - 0 1'),
-                  icon: Icon(MdiIcons.sizeXs),
-                  label: Text('Mini'),
-                ),
-                ElevatedButton.icon(
-                  onPressed: () => startGame(bishop.Variant.nano()),
-                  icon: Icon(MdiIcons.sizeXxs),
-                  label: Text('Micro'),
-                ),
-                ElevatedButton.icon(
-                  onPressed: () => startGame(bishop.Variant.grand()),
-                  icon: Icon(MdiIcons.sizeXl),
-                  label: Text('Grand'),
-                ),
-                ElevatedButton.icon(
-                  onPressed: () => startGame(bishop.Variant.capablanca()),
-                  icon: Icon(MdiIcons.cubeOutline),
-                  label: Text('Capablanca'),
-                ),
-                ElevatedButton.icon(
-                  onPressed: () => startGame(bishop.Variant.crazyhouse()),
-                  icon: Icon(MdiIcons.weatherTornado),
-                  label: Text('Crazyhouse'),
-                ),
-                ElevatedButton.icon(
-                  onPressed: () => startGame(bishop.Variant.seirawan()),
-                  icon: Icon(MdiIcons.bird),
-                  label: Text('Seirawan'),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                  icon: Icon(MdiIcons.rotate3DVariant),
-                  onPressed: flipBoard,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
+    return HomeView();
   }
 
   void startGame(bishop.Variant variant, {String? fen}) {
