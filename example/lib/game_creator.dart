@@ -1,5 +1,4 @@
 import 'package:example/game_config.dart';
-import 'package:example/game_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:bishop/bishop.dart' as bishop;
 
@@ -31,14 +30,6 @@ class _GameCreatorState extends State<GameCreator> {
   }
 
   static int variant = 0;
-
-  @override
-  void initState() {
-    print('inittt');
-    // variant = 0;6
-    super.initState();
-  }
-
   void _setVariant(int? v) => setState(() => variant = v ?? variant);
 
   void _createGame() {

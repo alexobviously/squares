@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:squares/squares.dart';
 
 class BoardTheme {
   final Color lightSquare;

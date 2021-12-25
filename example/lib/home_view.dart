@@ -1,17 +1,12 @@
-import 'dart:math';
-
 import 'package:example/app_bar.dart';
 import 'package:example/game_config.dart';
-import 'package:example/game_controller.dart';
 import 'package:example/game_creator.dart';
 import 'package:example/game_fullscreen.dart';
 import 'package:example/game_manager.dart';
 import 'package:example/game_page.dart';
-import 'package:example/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:squares/squares.dart';
 
 class HomeView extends StatefulWidget {
   HomeView({Key? key}) : super(key: key);
