@@ -20,8 +20,6 @@ class GamePage extends StatefulWidget {
 }
 
 class _GamePageState extends State<GamePage> {
-  Move? premove;
-
   void _flipBoard() => widget.game.flipBoard();
   void _resign() => widget.game.resign();
 
@@ -35,18 +33,21 @@ class _GamePageState extends State<GamePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // width: MediaQuery.of(context).size.width * 0.9,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // if (variant.hands) _hand(gc, BLACK),
-          Padding(
-            padding: EdgeInsets.all(4.0),
-            child: BlocBuilder<GameController, GameState>(
-              bloc: widget.game,
-              builder: (context, state) {
-                return BoardController(
+    final _variant = widget.game.variant;
+    bool _hands = _variant?.hands ?? false;
+    return BlocBuilder<GameController, GameState>(
+      bloc: widget.game,
+      builder: (context, state) {
+        int _orientation = state.board.orientation;
+        return Container(
+          // width: MediaQuery.of(context).size.width * 0.9,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (_hands) _hand(1 - _orientation),
+              Padding(
+                padding: EdgeInsets.all(4.0),
+                child: BoardController(
                   state: state.board,
                   pieceSet: widget.pieceSet,
                   theme: widget.theme,
@@ -56,27 +57,49 @@ class _GamePageState extends State<GamePage> {
                   moves: state.moves,
                   canMove: state.canMove,
                   draggable: true,
-                );
-              },
-            ),
-          ),
-          // if (variant.hands) _hand(gc, WHITE),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              TextButton.icon(
-                label: Text('Flip Board'),
-                icon: Icon(MdiIcons.rotate3DVariant),
-                onPressed: _flipBoard,
+                ),
               ),
-              TextButton.icon(
-                label: Text('Resign'),
-                icon: Icon(MdiIcons.flag),
-                onPressed: _resign,
+              if (_hands) _hand(_orientation),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TextButton.icon(
+                    label: Text('Flip Board'),
+                    icon: Icon(MdiIcons.rotate3DVariant),
+                    onPressed: _flipBoard,
+                  ),
+                  TextButton.icon(
+                    label: Text('Resign'),
+                    icon: Icon(MdiIcons.flag),
+                    onPressed: _resign,
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        );
+      },
+    );
+  }
+
+  Widget _hand(int player) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 4.0),
+      child: Container(
+        color: widget.theme.lightSquare,
+        child: BlocBuilder<GameController, GameState>(
+          bloc: widget.game,
+          builder: (_context, state) {
+            return Hand(
+              theme: widget.theme,
+              pieceSet: widget.pieceSet,
+              pieces: state.hands[player],
+              fixedPieces: STANDARD_PIECES.map((x) => player == WHITE ? x : x.toLowerCase()).toList(),
+              squareSize: 37,
+              badgeColour: Colors.blue,
+            );
+          },
+        ),
       ),
     );
   }

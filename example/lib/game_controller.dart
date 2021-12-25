@@ -11,6 +11,7 @@ class GameController extends Cubit<GameState> {
   bishop.Game? game;
   bishop.Engine? engine;
   int humanPlayer = WHITE;
+  bishop.Variant? get variant => game?.variant;
 
   void emitState([bool thinking = false]) {
     if (game == null) emit(GameState.initial());

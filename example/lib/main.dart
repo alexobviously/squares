@@ -116,28 +116,6 @@ class _MyHomePageState extends State<MyHomePage> {
       this.variant = variant;
     });
   }
-
-  Widget _hand(GameController gc, int player) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
-      child: Container(
-        color: theme.lightSquare,
-        child: BlocBuilder<GameController, GameState>(
-          bloc: gc,
-          builder: (_context, state) {
-            return Hand(
-              theme: theme,
-              pieceSet: pieceSet,
-              pieces: state.hands[player],
-              fixedPieces: ['Q', 'R', 'B', 'N', 'P'].map((x) => player == WHITE ? x : x.toLowerCase()).toList(),
-              squareSize: 50,
-              badgeColour: Colors.blue,
-            );
-          },
-        ),
-      ),
-    );
-  }
 }
 
 Move moveFromAlgebraic(String alg, BoardSize size) {
