@@ -22,7 +22,8 @@ class GamePage extends StatefulWidget {
 class _GamePageState extends State<GamePage> {
   Move? premove;
 
-  void flipBoard() => widget.game.flipBoard();
+  void _flipBoard() => widget.game.flipBoard();
+  void _resign() => widget.game.resign();
 
   void _onMove(Move move) {
     widget.game.makeMove(move);
@@ -68,9 +69,15 @@ class _GamePageState extends State<GamePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              IconButton(
+              TextButton.icon(
+                label: Text('Flip Board'),
                 icon: Icon(MdiIcons.rotate3DVariant),
-                onPressed: flipBoard,
+                onPressed: _flipBoard,
+              ),
+              TextButton.icon(
+                label: Text('Resign'),
+                icon: Icon(MdiIcons.flag),
+                onPressed: _resign,
               ),
             ],
           ),

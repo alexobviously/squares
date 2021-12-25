@@ -15,6 +15,13 @@ class _GameCreatorState extends State<GameCreator> {
   List<bishop.Variant> variants = [
     bishop.Variant.standard(),
     bishop.Variant.chess960(),
+    bishop.Variant.mini(),
+    bishop.Variant.micro(),
+    bishop.Variant.nano(),
+    bishop.Variant.grand(),
+    bishop.Variant.capablanca(),
+    bishop.Variant.crazyhouse(),
+    bishop.Variant.seirawan(),
   ];
 
   List<DropdownMenuItem<int>> get _variantDropdownItems {
@@ -23,7 +30,14 @@ class _GameCreatorState extends State<GameCreator> {
     return items;
   }
 
-  int variant = 0;
+  static int variant = 0;
+
+  @override
+  void initState() {
+    print('inittt');
+    // variant = 0;6
+    super.initState();
+  }
 
   void _setVariant(int? v) => setState(() => variant = v ?? variant);
 
@@ -36,6 +50,7 @@ class _GameCreatorState extends State<GameCreator> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Container(height: 32),
         Text(
           'Game Setup',
           style: Theme.of(context).textTheme.headline5,

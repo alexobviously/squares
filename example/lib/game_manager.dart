@@ -49,7 +49,7 @@ class GameManager extends Cubit<GameManagerState> {
   void changePieceSet(int? index) {
     if (index == null) return;
     pieceSetIndex = index;
-    emit(state.copyWith(pieceSet: pieceSets[index]));
+    emit(state.copyWith(pieceSet: pieceSets[index], pieceSetIndex: pieceSetIndex));
   }
 
   void changeTheme(int? index) {

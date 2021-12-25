@@ -10,11 +10,12 @@ class GameController extends Cubit<GameState> {
   GameController() : super(GameState.initial());
   bishop.Game? game;
   bishop.Engine? engine;
+  int humanPlayer = WHITE;
 
   void emitState([bool thinking = false]) {
     if (game == null) emit(GameState.initial());
     BoardSize size = BoardSize(game!.size.h, game!.size.v);
-    bool canMove = game!.turn == WHITE;
+    bool canMove = game!.turn == humanPlayer;
     List<bishop.Move> _moves = canMove ? game!.generateLegalMoves() : game!.generatePremoves();
     List<Move> moves = [];
     for (bishop.Move move in _moves) {
@@ -28,11 +29,12 @@ class GameController extends Cubit<GameState> {
       lastFrom: gameInfo.lastFrom != null ? size.squareNumber(gameInfo.lastFrom!) : null,
       lastTo: gameInfo.lastTo != null ? size.squareNumber(gameInfo.lastTo!) : null,
       checkSquare: gameInfo.checkSq != null ? size.squareNumber(gameInfo.checkSq!) : null,
+      orientation: this.state.board.orientation,
     );
-    PlayState state = game!.gameOver ? PlayState.finished : (canMove ? PlayState.ourTurn : PlayState.theirTurn);
+    PlayState _state = game!.gameOver ? PlayState.finished : (canMove ? PlayState.ourTurn : PlayState.theirTurn);
     emit(
       GameState(
-        state: state,
+        state: _state,
         thinking: thinking,
         size: size,
         board: board,
@@ -78,6 +80,11 @@ class GameController extends Cubit<GameState> {
       game!.makeMove(result.move!);
       emitState();
     }
+  }
+
+  void resign() {
+    if (game == null) return;
+    emit(state.copyWith(state: PlayState.finished));
   }
 
   String formatResult(bishop.EngineResult res) {
