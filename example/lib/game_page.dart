@@ -27,11 +27,6 @@ class _GamePageState extends State<GamePage> {
 
   void _onMove(Move move) {
     widget.game.makeMove(move);
-    premove = null;
-  }
-
-  void _onPremove(Move move) {
-    premove = move;
   }
 
   void randomMove() {
@@ -57,7 +52,7 @@ class _GamePageState extends State<GamePage> {
                   theme: widget.theme,
                   size: state.size,
                   onMove: _onMove,
-                  onPremove: _onPremove,
+                  onPremove: _onMove,
                   moves: state.moves,
                   canMove: state.canMove,
                   draggable: true,
