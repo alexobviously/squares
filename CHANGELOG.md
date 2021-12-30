@@ -1,6 +1,8 @@
 ### 0.3.0
 - Now works with flutter web!
 - Removed flutter_svg and replaced merida set with png images
+- Improved example
+- Fixed piece dragging
 - **** seirawan drops
 - **** custom square decorations for highlights
 
