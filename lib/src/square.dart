@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:squares/squares.dart';
+import 'package:squares/src/highlight_theme.dart';
 
 class Square extends StatelessWidget {
   final int id;
@@ -11,6 +12,7 @@ class Square extends StatelessWidget {
   final void Function(GlobalKey)? onTap;
   final void Function()? onDragCancel;
   final Color? highlight;
+  late final HighlightTheme highlightTheme;
   bool get hasPiece => piece != null;
   bool get hasHighlight => highlight != null;
   Square({
@@ -23,7 +25,8 @@ class Square extends StatelessWidget {
     this.onTap,
     this.onDragCancel,
     this.highlight,
-  });
+    HighlightTheme? highlightTheme,
+  }) : this.highlightTheme = highlightTheme ?? HighlightTheme.basic;
 
   void _onTap() {
     if (onTap != null) onTap!(squareKey);
@@ -35,36 +38,6 @@ class Square extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget? _piece = piece;
-    // if (piece != null && symbol != null && draggable) {
-    //   _piece = LayoutBuilder(
-    //     builder: (context, constraints) {
-    //       print('constraints ${constraints.maxHeight}');
-    //       return Draggable<PartialMove>(
-    //         data: PartialMove(
-    //           from: id,
-    //           piece: symbol!,
-    //         ),
-    //         child: piece!,
-    //         dragAnchorStrategy: pointerDragAnchorStrategy,
-    //         // TODO: generalise this
-    //         feedback: Container(
-    //           width: constraints.maxWidth,
-    //           height: constraints.maxHeight,
-    //           child: piece,
-    //         ),
-    //         // feedback: Transform.translate(offset: Offset(-25, -25), child: _piece),
-    //         childWhenDragging: Opacity(
-    //           opacity: 0.5,
-    //           child: piece,
-    //         ),
-    //         onDragStarted: () => _onTap(),
-    //         onDraggableCanceled: (_, __) => _onDragCancel(),
-    //         onDragEnd: (_) => _onTap(),
-    //       );
-    //     },
-    //   );
-    // }
     return LayoutBuilder(
       builder: (context, constraints) {
         double _size = 50;
@@ -111,36 +84,8 @@ class Square extends StatelessWidget {
             color: colour,
             child: Stack(
               children: [
-                if (hasHighlight && !hasPiece)
-                  Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      width: _size,
-                      height: _size,
-                      child: Padding(
-                        // TODO: make padding dynamic
-                        padding: EdgeInsets.all(_size / 3),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: highlight,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                if (hasHighlight && hasPiece)
-                  Container(
-                    width: _size,
-                    height: _size,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(_size / 6),
-                      border: Border.all(
-                        color: highlight!,
-                        width: _size / 16,
-                      ),
-                    ),
-                  ),
+                if (hasHighlight && !hasPiece) highlightTheme.empty(context, _size, highlight!),
+                if (hasHighlight && hasPiece) highlightTheme.piece(context, _size, highlight!),
                 if (hasPiece) _piece!,
               ],
             ),

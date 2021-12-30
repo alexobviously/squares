@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:squares/squares.dart';
+import 'package:squares/src/highlight_theme.dart';
 
 /// A wrapper that handles interactions and certain elements of board state
 /// (such as premoves) for a [Board].
@@ -8,6 +9,7 @@ class BoardController extends StatefulWidget {
   final BoardState state;
   final BoardTheme theme;
   final BoardSize size;
+  final HighlightTheme? highlightTheme;
 
   /// Called when a move is successfully made.
   final Function(Move)? onMove;
@@ -35,6 +37,7 @@ class BoardController extends StatefulWidget {
     required this.state,
     required this.theme,
     this.size = const BoardSize(8, 8),
+    this.highlightTheme,
     this.onMove,
     this.onSetPremove,
     this.onPremove,
@@ -271,6 +274,7 @@ class _BoardControllerState extends State<BoardController> {
           state: widget.state,
           theme: widget.theme,
           size: widget.size,
+          highlightTheme: widget.highlightTheme,
           selection: selection,
           target: target,
           canMove: widget.canMove,

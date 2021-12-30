@@ -8,6 +8,7 @@ export 'src/board_theme.dart';
 export 'src/constants.dart';
 export 'src/first_where_extension.dart';
 export 'src/hand.dart';
+export 'src/highlight_theme.dart';
 export 'src/move.dart';
 export 'src/piece.dart';
 export 'src/piece_set.dart';

@@ -3,6 +3,7 @@
 - Removed flutter_svg and replaced merida set with png images
 - Improved example
 - Fixed piece dragging
+- HighlightThemes - customise the decorations that highlighted squares have
 - **** seirawan drops
 - **** custom square decorations for highlights
 

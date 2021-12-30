@@ -28,6 +28,11 @@ class GameManager extends Cubit<GameManagerState> {
     BoardTheme.BLUEGREY,
     BoardTheme.PINK,
   ];
+  int highlightThemeIndex = 0;
+  List<HighlightTheme> highlightThemes = [
+    HighlightTheme.basic,
+    HighlightTheme.square,
+  ];
 
   void createGame(GameConfig config) {
     GameController gc = GameController();
@@ -59,6 +64,14 @@ class GameManager extends Cubit<GameManagerState> {
   }
 
   void nextTheme() => changeTheme((themeIndex + 1) % themes.length);
+
+  void changeHighlightTheme(int? index) {
+    if (index == null) return;
+    highlightThemeIndex = index;
+    emit(state.copyWith(highlightTheme: highlightThemes[index]));
+  }
+
+  void nextHighlightTheme() => changeHighlightTheme((highlightThemeIndex + 1) % highlightThemes.length);
 }
 
 class GameManagerState {
@@ -66,12 +79,20 @@ class GameManagerState {
   final int pieceSetIndex;
   final PieceSet pieceSet;
   final BoardTheme theme;
-  GameManagerState({required this.games, required this.pieceSetIndex, required this.pieceSet, required this.theme});
+  final HighlightTheme highlightTheme;
+  GameManagerState({
+    required this.games,
+    required this.pieceSetIndex,
+    required this.pieceSet,
+    required this.theme,
+    required this.highlightTheme,
+  });
   factory GameManagerState.initial() => GameManagerState(
         games: [],
         pieceSetIndex: 0,
         pieceSet: PieceSet.merida(),
         theme: BoardTheme.BROWN,
+        highlightTheme: HighlightTheme.basic,
       );
 
   GameManagerState copyWith({
@@ -79,11 +100,13 @@ class GameManagerState {
     int? pieceSetIndex,
     PieceSet? pieceSet,
     BoardTheme? theme,
+    HighlightTheme? highlightTheme,
   }) =>
       GameManagerState(
         games: games ?? this.games,
         pieceSetIndex: pieceSetIndex ?? this.pieceSetIndex,
         pieceSet: pieceSet ?? this.pieceSet,
         theme: theme ?? this.theme,
+        highlightTheme: highlightTheme ?? this.highlightTheme,
       );
 }

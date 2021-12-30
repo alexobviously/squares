@@ -8,11 +8,13 @@ class GamePage extends StatefulWidget {
   final GameController game;
   final PieceSet pieceSet;
   final BoardTheme theme;
+  final HighlightTheme? highlightTheme;
   GamePage({
     Key? key,
     required this.game,
     required this.pieceSet,
     required this.theme,
+    this.highlightTheme,
   }) : super(key: key);
 
   @override
@@ -52,6 +54,7 @@ class _GamePageState extends State<GamePage> {
                   pieceSet: widget.pieceSet,
                   theme: widget.theme,
                   size: state.size,
+                  highlightTheme: widget.highlightTheme,
                   onMove: _onMove,
                   onPremove: _onMove,
                   moves: state.moves,

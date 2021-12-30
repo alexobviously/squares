@@ -1,6 +1,7 @@
 import 'package:example/app_bar.dart';
 import 'package:example/game_page.dart';
 import 'package:flutter/material.dart';
+import 'package:squares/squares.dart';
 
 class GameFullscreen extends StatelessWidget {
   final GamePage gamePage;
@@ -14,6 +15,7 @@ class GameFullscreen extends StatelessWidget {
         game: gamePage.game,
         pieceSet: gamePage.pieceSet,
         theme: gamePage.theme,
+        highlightTheme: gamePage.highlightTheme,
       ),
     );
   }

@@ -18,6 +18,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: () => cubit.nextTheme(),
               icon: Icon(MdiIcons.palette),
             ),
+            IconButton(
+              onPressed: () => cubit.nextHighlightTheme(),
+              icon: Icon(MdiIcons.selectionEllipse),
+            ),
             DropdownButton<int>(
               value: state.pieceSetIndex,
               items: [

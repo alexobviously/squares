@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:squares/squares.dart';
+import 'package:squares/src/highlight_theme.dart';
 
 /// The visual representation of the board. Can be used by itself to simply display
 /// a board, or in conjunction with [BoardController] or some other wrapper to
@@ -10,6 +11,7 @@ class Board extends StatelessWidget {
   final BoardState state;
   final BoardTheme theme;
   final BoardSize size;
+  late final HighlightTheme highlightTheme;
 
   /// The currently selected square index.
   final int? selection;
@@ -49,6 +51,7 @@ class Board extends StatelessWidget {
     required this.state,
     required this.theme,
     this.size = const BoardSize(8, 8),
+    HighlightTheme? highlightTheme,
     this.selection,
     this.target,
     this.gameOver = false,
@@ -59,7 +62,7 @@ class Board extends StatelessWidget {
     this.validateDrag,
     this.acceptDrag,
     this.highlights = const [],
-  });
+  }) : this.highlightTheme = highlightTheme ?? HighlightTheme.basic;
 
   void _onDragCancel(int square) {
     if (onDragCancel != null) onDragCancel!(square);
@@ -112,6 +115,7 @@ class Board extends StatelessWidget {
                             onTap: onTap != null ? (key) => onTap!(id, key) : null,
                             onDragCancel: () => _onDragCancel(id),
                             highlight: hasHighlight ? (canMove ? theme.selected : theme.premove) : null,
+                            highlightTheme: highlightTheme,
                           );
                         },
                         onWillAccept: (from) => _validateDrag(from, id),
