@@ -50,6 +50,8 @@ class Board extends StatelessWidget {
   /// If you don't want moves to be animated at all, just don't pass an [animateMove].
   final Move? animateMove;
 
+  final bool allowAnimation;
+
   /// How long move animations take to play.
   final Duration? animationDuration;
 
@@ -71,6 +73,7 @@ class Board extends StatelessWidget {
     this.acceptDrag,
     this.highlights = const [],
     this.animateMove,
+    this.allowAnimation = true,
     this.animationDuration,
   }) : this.highlightTheme = highlightTheme ?? HighlightTheme.basic;
 
@@ -91,56 +94,106 @@ class Board extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-        key: boardKey,
-        aspectRatio: size.h / size.v,
-        child: Container(
-            child: Column(
-          children: List.generate(
-              size.v,
-              (rank) => Expanded(
-                      child: Row(
-                    children: List.generate(size.h, (file) {
-                      int id = (state.orientation == WHITE ? rank : size.v - rank - 1) * size.h + file;
-                      GlobalKey squareKey = GlobalKey();
-                      String symbol = state.board.length > id ? state.board[id] : '';
-                      Widget? piece = symbol.isNotEmpty ? pieceSet.piece(context, symbol) : null;
-                      if (piece != null && animateMove != null && animateMove!.to == id) {
-                        piece = MoveAnimation(
-                          child: piece,
-                          x: -size.fileDiff(animateMove!).toDouble(),
-                          y: size.rankDiff(animateMove!).toDouble(),
-                          duration: animationDuration,
-                        );
-                      }
-                      Color squareColour = ((rank + file) % 2 == 0) ? theme.lightSquare : theme.darkSquare;
-                      if (state.lastFrom == id || state.lastTo == id)
-                        squareColour = Color.alphaBlend(theme.previous, squareColour);
-                      if (selection == id)
-                        squareColour = Color.alphaBlend(canMove ? theme.selected : theme.premove, squareColour);
-                      if (state.checkSquare == id)
-                        squareColour = Color.alphaBlend(gameOver ? theme.checkmate : theme.check, squareColour);
-                      if (target == id) squareColour = Color.alphaBlend(theme.premove, squareColour);
-                      bool hasHighlight = highlights.contains(id);
-                      return DragTarget<PartialMove>(
-                        builder: (context, accepted, rejected) {
-                          return Square(
-                            id: id,
-                            squareKey: squareKey,
-                            colour: squareColour,
-                            piece: piece,
-                            symbol: symbol,
-                            draggable: draggable,
-                            onTap: onTap != null ? (key) => onTap!(id, key) : null,
-                            onDragCancel: () => _onDragCancel(id),
-                            highlight: hasHighlight ? (canMove ? theme.selected : theme.premove) : null,
-                            highlightTheme: highlightTheme,
-                          );
-                        },
-                        onWillAccept: (from) => _validateDrag(from, id),
-                        onAccept: (from) => _acceptDrag(from, id, squareKey),
-                      );
-                    }),
-                  ))),
-        )));
+      key: boardKey,
+      aspectRatio: size.h / size.v,
+      child: LayoutBuilder(builder: (context, constraints) {
+        double squareSize = constraints.maxWidth / size.h;
+        return Stack(
+          children: [
+            Container(
+              child: Column(
+                children: List.generate(
+                  size.v,
+                  (rank) => Expanded(
+                    child: Row(
+                      children: List.generate(
+                        size.h,
+                        (file) => _square(context, rank, file, squareSize),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            if (state.lastTo != null)
+              Builder(
+                builder: (context) {
+                  int r = size.v - size.squareRank(state.lastTo!);
+                  int f = size.squareFile(state.lastTo!);
+                  return Positioned(
+                    child: Container(
+                      width: squareSize,
+                      height: squareSize,
+                      child: _square(
+                        context,
+                        r,
+                        f,
+                        squareSize,
+                        allowAnimation: allowAnimation,
+                        orient: false,
+                      ),
+                    ),
+                    top: state.orientation == WHITE ? squareSize * r : null,
+                    left: state.orientation == WHITE ? squareSize * f : null,
+                    bottom: state.orientation == BLACK ? squareSize * r : null,
+                    right: state.orientation == BLACK ? squareSize * f : null,
+                  );
+                },
+              ),
+          ],
+        );
+      }),
+    );
+  }
+
+  Widget _square(BuildContext context, int rank, int file, double squareSize,
+      {bool allowAnimation = false, bool orient = true}) {
+    int _id = (!orient || state.orientation == WHITE ? rank : size.v - rank - 1) * size.h +
+        (!orient || state.orientation == WHITE ? file : size.h - file - 1);
+    GlobalKey squareKey = GlobalKey();
+    String symbol = state.board.length > _id ? state.board[_id] : '';
+    Widget? piece = symbol.isNotEmpty ? pieceSet.piece(context, symbol) : null;
+    num _orientation = state.orientation == WHITE ? 1 : -1;
+    if (piece != null && animateMove != null && animateMove!.to == _id) {
+      if (allowAnimation) {
+        piece = MoveAnimation(
+          child: piece,
+          x: -size.fileDiff(animateMove!).toDouble() * _orientation,
+          y: size.rankDiff(animateMove!).toDouble() * _orientation,
+          duration: animationDuration,
+        );
+      } else {
+        return Container(
+          width: squareSize,
+          height: squareSize,
+          color: Colors.transparent,
+        );
+      }
+    }
+    Color squareColour = ((rank + file) % 2 == state.orientation) ? theme.lightSquare : theme.darkSquare;
+    if (state.lastFrom == _id || state.lastTo == _id) squareColour = Color.alphaBlend(theme.previous, squareColour);
+    if (selection == _id) squareColour = Color.alphaBlend(canMove ? theme.selected : theme.premove, squareColour);
+    if (state.checkSquare == _id)
+      squareColour = Color.alphaBlend(gameOver ? theme.checkmate : theme.check, squareColour);
+    if (target == _id) squareColour = Color.alphaBlend(theme.premove, squareColour);
+    bool hasHighlight = highlights.contains(_id);
+    return DragTarget<PartialMove>(
+      builder: (context, accepted, rejected) {
+        return Square(
+          id: _id,
+          squareKey: squareKey,
+          colour: squareColour,
+          piece: piece,
+          symbol: symbol,
+          draggable: draggable,
+          onTap: onTap != null ? (key) => onTap!(_id, key) : null,
+          onDragCancel: () => _onDragCancel(_id),
+          highlight: hasHighlight ? (canMove ? theme.selected : theme.premove) : null,
+          highlightTheme: highlightTheme,
+        );
+      },
+      onWillAccept: (from) => _validateDrag(from, _id),
+      onAccept: (from) => _acceptDrag(from, _id, squareKey),
+    );
   }
 }

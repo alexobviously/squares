@@ -5,6 +5,7 @@
 - Fixed piece dragging
 - HighlightThemes - customise the decorations that highlighted squares have
 - Improved example
+- Board orientation now works as expected
 
 ### 0.2.3
 - Added some documentation

@@ -123,13 +123,11 @@ class _BoardControllerState extends State<BoardController> {
   }
 
   void onDrop(PartialMove partial, int to, GlobalKey squareKey) {
-    print('onDrop $partial $to');
     List<Move> targetMoves = widget.drops.where((m) => m.piece == partial.piece && m.to == to).toList();
     if (targetMoves.isEmpty) {
       deselectSquare();
     } else {
       if (widget.canMove) {
-        print('canMove');
         if (widget.onMove != null) widget.onMove!(targetMoves.first);
         deselectSquare();
       } else {
@@ -213,8 +211,6 @@ class _BoardControllerState extends State<BoardController> {
     List<String> pieces = ['Q', 'R', 'B', 'N'];
     List<Move> _moves = widget.moves.where((e) => e.from == square && (gate ? e.gate : e.promotion)).toList();
     pieces = _moves.map((e) => (gate ? e.piece : e.promo) ?? '').toList();
-    print('_moves ${widget.moves}');
-    print('promo pieces $pieces');
     RenderBox squareBox = key.currentContext!.findRenderObject() as RenderBox;
     RenderBox boardBox = boardKey.currentContext!.findRenderObject() as RenderBox;
     Offset promoOffset = boardBox.globalToLocal(squareBox.localToGlobal(Offset.zero));
@@ -249,7 +245,6 @@ class _BoardControllerState extends State<BoardController> {
   }
 
   void onNewBoardState() {
-    print('');
     if (premove != null && widget.onPremove != null) widget.onPremove!(premove!);
     if (target != null) {
       target = null;
@@ -265,11 +260,11 @@ class _BoardControllerState extends State<BoardController> {
     }
 
     bool _animate = true;
+    if (widget.state == lastState?.copyWith(orientation: widget.state.orientation)) {
+      _animate = false; // don't animate the previous move twice
+    }
     if (widget.state != lastState) {
       onNewBoardState();
-    } else {
-      // don't animate the previous move twice
-      _animate = false;
     }
     if (afterDrag) {
       _animate = false;
@@ -284,7 +279,6 @@ class _BoardControllerState extends State<BoardController> {
         if (piece != null) promos.add(piece);
       }
     }
-    print(selection);
     return Stack(
       children: [
         Board(
@@ -304,6 +298,7 @@ class _BoardControllerState extends State<BoardController> {
           acceptDrag: acceptDrag,
           highlights: dests.map((e) => e.to).toList(),
           animateMove: _animate ? widget.animateMove : null,
+          allowAnimation: _animate,
           animationDuration: widget.animationDuration,
         ),
         if (hasPromo)
