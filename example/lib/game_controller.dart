@@ -16,13 +16,17 @@ class GameController extends Cubit<GameState> {
   void emitState([bool thinking = false]) {
     if (game == null) emit(GameState.initial());
     BoardSize size = BoardSize(game!.size.h, game!.size.v);
+
+    Move convertBishopMove(bishop.Move move) {
+      String algebraic = game!.toAlgebraic(move);
+      return size.moveFromAlgebraic(algebraic);
+    }
+
     bool canMove = game!.turn == humanPlayer;
     List<bishop.Move> _moves = canMove ? game!.generateLegalMoves() : game!.generatePremoves();
     List<Move> moves = [];
     for (bishop.Move move in _moves) {
-      String algebraic = game!.toAlgebraic(move);
-      Move _move = size.moveFromAlgebraic(algebraic);
-      moves.add(_move);
+      moves.add(convertBishopMove(move));
     }
     bishop.GameInfo gameInfo = game!.info;
     BoardState board = BoardState(
@@ -41,6 +45,7 @@ class GameController extends Cubit<GameState> {
         board: board,
         moves: moves,
         hands: game!.handSymbols(),
+        history: game!.history.where((x) => x.move != null).map((m) => convertBishopMove(m.move!)).toList(),
       ),
     );
   }
@@ -109,6 +114,7 @@ class GameState extends Equatable {
   final List<Move> moves;
   final List<List<String>> hands;
   final bool thinking;
+  final List<Move> history;
 
   bool get canMove => state == PlayState.ourTurn;
 
@@ -119,6 +125,7 @@ class GameState extends Equatable {
     required this.moves,
     this.hands = const [[], []],
     this.thinking = false,
+    this.history = const [],
   });
   factory GameState.initial() =>
       GameState(state: PlayState.idle, size: BoardSize.standard(), board: BoardState.empty(), moves: []);
@@ -131,6 +138,7 @@ class GameState extends Equatable {
     List<List<String>>? hands,
     bool? thinking,
     int? orientation,
+    List<Move>? history,
   }) {
     return GameState(
       state: state ?? this.state,
@@ -139,6 +147,7 @@ class GameState extends Equatable {
       moves: moves ?? this.moves,
       hands: hands ?? this.hands,
       thinking: thinking ?? this.thinking,
+      history: history ?? this.history,
     );
   }
 

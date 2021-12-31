@@ -32,6 +32,9 @@ class BoardController extends StatefulWidget {
   late final Map<int, List<Move>> moveMap;
   late final List<Move> drops;
 
+  /// If set, the relevant piece will be animated.
+  final Move? animateMove;
+
   BoardController({
     required this.pieceSet,
     required this.state,
@@ -44,6 +47,7 @@ class BoardController extends StatefulWidget {
     this.moves = const [],
     required this.canMove,
     this.draggable = true,
+    this.animateMove,
   }) {
     moveMap = {};
     drops = [];
@@ -265,7 +269,7 @@ class _BoardControllerState extends State<BoardController> {
         if (piece != null) promos.add(piece);
       }
     }
-
+    print(selection);
     return Stack(
       children: [
         Board(
@@ -284,6 +288,7 @@ class _BoardControllerState extends State<BoardController> {
           validateDrag: validateDrag,
           acceptDrag: acceptDrag,
           highlights: dests.map((e) => e.to).toList(),
+          animateMove: widget.animateMove,
         ),
         if (hasPromo)
           Positioned(

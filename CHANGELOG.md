@@ -5,7 +5,7 @@
 - Fixed piece dragging
 - HighlightThemes - customise the decorations that highlighted squares have
 - **** seirawan drops
-- **** custom square decorations for highlights
+- **** move animations
 
 ### 0.2.3
 - Added some documentation

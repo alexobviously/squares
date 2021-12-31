@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:squares/squares.dart';
 import 'package:squares/src/highlight_theme.dart';
+import 'package:squares/src/move_animation.dart';
 
 /// The visual representation of the board. Can be used by itself to simply display
 /// a board, or in conjunction with [BoardController] or some other wrapper to
@@ -45,6 +46,9 @@ class Board extends StatelessWidget {
   /// that the selected piece can move to.
   final List<int> highlights;
 
+  /// If set, the relevant piece will be animated.
+  final Move? animateMove;
+
   Board({
     required this.boardKey,
     required this.pieceSet,
@@ -62,6 +66,7 @@ class Board extends StatelessWidget {
     this.validateDrag,
     this.acceptDrag,
     this.highlights = const [],
+    this.animateMove,
   }) : this.highlightTheme = highlightTheme ?? HighlightTheme.basic;
 
   void _onDragCancel(int square) {
@@ -94,6 +99,13 @@ class Board extends StatelessWidget {
                       GlobalKey squareKey = GlobalKey();
                       String symbol = state.board.length > id ? state.board[id] : '';
                       Widget? piece = symbol.isNotEmpty ? pieceSet.piece(context, symbol) : null;
+                      if (piece != null && animateMove != null && animateMove!.to == id) {
+                        piece = MoveAnimation(
+                          child: piece,
+                          x: -size.fileDiff(animateMove!).toDouble(),
+                          y: size.rankDiff(animateMove!).toDouble(),
+                        );
+                      }
                       Color squareColour = ((rank + file) % 2 == 0) ? theme.lightSquare : theme.darkSquare;
                       if (state.lastFrom == id || state.lastTo == id)
                         squareColour = Color.alphaBlend(theme.previous, squareColour);
