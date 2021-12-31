@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-typedef HighlightBuilder = Widget Function(BuildContext context, double size, Color colour);
+import 'package:squares/src/types.dart';
 
 class HighlightTheme {
   final HighlightBuilder empty;
