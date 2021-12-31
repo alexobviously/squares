@@ -37,4 +37,46 @@ class BoardSize {
 
   int squareRank(int square) => v - (square ~/ h);
   int squareFile(int square) => square % h;
+  int rankDiff(Move move) => squareRank(move.to) - squareRank(move.from);
+  int fileDiff(Move move) => squareFile(move.to) - squareFile(move.from);
+
+  Move moveFromAlgebraic(String alg) {
+    if (alg[1] == '@') {
+      // it's a drop
+      int from = HAND;
+      int to = squareNumber(alg.substring(2, 4));
+      return Move(from: from, to: to, piece: alg[0].toUpperCase());
+    }
+    int from = squareNumber(alg.substring(0, 2));
+    int to = squareNumber(alg.substring(2, 4));
+
+    String? piece;
+    int? gatingSquare;
+    List<String> _sections = alg.split('/');
+    if (_sections.length > 1) {
+      String _gate = _sections.last;
+      piece = _gate[0];
+      gatingSquare = _gate.length > 2 ? squareNumber(_gate.substring(1, 3)) : from;
+    }
+    String? promo = (alg.length > 4) ? alg[4] : null;
+    return Move(
+      from: from,
+      to: to,
+      promo: promo,
+      piece: piece,
+      gatingSquare: gatingSquare,
+    );
+  }
+
+  String moveToAlgebraic(Move move) {
+    if (move.drop) {
+      return '${move.piece!.toLowerCase()}@${squareName(move.to)}';
+    } else {
+      String from = squareName(move.from);
+      String to = squareName(move.to);
+      String alg = '$from$to';
+      if (move.promotion) alg = '$alg${move.promo}';
+      return alg;
+    }
+  }
 }

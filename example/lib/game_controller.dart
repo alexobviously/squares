@@ -21,7 +21,7 @@ class GameController extends Cubit<GameState> {
     List<Move> moves = [];
     for (bishop.Move move in _moves) {
       String algebraic = game!.toAlgebraic(move);
-      Move _move = moveFromAlgebraic(algebraic, size);
+      Move _move = size.moveFromAlgebraic(algebraic);
       moves.add(_move);
     }
     bishop.GameInfo gameInfo = game!.info;
@@ -53,7 +53,7 @@ class GameController extends Cubit<GameState> {
 
   void makeMove(Move move) {
     if (game == null) return;
-    String alg = moveToAlgebraic(move, state.size);
+    String alg = state.size.moveToAlgebraic(move);
     bishop.Move? m = game!.getMove(alg);
     if (m == null)
       print('move $alg not found');
@@ -153,43 +153,4 @@ enum PlayState {
   ourTurn,
   theirTurn,
   finished,
-}
-Move moveFromAlgebraic(String alg, BoardSize size) {
-  if (alg[1] == '@') {
-    // it's a drop
-    int from = HAND;
-    int to = size.squareNumber(alg.substring(2, 4));
-    return Move(from: from, to: to, piece: alg[0].toUpperCase());
-  }
-  int from = size.squareNumber(alg.substring(0, 2));
-  int to = size.squareNumber(alg.substring(2, 4));
-
-  String? piece;
-  int? gatingSquare;
-  List<String> _sections = alg.split('/');
-  if (_sections.length > 1) {
-    String _gate = _sections.last;
-    piece = _gate[0];
-    gatingSquare = _gate.length > 2 ? size.squareNumber(_gate.substring(1, 3)) : from;
-  }
-  String? promo = (alg.length > 4) ? alg[4] : null;
-  return Move(
-    from: from,
-    to: to,
-    promo: promo,
-    piece: piece,
-    gatingSquare: gatingSquare,
-  );
-}
-
-String moveToAlgebraic(Move move, BoardSize size) {
-  if (move.drop) {
-    return '${move.piece!.toLowerCase()}@${size.squareName(move.to)}';
-  } else {
-    String from = size.squareName(move.from);
-    String to = size.squareName(move.to);
-    String alg = '$from$to';
-    if (move.promotion) alg = '$alg${move.promo}';
-    return alg;
-  }
 }
