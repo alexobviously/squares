@@ -5,13 +5,16 @@ class MoveAnimation extends StatefulWidget {
   final double x;
   final double y;
   final Duration duration;
+  final Curve curve;
   const MoveAnimation({
     Key? key,
     required this.child,
     required this.x,
     required this.y,
     Duration? duration,
+    Curve? curve,
   })  : this.duration = duration ?? const Duration(milliseconds: 250),
+        this.curve = curve ?? Curves.easeInQuad,
         super(key: key);
 
   @override
@@ -28,7 +31,7 @@ class _MoveAnimationState extends State<MoveAnimation> with SingleTickerProvider
     end: Offset.zero,
   ).animate(CurvedAnimation(
     parent: _controller,
-    curve: Curves.easeIn,
+    curve: widget.curve,
   ));
 
   @override

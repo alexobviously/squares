@@ -52,6 +52,10 @@ class Board extends StatelessWidget {
   /// How long move animations take to play.
   final Duration? animationDuration;
 
+  /// Animation curve for piece movements.
+  /// Defaults to [Curves.easeInQuad].
+  final Curve? animationCurve;
+
   Board({
     required this.boardKey,
     required this.pieceSet,
@@ -71,6 +75,7 @@ class Board extends StatelessWidget {
     this.highlights = const [],
     this.allowAnimation = true,
     this.animationDuration,
+    this.animationCurve,
   }) : this.highlightTheme = highlightTheme ?? HighlightTheme.basic;
 
   void _onDragCancel(int square) {
@@ -162,6 +167,7 @@ class Board extends StatelessWidget {
           x: -size.fileDiff(state.lastFrom!, state.lastTo!).toDouble() * _orientation,
           y: size.rankDiff(state.lastFrom!, state.lastTo!).toDouble() * _orientation,
           duration: animationDuration,
+          curve: animationCurve,
         );
       } else {
         return Container(
@@ -171,7 +177,7 @@ class Board extends StatelessWidget {
         );
       }
     }
-    Color squareColour = ((rank + file) % 2 == state.orientation) ? theme.lightSquare : theme.darkSquare;
+    Color squareColour = ((rank + file) % 2 == 0) ? theme.lightSquare : theme.darkSquare;
     if (state.lastFrom == id || state.lastTo == id) squareColour = Color.alphaBlend(theme.previous, squareColour);
     if (selection == id) squareColour = Color.alphaBlend(canMove ? theme.selected : theme.premove, squareColour);
     if (state.checkSquare == id)

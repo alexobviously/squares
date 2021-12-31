@@ -38,6 +38,10 @@ class BoardController extends StatefulWidget {
   /// How long move animations take to play.
   final Duration? animationDuration;
 
+  /// Animation curve for piece movements.
+  /// Defaults to [Curves.easeInQuad].
+  final Curve? animationCurve;
+
   BoardController({
     required this.pieceSet,
     required this.state,
@@ -52,6 +56,7 @@ class BoardController extends StatefulWidget {
     this.draggable = true,
     this.allowAnimation = true,
     this.animationDuration,
+    this.animationCurve,
   }) {
     moveMap = {};
     drops = [];
@@ -298,6 +303,7 @@ class _BoardControllerState extends State<BoardController> {
           highlights: dests.map((e) => e.to).toList(),
           allowAnimation: _animate,
           animationDuration: widget.animationDuration,
+          animationCurve: widget.animationCurve,
         ),
         if (hasPromo)
           Positioned(
