@@ -47,6 +47,7 @@ class Board extends StatelessWidget {
   final List<int> highlights;
 
   /// If set, the relevant piece will be animated.
+  /// If you don't want moves to be animated at all, just don't pass an [animateMove].
   final Move? animateMove;
 
   Board({
