@@ -46,10 +46,7 @@ class Board extends StatelessWidget {
   /// that the selected piece can move to.
   final List<int> highlights;
 
-  /// If set, the relevant piece will be animated.
-  /// If you don't want moves to be animated at all, just don't pass an [animateMove].
-  final Move? animateMove;
-
+  /// If true and there is a last move, it will be animated.
   final bool allowAnimation;
 
   /// How long move animations take to play.
@@ -72,7 +69,6 @@ class Board extends StatelessWidget {
     this.validateDrag,
     this.acceptDrag,
     this.highlights = const [],
-    this.animateMove,
     this.allowAnimation = true,
     this.animationDuration,
   }) : this.highlightTheme = highlightTheme ?? HighlightTheme.basic;
@@ -115,7 +111,7 @@ class Board extends StatelessWidget {
                 ),
               ),
             ),
-            if (state.lastTo != null)
+            if (state.lastFrom != null && state.lastFrom != HAND && state.lastTo != null && allowAnimation)
               Builder(
                 builder: (context) {
                   int r = size.v - size.squareRank(state.lastTo!);
@@ -129,7 +125,7 @@ class Board extends StatelessWidget {
                         r,
                         f,
                         squareSize,
-                        allowAnimation: allowAnimation,
+                        animation: allowAnimation,
                         orient: false,
                       ),
                     ),
@@ -147,19 +143,24 @@ class Board extends StatelessWidget {
   }
 
   Widget _square(BuildContext context, int rank, int file, double squareSize,
-      {bool allowAnimation = false, bool orient = true}) {
-    int _id = (!orient || state.orientation == WHITE ? rank : size.v - rank - 1) * size.h +
+      {bool animation = false, bool orient = true}) {
+    int id = (!orient || state.orientation == WHITE ? rank : size.v - rank - 1) * size.h +
         (!orient || state.orientation == WHITE ? file : size.h - file - 1);
     GlobalKey squareKey = GlobalKey();
-    String symbol = state.board.length > _id ? state.board[_id] : '';
+    String symbol = state.board.length > id ? state.board[id] : '';
     Widget? piece = symbol.isNotEmpty ? pieceSet.piece(context, symbol) : null;
     num _orientation = state.orientation == WHITE ? 1 : -1;
-    if (piece != null && animateMove != null && animateMove!.to == _id) {
-      if (allowAnimation) {
+    if (piece != null &&
+        state.lastFrom != null &&
+        state.lastFrom != HAND &&
+        state.lastTo != null &&
+        state.lastTo == id &&
+        allowAnimation) {
+      if (animation) {
         piece = MoveAnimation(
           child: piece,
-          x: -size.fileDiff(animateMove!).toDouble() * _orientation,
-          y: size.rankDiff(animateMove!).toDouble() * _orientation,
+          x: -size.fileDiff(state.lastFrom!, state.lastTo!).toDouble() * _orientation,
+          y: size.rankDiff(state.lastFrom!, state.lastTo!).toDouble() * _orientation,
           duration: animationDuration,
         );
       } else {
@@ -171,29 +172,29 @@ class Board extends StatelessWidget {
       }
     }
     Color squareColour = ((rank + file) % 2 == state.orientation) ? theme.lightSquare : theme.darkSquare;
-    if (state.lastFrom == _id || state.lastTo == _id) squareColour = Color.alphaBlend(theme.previous, squareColour);
-    if (selection == _id) squareColour = Color.alphaBlend(canMove ? theme.selected : theme.premove, squareColour);
-    if (state.checkSquare == _id)
+    if (state.lastFrom == id || state.lastTo == id) squareColour = Color.alphaBlend(theme.previous, squareColour);
+    if (selection == id) squareColour = Color.alphaBlend(canMove ? theme.selected : theme.premove, squareColour);
+    if (state.checkSquare == id)
       squareColour = Color.alphaBlend(gameOver ? theme.checkmate : theme.check, squareColour);
-    if (target == _id) squareColour = Color.alphaBlend(theme.premove, squareColour);
-    bool hasHighlight = highlights.contains(_id);
+    if (target == id) squareColour = Color.alphaBlend(theme.premove, squareColour);
+    bool hasHighlight = highlights.contains(id);
     return DragTarget<PartialMove>(
       builder: (context, accepted, rejected) {
         return Square(
-          id: _id,
+          id: id,
           squareKey: squareKey,
           colour: squareColour,
           piece: piece,
           symbol: symbol,
           draggable: draggable,
-          onTap: onTap != null ? (key) => onTap!(_id, key) : null,
-          onDragCancel: () => _onDragCancel(_id),
+          onTap: onTap != null ? (key) => onTap!(id, key) : null,
+          onDragCancel: () => _onDragCancel(id),
           highlight: hasHighlight ? (canMove ? theme.selected : theme.premove) : null,
           highlightTheme: highlightTheme,
         );
       },
-      onWillAccept: (from) => _validateDrag(from, _id),
-      onAccept: (from) => _acceptDrag(from, _id, squareKey),
+      onWillAccept: (from) => _validateDrag(from, id),
+      onAccept: (from) => _acceptDrag(from, id, squareKey),
     );
   }
 }

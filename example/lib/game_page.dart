@@ -60,7 +60,6 @@ class _GamePageState extends State<GamePage> {
                   moves: state.moves,
                   canMove: state.canMove,
                   draggable: true,
-                  animateMove: state.history.isNotEmpty ? state.history.last : null,
                 ),
               ),
               if (_hands) _hand(_orientation),

@@ -37,8 +37,8 @@ class BoardSize {
 
   int squareRank(int square) => v - (square ~/ h);
   int squareFile(int square) => square % h;
-  int rankDiff(Move move) => squareRank(move.to) - squareRank(move.from);
-  int fileDiff(Move move) => squareFile(move.to) - squareFile(move.from);
+  int rankDiff(int from, int to) => squareRank(to) - squareRank(from);
+  int fileDiff(int from, int to) => squareFile(to) - squareFile(from);
 
   Move moveFromAlgebraic(String alg) {
     if (alg[1] == '@') {

@@ -32,9 +32,8 @@ class BoardController extends StatefulWidget {
   late final Map<int, List<Move>> moveMap;
   late final List<Move> drops;
 
-  /// If set, the relevant piece will be animated.
-  /// If you don't want moves to be animated at all, just don't pass an [animateMove].
-  final Move? animateMove;
+  /// If true and there is a last move, it will be animated.
+  final bool allowAnimation;
 
   /// How long move animations take to play.
   final Duration? animationDuration;
@@ -51,7 +50,7 @@ class BoardController extends StatefulWidget {
     this.moves = const [],
     required this.canMove,
     this.draggable = true,
-    this.animateMove,
+    this.allowAnimation = true,
     this.animationDuration,
   }) {
     moveMap = {};
@@ -260,7 +259,7 @@ class _BoardControllerState extends State<BoardController> {
     }
 
     bool _animate = true;
-    if (widget.state == lastState?.copyWith(orientation: widget.state.orientation)) {
+    if (!widget.allowAnimation || widget.state == lastState?.copyWith(orientation: widget.state.orientation)) {
       _animate = false; // don't animate the previous move twice
     }
     if (widget.state != lastState) {
@@ -297,7 +296,6 @@ class _BoardControllerState extends State<BoardController> {
           validateDrag: validateDrag,
           acceptDrag: acceptDrag,
           highlights: dests.map((e) => e.to).toList(),
-          animateMove: _animate ? widget.animateMove : null,
           allowAnimation: _animate,
           animationDuration: widget.animationDuration,
         ),
