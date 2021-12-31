@@ -76,6 +76,7 @@ class _BoardControllerState extends State<BoardController> {
   bool get hasPromo => promoState != null;
   BoardState? lastState;
   Move? premove;
+  bool afterDrag = false; // track drags so they're not animated
 
   void onTap(int square, GlobalKey squareKey) {
     if (square == selection) {
@@ -173,6 +174,7 @@ class _BoardControllerState extends State<BoardController> {
       onDrop(partial, to, squareKey);
     } else {
       selection = partial.from;
+      afterDrag = true;
       onTap(to, squareKey);
     }
   }
@@ -263,6 +265,10 @@ class _BoardControllerState extends State<BoardController> {
     } else {
       // don't animate the previous move twice
       _animate = false;
+    }
+    if (afterDrag) {
+      _animate = false;
+      afterDrag = false;
     }
     lastState = widget.state;
 
