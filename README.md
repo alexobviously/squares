@@ -13,6 +13,14 @@ Squares has a stateless `Board` widget that can used to display a complete board
 <br>
 <img src="https://raw.githubusercontent.com/alexobviously/squares/main/screenshots/themes.gif" width="300"/>
 
+* Highlight themes
+<br>
+<img src="https://raw.githubusercontent.com/alexobviously/squares/main/screenshots/highlight_themes.gif" width="300"/>
+
+* Piece animations
+<br>
+<img src="https://raw.githubusercontent.com/alexobviously/squares/main/screenshots/animations.gif" width="300"/>
+
 * Premoves
 <br>
 <img src="https://raw.githubusercontent.com/alexobviously/squares/main/screenshots/premoves.gif" width="300"/>
