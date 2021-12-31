@@ -36,6 +36,9 @@ class BoardController extends StatefulWidget {
   /// If you don't want moves to be animated at all, just don't pass an [animateMove].
   final Move? animateMove;
 
+  /// How long move animations take to play.
+  final Duration? animationDuration;
+
   BoardController({
     required this.pieceSet,
     required this.state,
@@ -49,6 +52,7 @@ class BoardController extends StatefulWidget {
     required this.canMove,
     this.draggable = true,
     this.animateMove,
+    this.animationDuration,
   }) {
     moveMap = {};
     drops = [];
@@ -300,6 +304,7 @@ class _BoardControllerState extends State<BoardController> {
           acceptDrag: acceptDrag,
           highlights: dests.map((e) => e.to).toList(),
           animateMove: _animate ? widget.animateMove : null,
+          animationDuration: widget.animationDuration,
         ),
         if (hasPromo)
           Positioned(

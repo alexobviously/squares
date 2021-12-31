@@ -50,6 +50,9 @@ class Board extends StatelessWidget {
   /// If you don't want moves to be animated at all, just don't pass an [animateMove].
   final Move? animateMove;
 
+  /// How long move animations take to play.
+  final Duration? animationDuration;
+
   Board({
     required this.boardKey,
     required this.pieceSet,
@@ -68,6 +71,7 @@ class Board extends StatelessWidget {
     this.acceptDrag,
     this.highlights = const [],
     this.animateMove,
+    this.animationDuration,
   }) : this.highlightTheme = highlightTheme ?? HighlightTheme.basic;
 
   void _onDragCancel(int square) {
@@ -105,6 +109,7 @@ class Board extends StatelessWidget {
                           child: piece,
                           x: -size.fileDiff(animateMove!).toDouble(),
                           y: size.rankDiff(animateMove!).toDouble(),
+                          duration: animationDuration,
                         );
                       }
                       Color squareColour = ((rank + file) % 2 == 0) ? theme.lightSquare : theme.darkSquare;
