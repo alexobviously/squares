@@ -257,8 +257,12 @@ class _BoardControllerState extends State<BoardController> {
       closePromoSelector();
     }
 
+    bool _animate = true;
     if (widget.state != lastState) {
       onNewBoardState();
+    } else {
+      // don't animate the previous move twice
+      _animate = false;
     }
     lastState = widget.state;
 
@@ -288,7 +292,7 @@ class _BoardControllerState extends State<BoardController> {
           validateDrag: validateDrag,
           acceptDrag: acceptDrag,
           highlights: dests.map((e) => e.to).toList(),
-          animateMove: widget.animateMove,
+          animateMove: _animate ? widget.animateMove : null,
         ),
         if (hasPromo)
           Positioned(

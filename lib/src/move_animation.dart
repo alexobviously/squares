@@ -10,7 +10,7 @@ class MoveAnimation extends StatefulWidget {
     required this.child,
     required this.x,
     required this.y,
-    this.duration = const Duration(milliseconds: 500),
+    this.duration = const Duration(milliseconds: 250),
   }) : super(key: key);
 
   @override
