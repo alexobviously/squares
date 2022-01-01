@@ -1,3 +1,5 @@
+### 0.3.2
+
 ### 0.3.1
 - Fixed pieces with no moves not being selectable
 - Added ability to choose player colour in example project
