@@ -69,6 +69,15 @@ class BoardController extends StatefulWidget {
         moveMap[m.from] = [m];
       else
         moveMap[m.from]!.add(m);
+      // Make pieces with no moves selectable
+      bool whitePlayer = state.player == WHITE;
+      for (int i = 0; i < state.board.length; i++) {
+        String p = state.board[i];
+        bool whitePiece = p == p.toUpperCase();
+        if (p.isNotEmpty && whitePlayer == whitePiece) {
+          if (!moveMap.containsKey(i)) moveMap[i] = [];
+        }
+      }
     }
   }
 

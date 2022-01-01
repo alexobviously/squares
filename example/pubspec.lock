@@ -14,7 +14,7 @@ packages:
       name: badges
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   bishop:
     dependency: "direct main"
     description:
@@ -164,7 +164,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.3.0"
+    version: "0.3.1"
   stack_trace:
     dependency: transitive
     description:

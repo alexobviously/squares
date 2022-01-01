@@ -1,3 +1,7 @@
+### 0.3.1
+- *** Improve highlighting logic
+- *** Seirawan drops
+
 ### 0.3.0
 - Now works with flutter web!
 - Removed flutter_svg and replaced merida set with png images
