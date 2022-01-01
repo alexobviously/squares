@@ -36,7 +36,7 @@ class GameManager extends Cubit<GameManagerState> {
 
   void createGame(GameConfig config) {
     GameController gc = GameController();
-    gc.startGame(config.variant);
+    gc.startGame(config.variant, humanPlayer: config.humanPlayer);
     List<GameController> _games = List.from(state.games);
     _games.add(gc);
     emit(state.copyWith(games: _games));

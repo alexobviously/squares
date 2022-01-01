@@ -35,6 +35,7 @@ class GameController extends Cubit<GameState> {
       lastTo: gameInfo.lastTo != null ? size.squareNumber(gameInfo.lastTo!) : null,
       checkSquare: gameInfo.checkSq != null ? size.squareNumber(gameInfo.checkSq!) : null,
       orientation: this.state.board.orientation,
+      player: humanPlayer,
     );
     PlayState _state = game!.gameOver ? PlayState.finished : (canMove ? PlayState.ourTurn : PlayState.theirTurn);
     emit(
@@ -50,10 +51,15 @@ class GameController extends Cubit<GameState> {
     );
   }
 
-  void startGame(bishop.Variant variant, {String? fen}) {
+  void startGame(bishop.Variant variant, {String? fen, int? humanPlayer}) {
     game = bishop.Game(variant: variant, fen: fen);
     engine = bishop.Engine(game: game!);
+    if (humanPlayer != null) this.humanPlayer = humanPlayer;
     emitState();
+    if (humanPlayer == BLACK) {
+      flipBoard();
+      engineMove();
+    }
   }
 
   void makeMove(Move move) {

@@ -1,5 +1,6 @@
 ### 0.3.1
 - Fixed pieces with no moves not being selectable
+- Added ability to choose player colour in example project
 - *** Seirawan drops
 
 ### 0.3.0

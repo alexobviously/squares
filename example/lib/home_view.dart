@@ -66,6 +66,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                           return Card(
                             child: GameCreator(
                               key: ValueKey('creator'),
+                              pieceSet: state.pieceSet,
                               onCreate: _onCreateGame,
                             ),
                           );
