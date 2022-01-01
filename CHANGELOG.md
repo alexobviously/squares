@@ -1,5 +1,5 @@
 ### 0.3.1
-- *** Improve highlighting logic
+- Fixed pieces with no moves not being selectable
 - *** Seirawan drops
 
 ### 0.3.0
