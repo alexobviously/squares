@@ -86,7 +86,7 @@ class Square extends StatelessWidget {
               children: [
                 if (hasHighlight && !hasPiece) highlightTheme.empty(context, _size, highlight!),
                 if (hasHighlight && hasPiece) highlightTheme.piece(context, _size, highlight!),
-                if (hasPiece) _piece!,
+                if (hasPiece) Container(width: _size, height: _size, child: FittedBox(child: _piece!)),
               ],
             ),
           ),
