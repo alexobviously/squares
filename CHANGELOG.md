@@ -1,6 +1,7 @@
 ### 0.3.2
 - Fixed some piece widgets not filling their entire square
 - PieceSet.text and PieceSet.letters now take `style` as an optional parameter
+- Added an SVG piece set to the example
 
 ### 0.3.1
 - Fixed pieces with no moves not being selectable

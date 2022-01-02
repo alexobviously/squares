@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// See the example project for a demonstration of how to create a PieceSet with flutter_svg.
+
 /// Used to define the widgets that will be built to represent pieces.
 /// Simply provide a map [pieces] of String keys and `WidgetBuilder` values.
 /// The keys should be uppercase for white pieces, and lowercase for black,
@@ -40,19 +42,6 @@ class PieceSet {
     }
     return PieceSet(pieces: pieces);
   }
-
-  // Not used any more as part of the package, because flutter_svg doesn't
-  // support web. However, I'm keeping it here in case it's useful to someone.
-  // factory PieceSet.fromSvgAssets({required String folder, String? package, required List<String> symbols}) {
-  //   Map<String, WidgetBuilder> pieces = {};
-  //   for (String symbol in symbols) {
-  //     pieces[symbol.toUpperCase()] =
-  //         (BuildContext context) => SvgPicture.asset('${folder}w$symbol.svg', package: package);
-  //     pieces[symbol.toLowerCase()] =
-  //         (BuildContext context) => SvgPicture.asset('${folder}b$symbol.svg', package: package);
-  //   }
-  //   return PieceSet(pieces: pieces);
-  // }
 
   /// Specifies a set of `WidgetBuilders` that render `Text` widgets, using
   /// map of piece keys mapped to strings.
