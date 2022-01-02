@@ -37,6 +37,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                   child: Text('Emojis'),
                   value: 2,
                 ),
+                DropdownMenuItem(
+                  child: Text('Kaneo (SVG)'),
+                  value: 3,
+                ),
               ],
               onChanged: (x) => cubit.changePieceSet(x),
             ),

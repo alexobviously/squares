@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:example/game_config.dart';
 import 'package:example/game_controller.dart';
+import 'package:example/svg_piece_set.dart';
 import 'package:flutter/material.dart';
 import 'package:squares/squares.dart';
 
@@ -22,6 +23,7 @@ class GameManager extends Cubit<GameManagerState> {
     PieceSet.merida(),
     PieceSet.letters(style: TextStyle(fontWeight: FontWeight.bold, fontStyle: FontStyle.italic)),
     emojiPieceSet,
+    svgPieceSet(folder: 'assets/kaneo/', symbols: PieceSet.EXTENDED_SYMBOLS),
   ];
   int themeIndex = 0;
   List<BoardTheme> themes = [

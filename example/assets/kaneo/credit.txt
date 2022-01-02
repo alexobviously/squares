@@ -1,0 +1,2 @@
+Kaneo piece set taken from pychess.org
+https://github.com/gbtami/pychess-variants/tree/master/static/images/pieces/kaneo
