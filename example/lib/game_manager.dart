@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:example/game_config.dart';
 import 'package:example/game_controller.dart';
+import 'package:flutter/material.dart';
 import 'package:squares/squares.dart';
 
 class GameManager extends Cubit<GameManagerState> {
@@ -19,7 +20,7 @@ class GameManager extends Cubit<GameManagerState> {
   int pieceSetIndex = 0;
   List<PieceSet> pieceSets = [
     PieceSet.merida(),
-    PieceSet.letters(),
+    PieceSet.letters(style: TextStyle(fontWeight: FontWeight.bold, fontStyle: FontStyle.italic)),
     emojiPieceSet,
   ];
   int themeIndex = 0;

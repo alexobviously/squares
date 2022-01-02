@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:bishop/bishop.dart' as bishop;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:squares/squares.dart';
 
 void main() {
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blueGrey,
           accentColor: Colors.cyan,
+          fontFamily: GoogleFonts.cairo().fontFamily,
         ),
         home: HomeView(),
       ),
