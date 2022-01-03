@@ -20,17 +20,17 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "13095f249d154122dd783463986f3293591a3bb8"
+      resolved-ref: "4cfbc90894debf8c9a93f0ea59877ca1db8026c4"
       url: "git@github.com:alexobviously/bishop.git"
     source: git
-    version: "0.3.0"
+    version: "0.3.1"
   bloc:
     dependency: "direct main"
     description:
       name: bloc
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.1.0"
+    version: "7.2.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -112,7 +112,7 @@ packages:
       name: flutter_bloc
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.2.0"
+    version: "7.3.3"
   flutter_spinkit:
     dependency: "direct main"
     description:
@@ -166,7 +166,7 @@ packages:
       name: material_design_icons_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.5955-rc.1"
+    version: "5.0.6595"
   meta:
     dependency: transitive
     description:
@@ -285,7 +285,7 @@ packages:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.0"
+    version: "6.0.2"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -304,7 +304,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.3.2"
+    version: "0.3.3"
   stack_trace:
     dependency: transitive
     description:

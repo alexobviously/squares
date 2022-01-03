@@ -1,3 +1,6 @@
+### 0.3.3
+- Added a start from position option to the example
+
 ### 0.3.2
 - Fixed some piece widgets not filling their entire square
 - PieceSet.text and PieceSet.letters now take `style` as an optional parameter

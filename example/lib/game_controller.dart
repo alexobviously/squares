@@ -58,6 +58,8 @@ class GameController extends Cubit<GameState> {
     emitState();
     if (humanPlayer == BLACK) {
       flipBoard();
+    }
+    if (game!.turn != humanPlayer) {
       engineMove();
     }
   }
