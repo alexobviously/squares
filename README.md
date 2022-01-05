@@ -27,7 +27,7 @@ Squares has a stateless `Board` widget that can used to display a complete board
 
 * Supports arbitrary board sizes and pieces
 <br>
-<img src="https://raw.githubusercontent.com/alexobviously/squares/main/screenshots/micro.gif" width="300"/>
+<img src="https://raw.githubusercontent.com/alexobviously/squares/main/screenshots/nano.gif" width="300"/>
 <img src="https://raw.githubusercontent.com/alexobviously/squares/main/screenshots/capablanca.gif" width="300"/>
 <img src="https://raw.githubusercontent.com/alexobviously/squares/main/screenshots/grand.gif" width="300"/>
 
