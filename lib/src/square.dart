@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:squares/squares.dart';
-import 'package:squares/src/highlight_theme.dart';
 
 /// A single square on a chess board or piece selector.
 /// Optionally contains a [piece].

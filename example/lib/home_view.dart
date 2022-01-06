@@ -7,7 +7,6 @@ import 'package:example/game_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:squares/squares.dart';
 
 class HomeView extends StatefulWidget {
   HomeView({Key? key}) : super(key: key);

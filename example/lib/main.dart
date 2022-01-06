@@ -1,12 +1,8 @@
-import 'package:example/game_controller.dart';
 import 'package:example/game_manager.dart';
 import 'package:example/home_view.dart';
 import 'package:flutter/material.dart';
-
-import 'package:bishop/bishop.dart' as bishop;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:squares/squares.dart';
 
 void main() {
   runApp(MyApp());

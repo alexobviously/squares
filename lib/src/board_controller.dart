@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:squares/squares.dart';
-import 'package:squares/src/highlight_theme.dart';
 
 /// A wrapper that handles interactions and certain elements of board state
 /// (such as premoves) for a [Board].
