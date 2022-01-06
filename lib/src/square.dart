@@ -9,6 +9,10 @@ class Square extends StatelessWidget {
   final Widget? piece;
   final String? symbol;
   final bool draggable;
+
+  /// The size of pieces being dragged will be multiplied by this.
+  /// 1.5 is a good value for mobile, but 1.0 is preferable for web.
+  final double dragFeedbackSize;
   final void Function(GlobalKey)? onTap;
   final void Function()? onDragCancel;
   final Color? highlight;
@@ -22,6 +26,7 @@ class Square extends StatelessWidget {
     this.piece,
     this.symbol,
     this.draggable = true,
+    this.dragFeedbackSize = 1.5,
     this.onTap,
     this.onDragCancel,
     this.highlight,
@@ -49,6 +54,7 @@ class Square extends StatelessWidget {
 
         Widget? _piece = piece;
         if (piece != null && symbol != null && draggable) {
+          double _fbSize = _size * dragFeedbackSize;
           _piece = Draggable<PartialMove>(
             data: PartialMove(
               from: id,
@@ -57,17 +63,16 @@ class Square extends StatelessWidget {
             child: piece!,
             dragAnchorStrategy: pointerDragAnchorStrategy,
             feedback: Transform.translate(
-              offset: Offset(-_size / 2, -_size / 2),
+              offset: Offset(-_fbSize / 2, -_fbSize / 2),
               child: Container(
-                width: _size,
-                height: _size,
+                width: _fbSize,
+                height: _fbSize,
                 child: piece,
               ),
             ),
-            // feedback: Transform.translate(offset: Offset(-25, -25), child: _piece),
             childWhenDragging: Opacity(
               opacity: 0.5,
-              child: piece,
+              child: piece!,
             ),
             onDragStarted: () => _onTap(),
             onDraggableCanceled: (_, __) => _onDragCancel(),

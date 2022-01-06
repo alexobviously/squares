@@ -26,8 +26,12 @@ class Board extends StatelessWidget {
   /// If false, premoves will be allowed.
   final bool canMove;
 
-  // Whether pieces should be draggable or not.
+  /// Whether pieces should be draggable or not.
   final bool draggable;
+
+  /// The size of pieces being dragged will be multiplied by this.
+  /// 1.5 is a good value for mobile, but 1.0 is preferable for web.
+  final double dragFeedbackSize;
 
   /// Called when a square is tapped.
   final Function(int, GlobalKey)? onTap;
@@ -68,6 +72,7 @@ class Board extends StatelessWidget {
     this.gameOver = false,
     this.canMove = false,
     this.draggable = true,
+    this.dragFeedbackSize = 1.5,
     this.onTap,
     this.onDragCancel,
     this.validateDrag,
@@ -193,6 +198,7 @@ class Board extends StatelessWidget {
           piece: piece,
           symbol: symbol,
           draggable: draggable,
+          dragFeedbackSize: dragFeedbackSize,
           onTap: onTap != null ? (key) => onTap!(id, key) : null,
           onDragCancel: () => _onDragCancel(id),
           highlight: hasHighlight ? (canMove ? theme.selected : theme.premove) : null,

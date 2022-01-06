@@ -29,6 +29,10 @@ class BoardController extends StatefulWidget {
   // Whether pieces should be draggable or not.
   final bool draggable;
 
+  /// The size of pieces being dragged will be multiplied by this.
+  /// /// 1.5 is a good value for mobile, but 1.0 is preferable for web.
+  final double dragFeedbackSize;
+
   late final Map<int, List<Move>> moveMap;
   late final List<Move> drops;
 
@@ -54,6 +58,7 @@ class BoardController extends StatefulWidget {
     this.moves = const [],
     required this.canMove,
     this.draggable = true,
+    this.dragFeedbackSize = 1.5,
     this.allowAnimation = true,
     this.animationDuration,
     this.animationCurve,
@@ -305,6 +310,7 @@ class _BoardControllerState extends State<BoardController> {
           target: target,
           canMove: widget.canMove,
           draggable: widget.draggable,
+          dragFeedbackSize: widget.dragFeedbackSize,
           onTap: onTap,
           onDragCancel: onDragCancel,
           validateDrag: validateDrag,
