@@ -1,5 +1,6 @@
 ### 0.3.3
 - Added `dragFeedbackSize` - customise the size of dragged pieces
+- Prevented pieces from being simultaneously draggable multiple times on multitouch devices
 - Added a start from position option to the example
 
 ### 0.3.2

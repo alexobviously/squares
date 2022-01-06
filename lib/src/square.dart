@@ -107,6 +107,7 @@ class Square extends StatelessWidget {
             onDragStarted: () => _onTap(),
             onDraggableCanceled: (_, __) => _onDragCancel(),
             onDragEnd: (_) => _onTap(),
+            maxSimultaneousDrags: 1,
           );
         }
 
