@@ -62,7 +62,7 @@ class _GamePageState extends State<GamePage> {
                   canMove: state.canMove,
                   draggable: true,
                   dragFeedbackSize: kIsWeb ? 1.5 : 2.0,
-                  dragOffset: kIsWeb ? Offset(0.0, 0.0) : Offset(0.0, -1.0),
+                  dragFeedbackOffset: kIsWeb ? Offset(0.0, 0.0) : Offset(0.0, -1.0),
                 ),
               ),
               if (_hands) _hand(_orientation),

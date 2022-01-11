@@ -1,5 +1,5 @@
 ### 0.3.4
-- Added `dragOffset` parameter.
+- Added `dragFeedbackOffset` parameter.
 
 ### 0.3.3
 - Added `dragFeedbackSize` - customise the size of dragged pieces

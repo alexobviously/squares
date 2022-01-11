@@ -35,7 +35,7 @@ class Board extends StatelessWidget {
   /// A vector to offset the position of dragged pieces by, relative to the size of the piece.
   /// No offset is recommended for web, and Offset(0,-1) for mobile, in which case
   /// the bottom of the piece will be anchored to the finger.
-  final Offset dragOffset;
+  final Offset dragFeedbackOffset;
 
   /// Called when a square is tapped.
   final Function(int, GlobalKey)? onTap;
@@ -77,7 +77,7 @@ class Board extends StatelessWidget {
     this.canMove = false,
     this.draggable = true,
     this.dragFeedbackSize = 2.0,
-    this.dragOffset = const Offset(0.0, -1.0),
+    this.dragFeedbackOffset = const Offset(0.0, -1.0),
     this.onTap,
     this.onDragCancel,
     this.validateDrag,
@@ -204,7 +204,7 @@ class Board extends StatelessWidget {
           symbol: symbol,
           draggable: draggable,
           dragFeedbackSize: dragFeedbackSize,
-          dragOffset: dragOffset,
+          dragFeedbackOffset: dragFeedbackOffset,
           onTap: onTap != null ? (key) => onTap!(id, key) : null,
           onDragCancel: () => _onDragCancel(id),
           highlight: hasHighlight ? (canMove ? theme.selected : theme.premove) : null,
