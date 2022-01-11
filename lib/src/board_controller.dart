@@ -32,6 +32,11 @@ class BoardController extends StatefulWidget {
   /// /// 1.5 is a good value for mobile, but 1.0 is preferable for web.
   final double dragFeedbackSize;
 
+  /// A vector to offset the position of dragged pieces by, relative to the size of the piece.
+  /// No offset is recommended for web, and Offset(0,-1) for mobile, in which case
+  /// the bottom of the piece will be anchored to the finger.
+  final Offset dragOffset;
+
   late final Map<int, List<Move>> moveMap;
   late final List<Move> drops;
 
@@ -57,7 +62,8 @@ class BoardController extends StatefulWidget {
     this.moves = const [],
     required this.canMove,
     this.draggable = true,
-    this.dragFeedbackSize = 1.5,
+    this.dragFeedbackSize = 2.0,
+    this.dragOffset = const Offset(0.0, -1.0),
     this.allowAnimation = true,
     this.animationDuration,
     this.animationCurve,
@@ -310,6 +316,7 @@ class _BoardControllerState extends State<BoardController> {
           canMove: widget.canMove,
           draggable: widget.draggable,
           dragFeedbackSize: widget.dragFeedbackSize,
+          dragOffset: widget.dragOffset,
           onTap: onTap,
           onDragCancel: onDragCancel,
           validateDrag: validateDrag,

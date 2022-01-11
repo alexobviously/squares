@@ -1,3 +1,6 @@
+### 0.3.4
+- Added `dragOffset` parameter.
+
 ### 0.3.3
 - Added `dragFeedbackSize` - customise the size of dragged pieces
 - Prevented pieces from being simultaneously draggable multiple times on multitouch devices

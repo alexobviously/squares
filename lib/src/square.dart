@@ -28,6 +28,11 @@ class Square extends StatelessWidget {
   /// 1.5 is a good value for mobile, but 1.0 is preferable for web.
   final double dragFeedbackSize;
 
+  /// A vector to offset the position of dragged pieces by, relative to the size of the piece.
+  /// No offset is recommended for web, and Offset(0,-1) for mobile, in which case
+  /// the bottom of the piece will be anchored to the finger.
+  final Offset dragOffset;
+
   /// A callback for when the square is tapped, or a drag is started or finished.
   final void Function(GlobalKey)? onTap;
 
@@ -56,7 +61,8 @@ class Square extends StatelessWidget {
     this.piece,
     this.symbol,
     this.draggable = true,
-    this.dragFeedbackSize = 1.5,
+    this.dragFeedbackSize = 2.0,
+    this.dragOffset = const Offset(0.0, -1.0),
     this.onTap,
     this.onDragCancel,
     this.highlight,
@@ -93,7 +99,10 @@ class Square extends StatelessWidget {
             child: piece!,
             dragAnchorStrategy: pointerDragAnchorStrategy,
             feedback: Transform.translate(
-              offset: Offset(-_fbSize / 2, -_fbSize / 2),
+              offset: Offset(
+                ((dragOffset.dx - 1) * _fbSize) / 2,
+                ((dragOffset.dy - 1) * _fbSize) / 2,
+              ),
               child: Container(
                 width: _fbSize,
                 height: _fbSize,
