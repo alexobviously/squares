@@ -1,4 +1,5 @@
 import 'package:example/game_controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -60,6 +61,8 @@ class _GamePageState extends State<GamePage> {
                   moves: state.moves,
                   canMove: state.canMove,
                   draggable: true,
+                  dragFeedbackSize: kIsWeb ? 1.5 : 2.0,
+                  dragOffset: kIsWeb ? Offset(0.0, 0.0) : Offset(0.0, -1.0),
                 ),
               ),
               if (_hands) _hand(_orientation),
