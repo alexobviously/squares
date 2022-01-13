@@ -4,10 +4,19 @@ import 'package:squares/squares.dart';
 /// A wrapper that handles interactions and certain elements of board state
 /// (such as premoves) for a [Board].
 class BoardController extends StatefulWidget {
+  /// The set of widgets to use for pieces on the board.
   final PieceSet pieceSet;
+
+  /// The state of the board - which piece are on which square, etc.
   final BoardState state;
+
+  /// Colour scheme for the board.
   final BoardTheme theme;
+
+  /// Dimensions of the board.
   final BoardSize size;
+
+  /// Widget builders for the various types of square highlights used.
   final HighlightTheme? highlightTheme;
 
   /// Called when a move is successfully made.

@@ -2,17 +2,36 @@ import 'dart:math';
 
 import 'package:squares/squares.dart';
 
+/// Specifies the dimensions of a board.
 class BoardSize {
+  /// The horizontal size, i.e. number of files on the board.
   final int h;
+
+  /// The vertical size, i.e. number of ranks on the board.
   final int v;
+
+  /// The total number of squares on a board of this size.
   int get numSquares => h * v;
+
+  /// Returns the shortest dimension.
   int get minDim => min(h, v);
+
+  /// Returns the longest dimension.
   int get maxDim => max(h, v);
+
+  /// Index of the last rank.
   int get maxRank => v - 1;
+
+  /// Index of the last file.
   int get maxFile => h - 1;
+
   const BoardSize(this.h, this.v);
+
+  /// A standard 8x8 board.
   factory BoardSize.standard() => BoardSize(8, 8);
 
+  /// Returns a human-readable name for a square on a board of this size.
+  /// e.g. c1, h6.
   String squareName(int square) {
     int rank = v - (square ~/ h);
     int file = square % h;
@@ -20,6 +39,8 @@ class BoardSize {
     return '$fileName$rank';
   }
 
+  /// Converts a human-readable square name into an integer, corresponding to
+  /// the correct square on a board of this size.
   int squareNumber(String name) {
     name = name.toLowerCase();
     if (name == 'hand') return HAND;
@@ -35,11 +56,20 @@ class BoardSize {
     return square;
   }
 
+  /// Returns the rank that [square] is on.
   int squareRank(int square) => v - (square ~/ h);
+
+  /// Returns the file that [square] is on.
   int squareFile(int square) => square % h;
+
+  /// Calculates the difference in ranks between two squares.
   int rankDiff(int from, int to) => squareRank(to) - squareRank(from);
+
+  /// Calculates the difference in files between two squares.
   int fileDiff(int from, int to) => squareFile(to) - squareFile(from);
 
+  /// Create a `Move` from an algebraic string (e.g. a2a3, g6f3) for a board
+  /// of this size.
   Move moveFromAlgebraic(String alg) {
     if (alg[1] == '@') {
       // it's a drop
@@ -68,6 +98,7 @@ class BoardSize {
     );
   }
 
+  /// Returns an algebraic string (e.g. a2a3, g6f3), for a given [move].
   String moveToAlgebraic(Move move) {
     if (move.drop) {
       return '${move.piece!.toLowerCase()}@${squareName(move.to)}';
