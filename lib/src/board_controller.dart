@@ -7,7 +7,7 @@ class BoardController extends StatefulWidget {
   /// The set of widgets to use for pieces on the board.
   final PieceSet pieceSet;
 
-  /// The state of the board - which piece are on which square, etc.
+  /// The state of the board - which pieces are on which squares, etc.
   final BoardState state;
 
   /// Colour scheme for the board.

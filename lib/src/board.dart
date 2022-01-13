@@ -6,11 +6,22 @@ import 'package:squares/src/move_animation.dart';
 /// a board, or in conjunction with [BoardController] or some other wrapper to
 /// manage its state and handle interactions.
 class Board extends StatelessWidget {
+  /// A key for the board.
   final GlobalKey boardKey;
+
+  /// The set of widgets to use for pieces on the board.
   final PieceSet pieceSet;
+
+  /// The state of the board - which pieces are on which squares, etc.
   final BoardState state;
+
+  /// Colour scheme for the board.
   final BoardTheme theme;
+
+  /// Dimensions of the board.
   final BoardSize size;
+
+  /// Widget builders for the various types of square highlights used.
   late final HighlightTheme highlightTheme;
 
   /// The currently selected square index.
