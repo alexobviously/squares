@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
 
+/// Describes a colour scheme to be used by a `Board`.
 class BoardTheme {
+  /// Base colour of the light squares.
   final Color lightSquare;
+
+  /// Base colour of the dark squares.
   final Color darkSquare;
+
+  /// Colour for squares in check.
   final Color check;
+
+  /// Colour for squares in checkmate.
   final Color checkmate;
+
+  /// Colour for previous move highlights.
   final Color previous;
+
+  /// Colour for selected pieces, and possible move decorations.
   final Color selected;
+
+  /// Colour for committed premoves.
   final Color premove;
 
   const BoardTheme({
@@ -38,6 +52,7 @@ class BoardTheme {
         premove: premove ?? this.premove,
       );
 
+  /// Brown. Classic. Looks like chess.
   static const BROWN = BoardTheme(
     lightSquare: Color(0xfff0d9b6),
     darkSquare: Color(0xffb58863),
@@ -47,6 +62,8 @@ class BoardTheme {
     selected: Color(0x8014551e),
     premove: Color(0x80141e55),
   );
+
+  /// A more modern blueish greyish theme.
   static const BLUEGREY = BoardTheme(
     lightSquare: Color(0xffdee3e6),
     darkSquare: Color(0xff788a94),
@@ -57,6 +74,7 @@ class BoardTheme {
     premove: Color(0x807b56b3),
   );
 
+  /// Eye pain theme.
   static const PINK = BoardTheme(
     lightSquare: Color(0xffeef0c7),
     darkSquare: Color(0xffe27c78),
