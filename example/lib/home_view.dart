@@ -1,3 +1,4 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:example/app_bar.dart';
 import 'package:example/game_config.dart';
 import 'package:example/game_creator.dart';
@@ -17,6 +18,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
   late PageController _pageController;
+  double _page = 0;
 
   @override
   void initState() {
@@ -30,7 +32,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
   }
 
   void _pageChanged() {
-    int newPage = _pageController.page!.round();
+    setState(() => _page = _pageController.page!);
   }
 
   @override
@@ -105,6 +107,15 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                           );
                         }
                       },
+                    ),
+                  ),
+                  DotsIndicator(
+                    dotsCount: games.length + 1,
+                    position: _page,
+                    onTap: (x) => _pageController.animateToPage(
+                      x.round(),
+                      duration: Duration(milliseconds: 250),
+                      curve: Curves.easeInQuad,
                     ),
                   )
                 ],
