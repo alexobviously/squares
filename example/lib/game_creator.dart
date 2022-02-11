@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:bishop/bishop.dart' as bishop;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:squares/squares.dart';
+import 'package:bishop/src/variant/musketeer.dart';
 
 class GameCreator extends StatefulWidget {
   final PieceSet pieceSet;
@@ -25,6 +26,7 @@ class _GameCreatorState extends State<GameCreator> {
     bishop.Variant.grand(),
     bishop.Variant.capablanca(),
     bishop.Variant.crazyhouse(),
+    Musketeer.variant(),
     // bishop.Variant.seirawan(),
   ];
 

@@ -20,7 +20,9 @@ class GameManager extends Cubit<GameManagerState> {
 
   int pieceSetIndex = 0;
   List<PieceSet> pieceSets = [
-    PieceSet.merida(),
+    // PieceSet.merida(),
+    PieceSet.fromImageAssets(
+        folder: 'assets/musketeer/', symbols: List.from(PieceSet.EXTENDED_SYMBOLS)..addAll(['D', 'L', 'U', 'F', 'O'])),
     PieceSet.letters(style: TextStyle(fontWeight: FontWeight.bold, fontStyle: FontStyle.italic)),
     emojiPieceSet,
     svgPieceSet(folder: 'assets/kaneo/', symbols: PieceSet.EXTENDED_SYMBOLS),

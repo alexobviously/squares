@@ -20,10 +20,10 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "4cfbc90894debf8c9a93f0ea59877ca1db8026c4"
+      resolved-ref: "64143e93a3eecd0413f82b5010df0d3dd377ced8"
       url: "git@github.com:alexobviously/bishop.git"
     source: git
-    version: "0.3.1"
+    version: "0.3.2"
   bloc:
     dependency: "direct main"
     description:
@@ -133,7 +133,7 @@ packages:
       name: flutter_svg
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -236,28 +236,28 @@ packages:
       name: path_provider_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.4"
+    version: "2.1.5"
   path_provider_macos:
     dependency: transitive
     description:
       name: path_provider_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.4"
+    version: "2.0.5"
   path_provider_platform_interface:
     dependency: transitive
     description:
       name: path_provider_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.3"
   path_provider_windows:
     dependency: transitive
     description:
       name: path_provider_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.4"
+    version: "2.0.5"
   petitparser:
     dependency: transitive
     description:
@@ -278,7 +278,7 @@ packages:
       name: plugin_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.2"
+    version: "2.1.2"
   process:
     dependency: transitive
     description:
@@ -367,7 +367,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.3"
+    version: "2.3.6"
   xdg_directories:
     dependency: transitive
     description:
