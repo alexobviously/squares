@@ -1,5 +1,5 @@
-import 'package:example/app_bar.dart';
-import 'package:example/game_page.dart';
+import 'package:squares_complex/app_bar.dart';
+import 'package:squares_complex/game_page.dart';
 import 'package:flutter/material.dart';
 
 class GameFullscreen extends StatelessWidget {

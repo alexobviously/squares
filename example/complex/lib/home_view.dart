@@ -1,10 +1,10 @@
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:example/app_bar.dart';
-import 'package:example/game_config.dart';
-import 'package:example/game_creator.dart';
-import 'package:example/game_fullscreen.dart';
-import 'package:example/game_manager.dart';
-import 'package:example/game_page.dart';
+import 'package:squares_complex/app_bar.dart';
+import 'package:squares_complex/game_config.dart';
+import 'package:squares_complex/game_creator.dart';
+import 'package:squares_complex/game_fullscreen.dart';
+import 'package:squares_complex/game_manager.dart';
+import 'package:squares_complex/game_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';

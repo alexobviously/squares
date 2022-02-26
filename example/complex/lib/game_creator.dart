@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:example/game_config.dart';
+import 'package:squares_complex/game_config.dart';
 import 'package:flutter/material.dart';
 import 'package:bishop/bishop.dart' as bishop;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';

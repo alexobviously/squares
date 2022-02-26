@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:example/game_config.dart';
-import 'package:example/game_controller.dart';
-import 'package:example/svg_piece_set.dart';
+import 'package:squares_complex/game_config.dart';
+import 'package:squares_complex/game_controller.dart';
+import 'package:squares_complex/svg_piece_set.dart';
 import 'package:flutter/material.dart';
 import 'package:squares/squares.dart';
 
