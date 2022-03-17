@@ -46,7 +46,7 @@ class Move {
   }
 
   @override
-  String toString() => '$from-$to';
+  String toString() => '$from-$to${promo != null ? '[$promo]' : ''}';
 }
 
 /// Used for dragging pieces.

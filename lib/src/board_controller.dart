@@ -108,14 +108,15 @@ class _BoardControllerState extends State<BoardController> {
   int? selection;
   int? target;
   List<Move> dests = [];
-  PromoState? promoState;
+  List<PieceSelectorData> promoState = [];
   GlobalKey boardKey = GlobalKey();
-  bool get hasPromo => promoState != null;
+  bool get hasPromo => promoState.isNotEmpty;
   BoardState? lastState;
   Move? premove;
   bool afterDrag = false; // track drags so they're not animated
 
   void onTap(int square, GlobalKey squareKey) {
+    print('onTap $square');
     if (square == selection) {
       deselectSquare();
     } else {
@@ -130,6 +131,7 @@ class _BoardControllerState extends State<BoardController> {
       } else {
         if (selection != null) {
           List<Move> targetMoves = dests.where((m) => m.to == square).toList();
+          print(targetMoves.map((e) => e.promo));
           if (targetMoves.isEmpty) {
             deselectSquare();
           } else {
@@ -146,7 +148,16 @@ class _BoardControllerState extends State<BoardController> {
                 if (widget.onSetPremove != null) widget.onSetPremove!(premove);
               }
             } else {
-              openPromoSelector(square, squareKey, gateSquare: 0);
+              if (gating) {
+                List<Move> _moves = widget.moves.where((e) => e.to == square && e.gate).toList();
+                Set<int?> gatingSquares = {};
+                for (Move m in _moves) gatingSquares.add(m.gatingSquare);
+                for (int? x in gatingSquares) {
+                  openPromoSelector(square, squareKey, gate: true, gatingSquare: x);
+                }
+              } else {
+                openPromoSelector(square, squareKey);
+              }
             }
           }
         }
@@ -170,16 +181,23 @@ class _BoardControllerState extends State<BoardController> {
     }
   }
 
-  void onPromo(int piece) {
-    if (promoState == null || selection == null || widget.onMove == null) {
+  void onPromo(int piece, PieceSelectorData data) {
+    if (!hasPromo || selection == null || widget.onMove == null) {
       closePromoSelector();
       return;
     }
-    Move move = Move(
-      from: selection!,
-      to: promoState!.square,
-      promo: promoState!.pieces[piece].toLowerCase(),
-    );
+    Move move = !data.gate
+        ? Move(
+            from: selection!,
+            to: data.square,
+            promo: data.pieces[piece].toLowerCase(),
+          )
+        : Move(
+            from: selection!,
+            to: data.square,
+            piece: data.pieces[piece].toLowerCase(),
+            gatingSquare: data.gatingSquare,
+          );
     if (widget.canMove) {
       if (widget.onMove != null) widget.onMove!(move);
     } else {
@@ -238,41 +256,62 @@ class _BoardControllerState extends State<BoardController> {
     });
   }
 
-  void openPromoSelector(int square, GlobalKey key, {int? gateSquare}) {
-    bool gate = gateSquare != null;
-    List<String> pieces = ['Q', 'R', 'B', 'N'];
-    List<Move> _moves = widget.moves.where((e) => e.from == square && (gate ? e.gate : e.promotion)).toList();
-    pieces = _moves.map((e) => (gate ? e.piece : e.promo) ?? '').toList();
+  void openPromoSelector(int square, GlobalKey key, {bool gate = false, int? gatingSquare}) {
+    print('----- openPromoSelector -----');
+    List<Move> _moves = widget.moves
+        .where((e) => e.to == square && (gate ? e.gate : e.promotion) && e.gatingSquare == gatingSquare)
+        .toList();
+    List<String> pieces = _moves.map((e) => (gate ? e.piece : e.promo) ?? '').toList();
+    if (widget.state.player == WHITE) {
+      pieces = pieces.map((e) => e.toUpperCase()).toList();
+    }
     RenderBox squareBox = key.currentContext!.findRenderObject() as RenderBox;
     RenderBox boardBox = boardKey.currentContext!.findRenderObject() as RenderBox;
     Offset promoOffset = boardBox.globalToLocal(squareBox.localToGlobal(Offset.zero));
     double squareSize = squareBox.size.width;
     int rank = widget.size.squareRank(square);
     int file = widget.size.squareFile(square);
-    bool flip = ((widget.state.orientation == WHITE && rank == 0) ||
-        (widget.state.orientation == BLACK && rank == widget.size.maxRank + 1));
+    bool flip = gate ||
+        ((widget.state.orientation == WHITE && rank == 0) ||
+            (widget.state.orientation == BLACK && rank == widget.size.maxRank + 1));
     if (flip) {
       promoOffset = promoOffset.translate(0, -squareSize * (pieces.length - 1));
       rank = rank - pieces.length - 1;
       pieces = pieces.reversed.toList();
     }
 
-    bool startLight = (rank + file) % 2 == 1;
+    bool startLight = (rank + file) % 2 == 0;
+
+    Offset? gateOffset;
+    if (gate) {
+      int origin = gatingSquare ?? selection ?? square; // shouldn't ever be `square`
+      int fileDiff = widget.size.fileDiff(square, origin);
+      int rankDiff = widget.size.rankDiff(origin, square);
+      gateOffset = Offset(
+        fileDiff * squareSize,
+        rankDiff * squareSize,
+      );
+      if ((fileDiff.abs() + rankDiff.abs()) % 2 == 1) {
+        startLight = !startLight;
+      }
+    }
+
     setState(() {
-      promoState = PromoState(
+      promoState.add(PieceSelectorData(
         square: square,
-        offset: promoOffset,
+        offset: gateOffset != null ? promoOffset + gateOffset : promoOffset,
         squareSize: squareSize,
         startLight: startLight,
         pieces: pieces,
         gate: gate,
-      );
+      ));
     });
+    print('----- ---------- -----');
   }
 
   void closePromoSelector() {
     setState(() {
-      promoState = null;
+      promoState = [];
     });
   }
 
@@ -304,13 +343,15 @@ class _BoardControllerState extends State<BoardController> {
     }
     lastState = widget.state;
 
-    List<Widget> promos = [];
-    if (hasPromo) {
-      for (String symbol in promoState!.pieces) {
-        Widget? piece = symbol.isNotEmpty ? widget.pieceSet.piece(context, symbol) : null;
-        if (piece != null) promos.add(piece);
-      }
-    }
+    // List<Widget> promos = [];
+    // print('promoState: $promoState');
+    // if (hasPromo) {
+    //   for (String symbol in promoState!.pieces) {
+    //     print(':::: $symbol');
+    //     Widget? piece = symbol.isNotEmpty ? widget.pieceSet.piece(context, symbol) : null;
+    //     if (piece != null) promos.add(piece);
+    //   }
+    // }
     return Stack(
       children: [
         Board(
@@ -335,17 +376,17 @@ class _BoardControllerState extends State<BoardController> {
           animationDuration: widget.animationDuration,
           animationCurve: widget.animationCurve,
         ),
-        if (hasPromo)
+        for (PieceSelectorData data in promoState)
           Positioned(
-            left: promoState!.offset.dx,
-            top: promoState!.offset.dy,
+            left: data.offset.dx,
+            top: data.offset.dy,
             child: PieceSelector(
               theme: widget.theme,
               pieceSet: widget.pieceSet,
-              squareSize: promoState!.squareSize,
-              pieces: promoState?.pieces ?? [],
-              startOnLight: promoState!.startLight,
-              onTap: onPromo,
+              squareSize: data.squareSize,
+              pieces: data.pieces,
+              startOnLight: data.startLight,
+              onTap: (i) => onPromo(i, data),
             ),
           ),
       ],
@@ -354,20 +395,25 @@ class _BoardControllerState extends State<BoardController> {
 }
 
 /// Also used for gating.
-class PromoState {
+class PieceSelectorData {
   final int square;
   final Offset offset;
   final double squareSize;
   final bool startLight;
   final List<String> pieces;
   final bool gate;
+  final int? gatingSquare;
 
-  PromoState({
+  PieceSelectorData({
     required this.square,
     required this.offset,
     required this.squareSize,
     required this.startLight,
     required this.pieces,
     this.gate = false,
+    this.gatingSquare,
   });
+
+  @override
+  String toString() => 'PieceSelectorData($square, $offset, $pieces)';
 }

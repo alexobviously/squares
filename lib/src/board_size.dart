@@ -71,6 +71,7 @@ class BoardSize {
   /// Create a `Move` from an algebraic string (e.g. a2a3, g6f3) for a board
   /// of this size.
   Move moveFromAlgebraic(String alg) {
+    print(alg);
     if (alg[1] == '@') {
       // it's a drop
       int from = HAND;
@@ -82,13 +83,16 @@ class BoardSize {
 
     String? piece;
     int? gatingSquare;
+    String? promo;
     List<String> _sections = alg.split('/');
     if (_sections.length > 1) {
       String _gate = _sections.last;
       piece = _gate[0];
       gatingSquare = _gate.length > 2 ? squareNumber(_gate.substring(1, 3)) : from;
+    } else {
+      promo = (alg.length > 4) ? alg[4] : null;
     }
-    String? promo = (alg.length > 4) ? alg[4] : null;
+
     return Move(
       from: from,
       to: to,

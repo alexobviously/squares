@@ -12,5 +12,5 @@ export 'src/highlight_theme.dart';
 export 'src/move.dart';
 export 'src/piece.dart';
 export 'src/piece_set.dart';
-export 'src/promo_selector.dart';
+export 'src/piece_selector.dart';
 export 'src/square.dart';
