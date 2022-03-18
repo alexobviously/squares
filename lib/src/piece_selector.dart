@@ -6,7 +6,7 @@ class PieceSelector extends StatelessWidget {
   final BoardTheme theme;
   final PieceSet pieceSet;
   final double squareSize;
-  final List<String> pieces;
+  final List<String?> pieces;
   final bool startOnLight;
   final Function(int)? onTap;
   PieceSelector({
@@ -20,7 +20,7 @@ class PieceSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _pieces = pieces.map((p) => pieceSet.piece(context, p)).toList();
+    List<Widget> _pieces = pieces.map((p) => p == null ? Container() : pieceSet.piece(context, p)).toList();
     List<Widget> squares = [];
     for (int i = 0; i < _pieces.length; i++) {
       Square square = Square(

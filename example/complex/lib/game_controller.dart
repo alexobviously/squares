@@ -66,9 +66,10 @@ class GameController extends Cubit<GameState> {
     if (game == null) return;
     String alg = state.size.moveToAlgebraic(move);
     bishop.Move? m = game!.getMove(alg);
-    if (m == null)
+    if (m == null) {
       print('move $alg not found');
-    else {
+      print(game!.generateLegalMoves().map((e) => game!.toAlgebraic(e)).toList());
+    } else {
       game!.makeMove(m);
       emitState();
       //Future.delayed(Duration(milliseconds: 200)).then((_) => engineMove());

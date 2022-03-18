@@ -104,13 +104,20 @@ class BoardSize {
 
   /// Returns an algebraic string (e.g. a2a3, g6f3), for a given [move].
   String moveToAlgebraic(Move move) {
-    if (move.drop) {
+    // String alg = move.algebraic(this);
+    // if (move.promotion) alg = '$alg${move.promo}';
+    // if (move.from == HAND) alg = '${move.piece}$alg';
+    if (move.handDrop) {
       return '${move.piece!.toLowerCase()}@${squareName(move.to)}';
     } else {
       String from = squareName(move.from);
       String to = squareName(move.to);
       String alg = '$from$to';
       if (move.promotion) alg = '$alg${move.promo}';
+      if (move.gate) {
+        alg = '$alg/${move.piece!.toLowerCase()}';
+        if (move.gatingSquare != null) alg = '$alg${squareName(move.gatingSquare!)}';
+      }
       return alg;
     }
   }

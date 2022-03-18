@@ -45,6 +45,16 @@ class Move {
     if (from == HAND) assert(piece != null, 'Drop moves require a piece');
   }
 
+  /// Provides the most basic algebraic form of the move.
+  /// This is not entirely descriptive, and doesn't provide information on promo
+  /// or gated pieces, for example.
+  /// Use `Game.toAlgebraic` in almost every situation.
+  String algebraic([BoardSize size = const BoardSize(8, 8)]) {
+    String _from = from == HAND ? '@' : size.squareName(from);
+    String _to = size.squareName(to);
+    return '$_from$_to';
+  }
+
   @override
   String toString() => '$from-$to${promo != null ? '[$promo]' : ''}';
 }
