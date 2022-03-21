@@ -1,3 +1,8 @@
+### 0.4.0
+- Reworked promotion logic.
+- Supported flex gating variants like Seirawan chess.
+- Added a new simple example, using the `square_bishop` package.
+
 ### 0.3.4
 - Added `dragFeedbackOffset` parameter.
 - Documented some more things.

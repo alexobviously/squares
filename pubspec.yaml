@@ -1,6 +1,6 @@
 name: squares
 description: A flexible chessboard widget for Flutter. Visually customisable, with support for many chess variants.
-version: 0.3.5
+version: 0.4.0
 homepage: https://github.com/alexobviously/squares
 
 environment:
