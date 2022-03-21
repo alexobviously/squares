@@ -3,7 +3,9 @@
 
 Squares is a chessboard like you've never seen before. Or more accurately, it is a chessboard very much like the ones you have seen before, but one that can do a pretty wide variety of things.
 
-It is a UI package only, meaning it doesn't handle game logic. The [Bishop](https://pub.dev/packages/bishop) package is recommended for game logic, and there is an example in the Squares repository that demonstrates how the two can be used together.
+It is a UI package only, meaning it doesn't handle game logic. The [Bishop](https://pub.dev/packages/bishop) package is recommended for game logic, and there is also a small interoperability package, [Square Bishop](https://pub.dev/packages/square_bishop) that provides convenience methods for common type, a state for Squares to use, and extension methods on `Bishop.Game` that generate it.
+
+There are two examples: a simple one in less than 100 lines, and a more complex and featureful app that demonstrates the various features of Squares in a realistic architecture.
 
 Squares has a stateless `Board` widget that can used to display a complete board representation, and can be integrated at a low level with your own UI logic. However, the more likely use case involves the `BoardController` widget, which implements all of the piece selection and movement logic you're likely to need, including premoves and piece promotion.
 
