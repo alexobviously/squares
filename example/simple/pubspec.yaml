@@ -12,13 +12,15 @@ dependencies:
   flutter:
     sdk: flutter
 
-  bishop: 
-    git:
-      url: git@github.com:alexobviously/bishop.git
-      ref: master
+  bishop: ^0.3.3
   cupertino_icons: ^1.0.2
   squares:
       path: ../../
+  square_bishop: ^0.1.2
+
+dependency_overrides:
+  squares:
+    path: ../../
 
 dev_dependencies:
   flutter_test:

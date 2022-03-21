@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:bishop/bishop.dart' as bishop;
 import 'package:squares/squares.dart';
+import 'package:square_bishop/square_bishop.dart';
 
 void main() {
   runApp(const App());
@@ -28,14 +31,32 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late bishop.Game game;
-  late BoardState boardState;
+  late SquaresState state;
+  int player = WHITE;
 
-  void _resetGame() {
-    game = bishop.Game(variant: bishop.Variant.standard());
-    //
+  @override
+  void initState() {
+    _resetGame(false);
+    super.initState();
   }
 
-  void _onMove(Move move) {}
+  void _resetGame([bool ss = true]) {
+    game = bishop.Game(variant: bishop.Variant.standard());
+    state = game.squaresState(player);
+    if (ss) setState(() {});
+  }
+
+  void _onMove(Move move) async {
+    bool result = game.makeSquaresMove(move);
+    if (result) {
+      setState(() => state = game.squaresState(player));
+    }
+    if (state.state == PlayState.playing) {
+      await Future.delayed(Duration(milliseconds: Random().nextInt(750) + 250));
+      game.makeRandomMove();
+      setState(() => state = game.squaresState(player));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +68,22 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            BoardController(
-              pieceSet: PieceSet.merida(),
-              state: boardState,
-              theme: BoardTheme.BROWN,
-              canMove: false,
-              onMove: _onMove,
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: BoardController(
+                pieceSet: PieceSet.merida(),
+                state: state.board,
+                theme: BoardTheme.BROWN,
+                canMove: state.canMove(player),
+                moves: state.moves,
+                onMove: _onMove,
+                onPremove: _onMove,
+              ),
+            ),
+            const SizedBox(height: 32),
+            OutlinedButton(
+              onPressed: _resetGame,
+              child: const Text('New Game'),
             ),
           ],
         ),

@@ -71,7 +71,6 @@ class BoardSize {
   /// Create a `Move` from an algebraic string (e.g. a2a3, g6f3) for a board
   /// of this size.
   Move moveFromAlgebraic(String alg) {
-    print(alg);
     if (alg[1] == '@') {
       // it's a drop
       int from = HAND;

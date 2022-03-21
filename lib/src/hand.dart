@@ -57,8 +57,8 @@ class Hand extends StatelessWidget {
               )
             : null,
         symbol: symbol,
-        onTap: (key) => print('onTap $symbol'),
-        onDragCancel: () => print('onDC $symbol'),
+        // onTap: (key) => print('onTap $symbol'),
+        // onDragCancel: () => print('onDC $symbol'),
       );
       if (num > 0)
         square = Badge(
