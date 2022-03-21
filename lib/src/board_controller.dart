@@ -257,11 +257,21 @@ class _BoardControllerState extends State<BoardController> {
     });
   }
 
+  // TODO: find a more permanent solution - maybe this should be done in bishop?
+  static const _promoOrder = ['d', 'q', 'a', 'c', 'r', 'b', 'n', 'p'];
+  int _promoComp(String? a, String? b) {
+    if (a == null) return -1;
+    if (b == null) return 1;
+    return _promoOrder.indexOf(a).compareTo(_promoOrder.indexOf(b));
+  }
+
   void openPieceSelector(int square, GlobalKey key, {bool gate = false, int? gatingSquare}) {
     List<Move> _moves = widget.moves
         .where((e) => e.to == square && (gate ? e.gate : e.promotion) && e.gatingSquare == gatingSquare)
         .toList();
     List<String?> pieces = _moves.map<String?>((e) => (gate ? e.piece : e.promo) ?? '').toList();
+    pieces.sort(_promoComp);
+    print('pieces: $pieces');
     if (widget.state.player == WHITE) {
       pieces = pieces.map<String?>((e) => e!.toUpperCase()).toList();
     }
