@@ -28,7 +28,7 @@ class BoardSize {
   const BoardSize(this.h, this.v);
 
   /// A standard 8x8 board.
-  factory BoardSize.standard() => BoardSize(8, 8);
+  static const standard = BoardSize(8, 8);
 
   /// Returns a human-readable name for a square on a board of this size.
   /// e.g. c1, h6.
