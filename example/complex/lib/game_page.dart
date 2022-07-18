@@ -30,6 +30,11 @@ class _GamePageState extends State<GamePage> {
     widget.game.makeMove(move);
   }
 
+  void _onPremove(Move move) {
+    print('On premove: $move (${widget.game.state.size.moveToAlgebraic(move)})');
+    widget.game.makeMove(move);
+  }
+
   void randomMove() {
     widget.game.randomMove();
   }
@@ -57,7 +62,7 @@ class _GamePageState extends State<GamePage> {
                   size: state.size,
                   highlightTheme: widget.highlightTheme,
                   onMove: _onMove,
-                  onPremove: _onMove,
+                  onPremove: _onPremove,
                   moves: state.moves,
                   canMove: state.canMove,
                   draggable: true,
@@ -100,7 +105,8 @@ class _GamePageState extends State<GamePage> {
               theme: widget.theme,
               pieceSet: widget.pieceSet,
               pieces: state.hands[player],
-              fixedPieces: STANDARD_PIECES.map((x) => player == WHITE ? x : x.toLowerCase()).toList(),
+              fixedPieces:
+                  STANDARD_PIECES.map((x) => player == WHITE ? x : x.toLowerCase()).toList(),
               squareSize: 37,
               badgeColour: Colors.blue,
             );

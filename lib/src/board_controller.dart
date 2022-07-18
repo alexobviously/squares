@@ -147,7 +147,9 @@ class _BoardControllerState extends State<BoardController> {
               }
             } else {
               if (gating) {
-                List<Move> _moves = widget.moves.where((e) => e.from == selection && e.to == square && e.gate).toList();
+                List<Move> _moves = widget.moves
+                    .where((e) => e.from == selection && e.to == square && e.gate)
+                    .toList();
                 Set<int?> gatingSquares = {};
                 for (Move m in _moves) gatingSquares.add(m.gatingSquare);
                 for (int? x in gatingSquares) {
@@ -165,7 +167,8 @@ class _BoardControllerState extends State<BoardController> {
   }
 
   void onDrop(PartialMove partial, int to, GlobalKey squareKey) {
-    List<Move> targetMoves = widget.drops.where((m) => m.piece == partial.piece && m.to == to).toList();
+    List<Move> targetMoves =
+        widget.drops.where((m) => m.piece == partial.piece && m.to == to).toList();
     if (targetMoves.isEmpty) {
       deselectSquare();
     } else {
@@ -267,7 +270,8 @@ class _BoardControllerState extends State<BoardController> {
 
   void openPieceSelector(int square, GlobalKey key, {bool gate = false, int? gatingSquare}) {
     List<Move> _moves = widget.moves
-        .where((e) => e.to == square && (gate ? e.gate : e.promotion) && e.gatingSquare == gatingSquare)
+        .where((e) =>
+            e.to == square && (gate ? e.gate : e.promotion) && e.gatingSquare == gatingSquare)
         .toList();
     List<String?> pieces = _moves.map<String?>((e) => (gate ? e.piece : e.promo) ?? '').toList();
     pieces.sort(_promoComp);
@@ -329,10 +333,16 @@ class _BoardControllerState extends State<BoardController> {
   }
 
   void onNewBoardState() {
-    if (premove != null && widget.onPremove != null) widget.onPremove!(premove!);
+    if (premove != null && widget.onPremove != null) {
+      final _premove = premove!;
+      WidgetsBinding.instance.addPostFrameCallback((_) => widget.onPremove!(_premove));
+    }
     if (target != null) {
-      target = null;
-      selection = null;
+      setState(() {
+        premove = null;
+        target = null;
+        selection = null;
+      });
     }
   }
 
@@ -344,7 +354,8 @@ class _BoardControllerState extends State<BoardController> {
     }
 
     bool _animate = true;
-    if (!widget.allowAnimation || widget.state == lastState?.copyWith(orientation: widget.state.orientation)) {
+    if (!widget.allowAnimation ||
+        widget.state == lastState?.copyWith(orientation: widget.state.orientation)) {
       _animate = false; // don't animate the previous move twice
     }
     if (widget.state != lastState) {

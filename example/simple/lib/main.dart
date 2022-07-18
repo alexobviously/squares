@@ -6,6 +6,7 @@ import 'package:squares/squares.dart';
 import 'package:square_bishop/square_bishop.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const App());
 }
 
@@ -33,6 +34,7 @@ class _HomePageState extends State<HomePage> {
   late bishop.Game game;
   late SquaresState state;
   int player = WHITE;
+  bool aiThinking = false;
 
   @override
   void initState() {
@@ -47,14 +49,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onMove(Move move) async {
+    print('_onMove $move');
     bool result = game.makeSquaresMove(move);
     if (result) {
       setState(() => state = game.squaresState(player));
     }
-    if (state.state == PlayState.playing) {
-      await Future.delayed(Duration(milliseconds: Random().nextInt(750) + 250));
+    if (state.state == PlayState.playing && !aiThinking) {
+      setState(() => aiThinking = true);
+      await Future.delayed(Duration(milliseconds: Random().nextInt(4750) + 250));
       game.makeRandomMove();
-      setState(() => state = game.squaresState(player));
+      setState(() {
+        aiThinking = false;
+        state = game.squaresState(player);
+      });
     }
   }
 
