@@ -32,9 +32,9 @@ class GameManager extends Cubit<GameManagerState> {
     BoardTheme.PINK,
   ];
   int highlightThemeIndex = 0;
-  List<HighlightTheme> highlightThemes = [
-    HighlightTheme.basic,
-    HighlightTheme.square,
+  List<MarkerTheme> highlightThemes = [
+    MarkerTheme.basic,
+    MarkerTheme.square,
   ];
 
   void createGame(GameConfig config) {
@@ -74,7 +74,8 @@ class GameManager extends Cubit<GameManagerState> {
     emit(state.copyWith(highlightTheme: highlightThemes[index]));
   }
 
-  void nextHighlightTheme() => changeHighlightTheme((highlightThemeIndex + 1) % highlightThemes.length);
+  void nextHighlightTheme() =>
+      changeHighlightTheme((highlightThemeIndex + 1) % highlightThemes.length);
 }
 
 class GameManagerState {
@@ -82,7 +83,7 @@ class GameManagerState {
   final int pieceSetIndex;
   final PieceSet pieceSet;
   final BoardTheme theme;
-  final HighlightTheme highlightTheme;
+  final MarkerTheme highlightTheme;
   GameManagerState({
     required this.games,
     required this.pieceSetIndex,
@@ -95,7 +96,7 @@ class GameManagerState {
         pieceSetIndex: 0,
         pieceSet: PieceSet.merida(),
         theme: BoardTheme.BROWN,
-        highlightTheme: HighlightTheme.basic,
+        highlightTheme: MarkerTheme.basic,
       );
 
   GameManagerState copyWith({
@@ -103,7 +104,7 @@ class GameManagerState {
     int? pieceSetIndex,
     PieceSet? pieceSet,
     BoardTheme? theme,
-    HighlightTheme? highlightTheme,
+    MarkerTheme? highlightTheme,
   }) =>
       GameManagerState(
         games: games ?? this.games,

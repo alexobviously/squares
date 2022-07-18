@@ -22,7 +22,7 @@ class Board extends StatelessWidget {
   final BoardSize size;
 
   /// Widget builders for the various types of square highlights used.
-  late final HighlightTheme highlightTheme;
+  late final MarkerTheme highlightTheme;
 
   /// The currently selected square index.
   final int? selection;
@@ -81,7 +81,7 @@ class Board extends StatelessWidget {
     required this.state,
     required this.theme,
     this.size = const BoardSize(8, 8),
-    HighlightTheme? highlightTheme,
+    MarkerTheme? highlightTheme,
     this.selection,
     this.target,
     this.gameOver = false,
@@ -97,7 +97,7 @@ class Board extends StatelessWidget {
     this.allowAnimation = true,
     this.animationDuration,
     this.animationCurve,
-  }) : this.highlightTheme = highlightTheme ?? HighlightTheme.basic;
+  }) : this.highlightTheme = highlightTheme ?? MarkerTheme.basic;
 
   void _onDragCancel(int square) {
     if (onDragCancel != null) onDragCancel!(square);
@@ -137,7 +137,10 @@ class Board extends StatelessWidget {
                 ),
               ),
             ),
-            if (state.lastFrom != null && state.lastFrom != HAND && state.lastTo != null && allowAnimation)
+            if (state.lastFrom != null &&
+                state.lastFrom != HAND &&
+                state.lastTo != null &&
+                allowAnimation)
               Builder(
                 builder: (context) {
                   int r = size.v - size.squareRank(state.lastTo!);
@@ -199,8 +202,10 @@ class Board extends StatelessWidget {
       }
     }
     Color squareColour = ((rank + file) % 2 == 0) ? theme.lightSquare : theme.darkSquare;
-    if (state.lastFrom == id || state.lastTo == id) squareColour = Color.alphaBlend(theme.previous, squareColour);
-    if (selection == id) squareColour = Color.alphaBlend(canMove ? theme.selected : theme.premove, squareColour);
+    if (state.lastFrom == id || state.lastTo == id)
+      squareColour = Color.alphaBlend(theme.previous, squareColour);
+    if (selection == id)
+      squareColour = Color.alphaBlend(canMove ? theme.selected : theme.premove, squareColour);
     if (state.checkSquare == id)
       squareColour = Color.alphaBlend(gameOver ? theme.checkmate : theme.check, squareColour);
     if (target == id) squareColour = Color.alphaBlend(theme.premove, squareColour);

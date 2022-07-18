@@ -17,7 +17,7 @@ class BoardController extends StatefulWidget {
   final BoardSize size;
 
   /// Widget builders for the various types of square highlights used.
-  final HighlightTheme? highlightTheme;
+  final MarkerTheme? highlightTheme;
 
   /// Called when a move is successfully made.
   final Function(Move)? onMove;

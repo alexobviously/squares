@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:squares/src/types.dart';
+import 'package:squares/src/model/types.dart';
 
 /// A theme that specifies a number of widget builder functions, used to define
-/// how various highlights are drawn on the board.
-class HighlightTheme {
-  /// Used to highlight empty squares that the currently selected piece could
+/// how various markers are drawn on the board.
+class MarkerTheme {
+  /// Used to mark empty squares that the currently selected piece could
   /// move to.
-  final HighlightBuilder empty;
+  final MarkerBuilder empty;
 
-  /// Used to highlight occupied squares that the currently selected piece could
+  /// Used to mark occupied squares that the currently selected piece could
   /// move to.
-  final HighlightBuilder piece;
+  final MarkerBuilder piece;
 
-  const HighlightTheme({required this.empty, required this.piece});
+  const MarkerTheme({required this.empty, required this.piece});
 
-  HighlightTheme copyWith({
-    HighlightBuilder? empty,
-    HighlightBuilder? piece,
+  MarkerTheme copyWith({
+    MarkerBuilder? empty,
+    MarkerBuilder? piece,
   }) =>
-      HighlightTheme(
+      MarkerTheme(
         empty: empty ?? this.empty,
         piece: piece ?? this.piece,
       );
 
-  /// The default `HighlightTheme`. Circular dots for empty squares.
-  static HighlightTheme basic = HighlightTheme(empty: dot, piece: roundedOutline);
+  /// The default `MarkerTheme`. Circular dots for empty squares.
+  static MarkerTheme basic = MarkerTheme(empty: dot, piece: roundedOutline);
 
-  /// A variant `HighlightTheme` with square dots for empty squares.
-  static HighlightTheme square = HighlightTheme(empty: squareDot, piece: squareOutline);
+  /// A variant `MarkerTheme` with square dots for empty squares.
+  static MarkerTheme square = MarkerTheme(empty: squareDot, piece: squareOutline);
 
   /// Builds a circular dot in the centre of the square, with a diameter equal
   /// to 1/3 of the width of the square.
-  static HighlightBuilder dot = (context, size, colour) => Container(
+  static MarkerBuilder dot = (context, size, colour) => Container(
         width: size,
         height: size,
         child: Padding(
@@ -47,7 +47,7 @@ class HighlightTheme {
 
   /// Builds a square dot in the centre of the square, with a width equal
   /// to 1/3 of the width of the square.
-  static HighlightBuilder squareDot = (context, size, colour) => Container(
+  static MarkerBuilder squareDot = (context, size, colour) => Container(
         width: size,
         height: size,
         child: Padding(
@@ -62,7 +62,7 @@ class HighlightTheme {
       );
 
   /// Builds a rounded outline border, 1/16th the width of the square.
-  static HighlightBuilder roundedOutline = (context, size, colour) => Container(
+  static MarkerBuilder roundedOutline = (context, size, colour) => Container(
         width: size,
         height: size,
         decoration: BoxDecoration(
@@ -75,7 +75,7 @@ class HighlightTheme {
       );
 
   /// Builds a square outline border, 1/16th the width of the square.
-  static HighlightBuilder squareOutline = (context, size, colour) => Container(
+  static MarkerBuilder squareOutline = (context, size, colour) => Container(
         width: size,
         height: size,
         decoration: BoxDecoration(

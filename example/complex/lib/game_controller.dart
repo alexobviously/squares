@@ -141,7 +141,7 @@ class GameState extends Equatable {
     this.history = const [],
   });
   factory GameState.initial() => GameState(
-      state: PlayState.idle, size: BoardSize.standard(), board: BoardState.empty(), moves: []);
+      state: PlayState.idle, size: BoardSize.standard, board: BoardState.empty(), moves: []);
 
   GameState copyWith({
     PlayState? state,

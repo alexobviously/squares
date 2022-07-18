@@ -80,12 +80,23 @@ class _HomePageState extends State<HomePage> {
               child: BoardController(
                 pieceSet: PieceSet.merida(),
                 state: state.board,
-                theme: BoardTheme.BROWN,
+                theme: BoardTheme.BLUEGREY,
                 canMove: state.canMove(player),
                 moves: state.moves,
                 onMove: _onMove,
                 onPremove: _onMove,
               ),
+              // child: BoardBackground(
+              //   size: state.size,
+              //   theme: BoardTheme.BLUEGREY,
+              //   orientation: BLACK,
+              //   highlights: {4: HighlightType.check, 16: HighlightType.previous},
+              //   markers: {
+              //     22: Marker.empty(HighlightType.premove),
+              //     41: Marker.piece(HighlightType.premove),
+              //     42: Marker.piece(HighlightType.selected),
+              //   },
+              // ),
             ),
             const SizedBox(height: 32),
             OutlinedButton(

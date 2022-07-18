@@ -9,7 +9,7 @@ class GamePage extends StatefulWidget {
   final GameController game;
   final PieceSet pieceSet;
   final BoardTheme theme;
-  final HighlightTheme? highlightTheme;
+  final MarkerTheme? highlightTheme;
   GamePage({
     Key? key,
     required this.game,

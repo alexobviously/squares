@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:squares/squares.dart';
 
 /// Describes a colour scheme to be used by a `Board`.
 class BoardTheme {
@@ -51,6 +52,14 @@ class BoardTheme {
         selected: selected ?? this.selected,
         premove: premove ?? this.premove,
       );
+
+  Color highlight(HighlightType type) => {
+        HighlightType.check: check,
+        HighlightType.checkmate: checkmate,
+        HighlightType.previous: previous,
+        HighlightType.selected: selected,
+        HighlightType.premove: premove,
+      }[type]!;
 
   /// Brown. Classic. Looks like chess.
   static const BROWN = BoardTheme(
