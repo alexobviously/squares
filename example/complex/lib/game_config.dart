@@ -6,5 +6,9 @@ class GameConfig {
   final int humanPlayer;
   final String? fen;
 
-  GameConfig({required this.variant, this.humanPlayer = WHITE, this.fen});
+  const GameConfig({
+    required this.variant,
+    this.humanPlayer = Squares.white,
+    this.fen,
+  });
 }

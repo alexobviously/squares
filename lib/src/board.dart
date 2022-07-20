@@ -97,7 +97,7 @@ class OldBoard extends StatelessWidget {
     this.allowAnimation = true,
     this.animationDuration,
     this.animationCurve,
-  }) : this.highlightTheme = highlightTheme ?? MarkerTheme.basic;
+  }) : highlightTheme = highlightTheme ?? MarkerTheme.basic;
 
   void _onDragCancel(int square) {
     if (onDragCancel != null) onDragCancel!(square);
@@ -138,7 +138,7 @@ class OldBoard extends StatelessWidget {
               ),
             ),
             if (state.lastFrom != null &&
-                state.lastFrom != HAND &&
+                state.lastFrom != Squares.hand &&
                 state.lastTo != null &&
                 allowAnimation)
               Builder(
@@ -158,10 +158,10 @@ class OldBoard extends StatelessWidget {
                         orient: false,
                       ),
                     ),
-                    top: state.orientation == WHITE ? squareSize * r : null,
-                    left: state.orientation == WHITE ? squareSize * f : null,
-                    bottom: state.orientation == BLACK ? squareSize * r : null,
-                    right: state.orientation == BLACK ? squareSize * f : null,
+                    top: state.orientation == Squares.white ? squareSize * r : null,
+                    left: state.orientation == Squares.white ? squareSize * f : null,
+                    bottom: state.orientation == Squares.black ? squareSize * r : null,
+                    right: state.orientation == Squares.black ? squareSize * f : null,
                   );
                 },
               ),
@@ -173,15 +173,15 @@ class OldBoard extends StatelessWidget {
 
   Widget _square(BuildContext context, int rank, int file, double squareSize,
       {bool animation = false, bool orient = true}) {
-    int id = (!orient || state.orientation == WHITE ? rank : size.v - rank - 1) * size.h +
-        (!orient || state.orientation == WHITE ? file : size.h - file - 1);
+    int id = (!orient || state.orientation == Squares.white ? rank : size.v - rank - 1) * size.h +
+        (!orient || state.orientation == Squares.white ? file : size.h - file - 1);
     GlobalKey squareKey = GlobalKey();
     String symbol = state.board.length > id ? state.board[id] : '';
     Widget? piece = symbol.isNotEmpty ? pieceSet.piece(context, symbol) : null;
-    num _orientation = state.orientation == WHITE ? 1 : -1;
+    num _orientation = state.orientation == Squares.white ? 1 : -1;
     if (piece != null &&
         state.lastFrom != null &&
-        state.lastFrom != HAND &&
+        state.lastFrom != Squares.hand &&
         state.lastTo != null &&
         state.lastTo == id &&
         allowAnimation) {
@@ -202,12 +202,15 @@ class OldBoard extends StatelessWidget {
       }
     }
     Color squareColour = ((rank + file) % 2 == 0) ? theme.lightSquare : theme.darkSquare;
-    if (state.lastFrom == id || state.lastTo == id)
+    if (state.lastFrom == id || state.lastTo == id) {
       squareColour = Color.alphaBlend(theme.previous, squareColour);
-    if (selection == id)
+    }
+    if (selection == id) {
       squareColour = Color.alphaBlend(canMove ? theme.selected : theme.premove, squareColour);
-    if (state.checkSquare == id)
+    }
+    if (state.checkSquare == id) {
       squareColour = Color.alphaBlend(gameOver ? theme.checkmate : theme.check, squareColour);
+    }
     if (target == id) squareColour = Color.alphaBlend(theme.premove, squareColour);
     bool hasHighlight = highlights.contains(id);
     return DragTarget<PartialMove>(

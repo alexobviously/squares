@@ -85,12 +85,13 @@ class BoardController extends StatefulWidget {
         drops.add(m);
         continue;
       }
-      if (!moveMap.containsKey(m.from))
+      if (!moveMap.containsKey(m.from)) {
         moveMap[m.from] = [m];
-      else
+      } else {
         moveMap[m.from]!.add(m);
+      }
       // Make pieces with no moves selectable
-      bool whitePlayer = state.player == WHITE;
+      bool whitePlayer = state.player == Squares.white;
       for (int i = 0; i < state.board.length; i++) {
         String p = state.board[i];
         bool whitePiece = p == p.toUpperCase();
@@ -277,7 +278,7 @@ class _BoardControllerState extends State<BoardController> {
     List<String?> pieces = _moves.map<String?>((e) => (gate ? e.piece : e.promo) ?? '').toList();
     pieces.sort(_promoComp);
     print('pieces: $pieces');
-    if (widget.state.player == WHITE) {
+    if (widget.state.player == Squares.white) {
       pieces = pieces.map<String?>((e) => e!.toUpperCase()).toList();
     }
     if (gate) {
@@ -290,8 +291,8 @@ class _BoardControllerState extends State<BoardController> {
     int rank = widget.size.squareRank(square);
     int file = widget.size.squareFile(square);
     bool flip = (gate && widget.state.orientation == widget.state.player) ||
-        ((widget.state.orientation == WHITE && rank == 0) ||
-            (widget.state.orientation == BLACK && rank == widget.size.maxRank + 1));
+        ((widget.state.orientation == Squares.white && rank == 0) ||
+            (widget.state.orientation == Squares.black && rank == widget.size.maxRank + 1));
     if (flip) {
       promoOffset = promoOffset.translate(0, -squareSize * (pieces.length - 1));
       rank = rank - pieces.length - 1;
@@ -303,7 +304,7 @@ class _BoardControllerState extends State<BoardController> {
     Offset? gateOffset;
     if (gate) {
       int origin = gatingSquare ?? selection ?? square; // shouldn't ever be `square`
-      int m = widget.state.orientation == BLACK ? -1 : 1;
+      int m = widget.state.orientation == Squares.black ? -1 : 1;
       int fileDiff = widget.size.fileDiff(square, origin) * m;
       int rankDiff = widget.size.rankDiff(origin, square) * m;
       gateOffset = Offset(

@@ -23,13 +23,13 @@ class GameManager extends Cubit<GameManagerState> {
     PieceSet.merida(),
     PieceSet.letters(style: TextStyle(fontWeight: FontWeight.bold, fontStyle: FontStyle.italic)),
     emojiPieceSet,
-    svgPieceSet(folder: 'assets/kaneo/', symbols: PieceSet.EXTENDED_SYMBOLS),
+    svgPieceSet(folder: 'assets/kaneo/', symbols: PieceSet.extendedSymbols),
   ];
   int themeIndex = 0;
   List<BoardTheme> themes = [
-    BoardTheme.BROWN,
-    BoardTheme.BLUEGREY,
-    BoardTheme.PINK,
+    BoardTheme.brown,
+    BoardTheme.blueGrey,
+    BoardTheme.pink,
   ];
   int highlightThemeIndex = 0;
   List<MarkerTheme> highlightThemes = [
@@ -95,7 +95,7 @@ class GameManagerState {
         games: [],
         pieceSetIndex: 0,
         pieceSet: PieceSet.merida(),
-        theme: BoardTheme.BROWN,
+        theme: BoardTheme.brown,
         highlightTheme: MarkerTheme.basic,
       );
 

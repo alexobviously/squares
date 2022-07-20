@@ -3,7 +3,7 @@ import 'package:squares/squares.dart';
 
 /// A representation of a move. [from] and [to] are square indices.
 /// [promo] and [piece] (both optional) are uppercase single character piece symbols.
-/// [from] can also be [HAND] (-2), for drops originating off the board.
+/// [from] can also be [hand] (-2), for drops originating off the board.
 class Move {
   /// The board location this move starts from.
   final int from;
@@ -30,7 +30,7 @@ class Move {
 
   /// Whether this is a drop move where the piece came from the hand to an empty
   /// square, e.g. the drops in Crazyhouse.
-  bool get handDrop => drop && from == HAND;
+  bool get handDrop => drop && from == Squares.hand;
 
   /// Whether this is a gated drop, e.g. the drops in Seirawan chess.
   bool get gate => drop && from >= 0;
@@ -42,7 +42,7 @@ class Move {
     this.piece,
     this.gatingSquare,
   }) {
-    if (from == HAND) assert(piece != null, 'Drop moves require a piece');
+    if (from == Squares.hand) assert(piece != null, 'Drop moves require a piece');
   }
 
   /// Provides the most basic algebraic form of the move.
@@ -50,9 +50,9 @@ class Move {
   /// or gated pieces, for example.
   /// Use `Game.toAlgebraic` in almost every situation.
   String algebraic([BoardSize size = const BoardSize(8, 8)]) {
-    String _from = from == HAND ? '@' : size.squareName(from);
-    String _to = size.squareName(to);
-    return '$_from$_to';
+    String fromStr = from == Squares.hand ? '@' : size.squareName(from);
+    String toStr = size.squareName(to);
+    return '$fromStr$toStr';
   }
 
   @override
@@ -64,10 +64,13 @@ class PartialMove extends Equatable {
   final int from;
   final String piece;
 
-  bool get drop => from == HAND;
+  bool get drop => from == Squares.hand;
 
-  PartialMove({required this.from, required this.piece});
+  const PartialMove({required this.from, required this.piece});
 
+  @override
   List<Object> get props => [from, piece];
+
+  @override
   bool get stringify => true;
 }

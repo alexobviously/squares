@@ -33,7 +33,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late bishop.Game game;
   late SquaresState state;
-  int player = WHITE;
+  int player = Squares.white;
   bool aiThinking = false;
 
   @override
@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                 pieceSet: PieceSet.merida(),
                 state: state.board,
                 size: state.size,
-                theme: BoardTheme.BLUEGREY,
+                theme: BoardTheme.blueGrey,
                 canMove: state.canMove(player),
                 onTap: print,
               ),

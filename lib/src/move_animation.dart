@@ -13,8 +13,8 @@ class MoveAnimation extends StatefulWidget {
     required this.y,
     Duration? duration,
     Curve? curve,
-  })  : this.duration = duration ?? const Duration(milliseconds: 250),
-        this.curve = curve ?? Curves.easeInQuad,
+  })  : duration = duration ?? const Duration(milliseconds: 250),
+        curve = curve ?? Curves.easeInQuad,
         super(key: key);
 
   @override

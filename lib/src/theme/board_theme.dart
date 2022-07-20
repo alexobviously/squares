@@ -62,7 +62,7 @@ class BoardTheme {
       }[type]!;
 
   /// Brown. Classic. Looks like chess.
-  static const BROWN = BoardTheme(
+  static const brown = BoardTheme(
     lightSquare: Color(0xfff0d9b6),
     darkSquare: Color(0xffb58863),
     check: Color(0xffcb3927),
@@ -73,7 +73,7 @@ class BoardTheme {
   );
 
   /// A more modern blueish greyish theme.
-  static const BLUEGREY = BoardTheme(
+  static const blueGrey = BoardTheme(
     lightSquare: Color(0xffdee3e6),
     darkSquare: Color(0xff788a94),
     check: Color(0xffcb3927),
@@ -84,7 +84,7 @@ class BoardTheme {
   );
 
   /// Eye pain theme.
-  static const PINK = BoardTheme(
+  static const pink = BoardTheme(
     lightSquare: Color(0xffeef0c7),
     darkSquare: Color(0xffe27c78),
     check: Color(0xffcb3927),

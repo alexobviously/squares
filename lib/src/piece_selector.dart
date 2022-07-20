@@ -20,14 +20,15 @@ class PieceSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _pieces = pieces.map((p) => p == null ? Container() : pieceSet.piece(context, p)).toList();
+    List<Widget> piecesW =
+        pieces.map((p) => p == null ? Container() : pieceSet.piece(context, p)).toList();
     List<Widget> squares = [];
-    for (int i = 0; i < _pieces.length; i++) {
+    for (int i = 0; i < piecesW.length; i++) {
       Square square = Square(
         id: i,
         squareKey: GlobalKey(),
         colour: i % 2 == (startOnLight ? 0 : 1) ? theme.lightSquare : theme.darkSquare,
-        piece: _pieces[i],
+        piece: piecesW[i],
         symbol: pieces[i],
         onTap: onTap != null ? (key) => onTap!(i) : null,
         highlight: theme.selected,

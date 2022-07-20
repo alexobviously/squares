@@ -25,12 +25,12 @@ class BoardBackground extends StatelessWidget {
   BoardBackground({
     super.key,
     this.size = BoardSize.standard,
-    this.orientation = WHITE,
-    this.theme = BoardTheme.BROWN,
+    this.orientation = Squares.white,
+    this.theme = BoardTheme.brown,
     this.highlights = const {},
     this.markers = const {},
     MarkerTheme? markerTheme,
-  }) : this.markerTheme = markerTheme ?? MarkerTheme.basic;
+  }) : markerTheme = markerTheme ?? MarkerTheme.basic;
 
   @override
   Widget build(BuildContext context) {

@@ -1,9 +1,9 @@
 part of 'board.dart';
 
-typedef BoardBuilderFunction = Widget Function(int rank, int file, double squareSize);
+typedef SquareBuilder = Widget Function(int rank, int file, double squareSize);
 
 class BoardBuilder extends StatelessWidget {
-  final BoardBuilderFunction builder;
+  final SquareBuilder builder;
   final BoardSize size;
 
   const BoardBuilder({

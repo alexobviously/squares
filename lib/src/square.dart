@@ -67,7 +67,7 @@ class Square extends StatelessWidget {
     this.onDragCancel,
     this.highlight,
     MarkerTheme? highlightTheme,
-  }) : this.highlightTheme = highlightTheme ?? MarkerTheme.basic;
+  }) : highlightTheme = highlightTheme ?? MarkerTheme.basic;
 
   void _onTap() {
     if (onTap != null) onTap!(squareKey);

@@ -95,7 +95,7 @@ class Board extends StatelessWidget {
     this.allowAnimation = true,
     this.animationDuration,
     this.animationCurve,
-  }) : this.markerTheme = markerTheme ?? MarkerTheme.basic;
+  }) : markerTheme = markerTheme ?? MarkerTheme.basic;
 
   @override
   Widget build(BuildContext context) {

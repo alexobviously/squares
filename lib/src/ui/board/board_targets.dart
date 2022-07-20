@@ -22,7 +22,7 @@ class BoardTargets extends StatelessWidget {
   const BoardTargets({
     super.key,
     this.size = BoardSize.standard,
-    this.orientation = WHITE,
+    this.orientation = Squares.white,
     this.onTap,
     this.validateDrag,
     this.acceptDrag,

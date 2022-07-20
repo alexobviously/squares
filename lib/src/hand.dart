@@ -39,20 +39,20 @@ class Hand extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, int> _pieces = {};
-    if (fixedPieces != null) fixedPieces!.forEach((p) => _pieces[p] = 0);
-    pieces.forEach((p) => _pieces[p] = (!_pieces.containsKey(p) ? 1 : _pieces[p]! + 1));
+    Map<String, int> pieceMap = {};
+    if (fixedPieces != null) fixedPieces!.forEach((p) => pieceMap[p] = 0);
+    pieces.forEach((p) => pieceMap[p] = (!pieceMap.containsKey(p) ? 1 : pieceMap[p]! + 1));
     List<Widget> squares = [];
     int i = 0;
-    _pieces.forEach((symbol, num) {
+    pieceMap.forEach((symbol, n) {
       Widget square = Square(
-        id: HAND,
-        draggable: num > 0,
+        id: Squares.hand,
+        draggable: n > 0,
         squareKey: GlobalKey(),
         colour: Color(0x00000000),
         piece: symbol.isNotEmpty
             ? Opacity(
-                opacity: num > 0 ? 1.0 : 0.5,
+                opacity: n > 0 ? 1.0 : 0.5,
                 child: pieceSet.piece(context, symbol),
               )
             : null,
@@ -60,17 +60,18 @@ class Hand extends StatelessWidget {
         // onTap: (key) => print('onTap $symbol'),
         // onDragCancel: () => print('onDC $symbol'),
       );
-      if (num > 0)
+      if (n > 0) {
         square = Badge(
           position: badgePosition,
           shape: badgeShape,
           badgeColor: badgeColour,
           badgeContent: Text(
-            '$num',
+            '$n',
             style: TextStyle(color: Colors.white),
           ),
           child: square,
         );
+      }
       squares.add(square);
       i++;
     });

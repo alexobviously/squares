@@ -31,7 +31,7 @@ class BoardState extends Equatable {
 
   BoardState({
     required this.board,
-    this.player = WHITE,
+    this.player = Squares.white,
     int? orientation,
     this.lastFrom,
     this.lastTo,
@@ -62,5 +62,6 @@ class BoardState extends Equatable {
   /// Returns a `BoardState` identical to this one, but with [orientation] flipped.
   BoardState flipped() => copyWith(orientation: 1 - orientation);
 
+  @override
   List<Object?> get props => [board, player, lastFrom, lastTo, checkSquare, orientation];
 }

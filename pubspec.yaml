@@ -10,12 +10,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
   badges: ^2.0.2
   equatable: ^2.0.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  lints: ^2.0.0
 
 flutter:
   assets:
