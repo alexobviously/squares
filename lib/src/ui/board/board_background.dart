@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:squares/squares.dart';
+part of 'board.dart';
 
 class BoardBackground extends StatelessWidget {
   /// Dimensions of the board.
@@ -30,37 +29,19 @@ class BoardBackground extends StatelessWidget {
     this.theme = BoardTheme.BROWN,
     this.highlights = const {},
     this.markers = const {},
-    MarkerTheme? highlightTheme,
-  }) : this.markerTheme = highlightTheme ?? MarkerTheme.basic;
+    MarkerTheme? markerTheme,
+  }) : this.markerTheme = markerTheme ?? MarkerTheme.basic;
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: size.h / size.v,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          double squareSize = constraints.maxWidth / size.h;
-          return Column(
-            children: List.generate(
-              size.v,
-              (rank) => Expanded(
-                child: Row(
-                  children: List.generate(
-                    size.h,
-                    (file) => _square(context, rank, file, squareSize),
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
+    return BoardBuilder(
+      size: size,
+      builder: (rank, file, squareSize) => _square(context, rank, file, squareSize),
     );
   }
 
   Widget _square(BuildContext context, int rank, int file, double squareSize) {
-    int id = (orientation == WHITE ? rank : size.v - rank - 1) * size.h +
-        (orientation == WHITE ? file : size.h - file - 1);
+    int id = size.square(rank, file, orientation);
 
     Color squareColour = ((rank + file) % 2 == 0) ? theme.lightSquare : theme.darkSquare;
     if (highlights.containsKey(id)) {

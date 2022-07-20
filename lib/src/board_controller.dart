@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:squares/squares.dart';
+import 'board.dart';
 
 /// A wrapper that handles interactions and certain elements of board state
 /// (such as premoves) for a [Board].
@@ -369,7 +370,7 @@ class _BoardControllerState extends State<BoardController> {
 
     return Stack(
       children: [
-        Board(
+        OldBoard(
           boardKey: boardKey,
           pieceSet: widget.pieceSet,
           state: widget.state,

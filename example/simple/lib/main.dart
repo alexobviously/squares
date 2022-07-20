@@ -77,14 +77,22 @@ class _HomePageState extends State<HomePage> {
           children: [
             Padding(
               padding: const EdgeInsets.all(4.0),
-              child: BoardController(
+              // child: BoardController(
+              //   pieceSet: PieceSet.merida(),
+              //   state: state.board,
+              //   theme: BoardTheme.BLUEGREY,
+              //   canMove: state.canMove(player),
+              //   moves: state.moves,
+              //   onMove: _onMove,
+              //   onPremove: _onMove,
+              // ),
+              child: Board(
                 pieceSet: PieceSet.merida(),
                 state: state.board,
+                size: state.size,
                 theme: BoardTheme.BLUEGREY,
                 canMove: state.canMove(player),
-                moves: state.moves,
-                onMove: _onMove,
-                onPremove: _onMove,
+                onTap: print,
               ),
               // child: BoardBackground(
               //   size: state.size,

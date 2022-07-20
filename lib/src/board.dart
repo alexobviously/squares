@@ -5,7 +5,7 @@ import 'package:squares/src/move_animation.dart';
 /// The visual representation of the board. Can be used by itself to simply display
 /// a board, or in conjunction with [BoardController] or some other wrapper to
 /// manage its state and handle interactions.
-class Board extends StatelessWidget {
+class OldBoard extends StatelessWidget {
   /// A key for the board.
   final GlobalKey boardKey;
 
@@ -75,7 +75,7 @@ class Board extends StatelessWidget {
   /// Defaults to [Curves.easeInQuad].
   final Curve? animationCurve;
 
-  Board({
+  OldBoard({
     required this.boardKey,
     required this.pieceSet,
     required this.state,

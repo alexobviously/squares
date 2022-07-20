@@ -1,1 +1,2 @@
-export 'ui/board_background.dart';
+export 'ui/board/board.dart';
+export 'ui/piece.dart';

@@ -10,6 +10,9 @@ class BoardSize {
   /// The vertical size, i.e. number of ranks on the board.
   final int v;
 
+  /// Horizontal size divided by vertical size.
+  double get aspectRatio => h / v;
+
   /// The total number of squares on a board of this size.
   int get numSquares => h * v;
 
@@ -29,6 +32,12 @@ class BoardSize {
 
   /// A standard 8x8 board.
   static const standard = BoardSize(8, 8);
+
+  /// Gets a square id for [rank], [file] and [orientation].
+  /// Orientation can be 0 (white) or 1 (black);
+  int square(int rank, int file, int orientation) =>
+      (orientation == WHITE ? rank : v - rank - 1) * h +
+      (orientation == WHITE ? file : h - file - 1);
 
   /// Returns a human-readable name for a square on a board of this size.
   /// e.g. c1, h6.
