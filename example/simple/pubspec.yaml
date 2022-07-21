@@ -16,7 +16,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   squares:
       path: ../../
-  square_bishop: ^0.1.4
+  square_bishop: ^0.2.0-dev.1
 
 dependency_overrides:
   squares:

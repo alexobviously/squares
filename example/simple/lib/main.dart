@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
     if (result) {
       setState(() => state = game.squaresState(player));
     }
-    if (state.state == sb.PlayState.playing && !aiThinking && !state.canMove(player)) {
+    if (state.state == PlayState.theirTurn && !aiThinking) {
       setState(() => aiThinking = true);
       await Future.delayed(Duration(milliseconds: Random().nextInt(4750) + 250));
       game.makeRandomMove();
@@ -66,14 +66,6 @@ class _HomePageState extends State<HomePage> {
         state = game.squaresState(player);
       });
     }
-  }
-
-  // TODO: remove this on square_bishop upgrade
-  PlayState getPlayState(sb.PlayState sbp, bool canMove) {
-    if (sbp == sb.PlayState.idle) return PlayState.observing;
-    if (sbp == sb.PlayState.finished) return PlayState.finished;
-    if (canMove) return PlayState.ourTurn;
-    return PlayState.theirTurn;
   }
 
   @override
@@ -90,7 +82,7 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(4.0),
               child: BoardController(
                 state: flipBoard ? state.board.copyWith(orientation: player.opponent) : state.board,
-                playState: getPlayState(state.state, state.canMove(player)),
+                playState: state.state,
                 pieceSet: PieceSet.merida(),
                 theme: BoardTheme.brown,
                 moves: state.moves,

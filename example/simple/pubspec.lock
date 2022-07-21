@@ -148,14 +148,14 @@ packages:
       name: square_bishop
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.4"
+    version: "0.2.0-dev.1"
   squares:
     dependency: "direct main"
     description:
       path: "../.."
       relative: true
     source: path
-    version: "0.4.0"
+    version: "1.0.0-dev.1"
   stack_trace:
     dependency: transitive
     description:
