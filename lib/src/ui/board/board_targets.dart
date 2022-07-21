@@ -57,7 +57,6 @@ class BoardTargets extends StatelessWidget {
     return DragTarget<PartialMove>(
       builder: (context, accepted, rejected) {
         return GestureDetector(
-          // onTap: () => print('ONTAP $id'),
           onTap: () => onTap?.call(id),
           behavior: HitTestBehavior.opaque,
           child: SizedBox(

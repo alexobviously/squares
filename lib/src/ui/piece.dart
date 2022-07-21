@@ -11,6 +11,11 @@ class Piece extends StatelessWidget {
   /// Whether the piece on this square can be dragged.
   final bool draggable;
 
+  /// Whether the piece can be interacted with.
+  /// This must be false when any other piece is being dragged, to avoid
+  /// the GestureDetector absorbing the drag.
+  final bool interactible;
+
   /// The size of the piece being dragged will be multiplied by this.
   /// 1.5 is a good value for mobile, but 1.0 is preferable for web.
   final double dragFeedbackSize;
@@ -30,6 +35,7 @@ class Piece extends StatelessWidget {
     required this.child,
     required this.move,
     this.draggable = true,
+    this.interactible = true,
     this.dragFeedbackSize = 2.0,
     this.dragFeedbackOffset = const Offset(0.0, -1.0),
     this.onTap,
@@ -40,6 +46,7 @@ class Piece extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!interactible) return IgnorePointer(child: child);
     Widget piece = GestureDetector(
       child: child,
       onTap: onTap,

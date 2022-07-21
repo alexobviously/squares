@@ -110,11 +110,12 @@ class _BoardControllerState extends State<BoardController> {
   int? target;
   Move? premove;
   List<Move> dests = [];
+  List<PieceSelectorData> pieceSelectors = [];
 
   @override
   void didUpdateWidget(covariant BoardController oldWidget) {
     if (oldWidget.state != widget.state) {
-      _onNewBoardState();
+      _onNewBoardState(oldWidget.state);
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -136,16 +137,26 @@ class _BoardControllerState extends State<BoardController> {
       animationCurve: widget.animationCurve,
       selection: selection,
       target: target,
+      pieceSelectors: pieceSelectors,
       markers: dests.map((e) => e.to).toList(),
       onTap: _onTap,
+      acceptDrag: _acceptDrag,
+      validateDrag: _validateDrag,
+      onPieceSelected: (d, i) => print('!! $d $i'),
     );
   }
 
-  void _onNewBoardState() {
+  void _onNewBoardState(BoardState lastState) {
+    if (widget.state.orientation != lastState.orientation) {
+      // detect if the board has flipped
+      _closePieceSelectors();
+    }
+
     if (premove != null && widget.onPremove != null) {
       final premove = this.premove!;
       WidgetsBinding.instance.addPostFrameCallback((_) => widget.onPremove!(premove));
     }
+
     if (target != null) {
       setState(() {
         premove = null;
@@ -165,6 +176,28 @@ class _BoardControllerState extends State<BoardController> {
     setState(() => selection = square);
   }
 
+  void _onPieceSelected(PieceSelectorData data, int index) {}
+
+  bool _validateDrag(PartialMove partial, int to) {
+    if (partial.drop) {
+      if (widget.drops.isEmpty) return false;
+      return widget.drops.where((m) => m.piece == partial.piece && m.to == to).isNotEmpty;
+    }
+    if (widget.moveMap[partial.from] == null) return false;
+    Move? move = widget.moveMap[partial.from]!.firstWhereOrNull((m) => m.to == to);
+    return move != null;
+  }
+
+  void _acceptDrag(PartialMove partial, int to) {
+    if (partial.drop) {
+      // onDrop(partial, to, squareKey);
+    } else {
+      _setSelection(partial.from);
+      // afterDrag = true;
+      _onTap(to);
+    }
+  }
+
   void _handleMoveTap(int square, void Function(Move)? onMove) {
     if (selection == null) {
       return _setSelection(square);
@@ -181,7 +214,15 @@ class _BoardControllerState extends State<BoardController> {
     bool promoting = promoMoves.isNotEmpty;
     bool gating = gatingMoves.isNotEmpty;
     if (gating) {
+      Set<int?> gatingSquares = {};
+      for (Move m in gatingMoves) {
+        gatingSquares.add(m.gatingSquare);
+      }
+      for (int? x in gatingSquares) {
+        _openPieceSelector(square, gate: true, gatingSquare: x);
+      }
     } else if (promoting) {
+      _openPieceSelector(square);
     } else {
       onMove?.call(moves.first);
     }
@@ -192,6 +233,7 @@ class _BoardControllerState extends State<BoardController> {
       selection = square;
       target = null;
       dests = widget.moveMap[square] ?? [];
+      pieceSelectors = [];
     });
   }
 
@@ -200,6 +242,7 @@ class _BoardControllerState extends State<BoardController> {
       selection = null;
       target = null;
       dests = [];
+      pieceSelectors = [];
     });
   }
 
@@ -219,5 +262,42 @@ class _BoardControllerState extends State<BoardController> {
     premove = move;
     _setTarget(move.to);
     widget.onSetPremove?.call(move);
+  }
+
+  void _openPieceSelector(int square, {bool gate = false, int? gatingSquare}) {
+    List<Move> moves = widget.moves
+        .where(
+          (e) => e.to == square && (gate ? e.gate : e.promotion) && e.gatingSquare == gatingSquare,
+        )
+        .toList();
+    List<String?> pieces = moves.map<String?>((e) => (gate ? e.piece : e.promo) ?? '').toList();
+    pieces.sort(_promoComp);
+    if (gate) {
+      pieces.insert(0, null);
+    }
+
+    setState(() {
+      pieceSelectors.add(
+        PieceSelectorData(
+          square: square,
+          startLight: widget.size.isLightSquare(square),
+          pieces: pieces,
+          gate: gate,
+          gatingSquare: gatingSquare,
+        ),
+      );
+    });
+  }
+
+  void _closePieceSelectors() {
+    setState(() => pieceSelectors = []);
+  }
+
+  // TODO: find a more permanent solution - maybe this should be done in bishop?
+  static const _promoOrder = ['d', 'q', 'a', 'c', 'r', 'b', 'n', 'p'];
+  int _promoComp(String? a, String? b) {
+    if (a == null) return -1;
+    if (b == null) return 1;
+    return _promoOrder.indexOf(a).compareTo(_promoOrder.indexOf(b));
   }
 }

@@ -19,7 +19,7 @@ class Board extends StatelessWidget {
   /// Dimensions of the board.
   final BoardSize size;
 
-  /// Widget builders for the various types of square highlights used.
+  /// Widget builders for the various types of square markers used.
   late final MarkerTheme markerTheme;
 
   /// The currently selected square index.
@@ -30,6 +30,9 @@ class Board extends StatelessWidget {
 
   /// The state of the game, from the perspective of the player.
   final PlayState playState;
+
+  /// Configuration of visible piece selectors (for promo and gating).
+  final List<PieceSelectorData> pieceSelectors;
 
   /// Whether pieces should be draggable or not.
   final bool draggable;
@@ -45,6 +48,9 @@ class Board extends StatelessWidget {
 
   /// Called when a square is tapped.
   final void Function(int)? onTap;
+
+  /// Called when a piece selector receives user input.
+  final void Function(PieceSelectorData data, int i)? onPieceSelected;
 
   /// Called when a piece drag is cancelled.
   final void Function(int)? onDragCancel;
@@ -80,10 +86,12 @@ class Board extends StatelessWidget {
     MarkerTheme? markerTheme,
     this.selection,
     this.target,
+    this.pieceSelectors = const [],
     this.draggable = true,
     this.dragFeedbackSize = 2.0,
     this.dragFeedbackOffset = const Offset(0.0, -1.0),
     this.onTap,
+    this.onPieceSelected,
     this.onDragCancel,
     this.validateDrag,
     this.acceptDrag,
@@ -134,8 +142,18 @@ class Board extends StatelessWidget {
                 size: size,
                 onTap: onTap,
                 onDragStarted: onTap,
-                onDragEnd: onTap,
+                // onDragEnd: onTap,
               ),
+              for (PieceSelectorData data in pieceSelectors)
+                PositionedPieceSelector(
+                  data: data,
+                  boardState: state,
+                  boardSize: size,
+                  theme: theme,
+                  pieceSet: pieceSet,
+                  squareSize: squareSize,
+                  onTap: (i) => onPieceSelected?.call(data, i),
+                ),
             ],
           );
         },

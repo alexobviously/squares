@@ -77,6 +77,12 @@ class BoardSize {
   /// Calculates the difference in files between two squares.
   int fileDiff(int from, int to) => squareFile(to) - squareFile(from);
 
+  /// Returns true if [square] is a light square.
+  bool isLightSquare(int square) => (squareRank(square) + squareFile(square)) % 2 == 0;
+
+  /// Returns true if [square] is a dark square.
+  bool isDarkSquare(int square) => !isLightSquare(square);
+
   /// Create a `Move` from an algebraic string (e.g. a2a3, g6f3) for a board
   /// of this size.
   Move moveFromAlgebraic(String alg) {

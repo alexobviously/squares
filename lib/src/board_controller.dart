@@ -318,16 +318,20 @@ class _OldBoardControllerState extends State<OldBoardController> {
       }
     }
 
-    setState(() {
-      promoState.add(PieceSelectorData(
-        square: square,
-        offset: gateOffset != null ? promoOffset + gateOffset : promoOffset,
-        squareSize: squareSize,
-        startLight: startLight,
-        pieces: pieces,
-        gate: gate,
-      ));
-    });
+    setState(
+      () {
+        promoState.add(
+          PieceSelectorData(
+            square: square,
+            // offset: gateOffset != null ? promoOffset + gateOffset : promoOffset,
+            // squareSize: squareSize,
+            startLight: startLight,
+            pieces: pieces,
+            gate: gate,
+          ),
+        );
+      },
+    );
   }
 
   void closePromoSelector() {
@@ -396,43 +400,16 @@ class _OldBoardControllerState extends State<OldBoardController> {
           animationCurve: widget.animationCurve,
         ),
         for (PieceSelectorData data in promoState)
-          Positioned(
-            left: data.offset.dx,
-            top: data.offset.dy,
-            child: PieceSelector(
-              theme: widget.theme,
-              pieceSet: widget.pieceSet,
-              squareSize: data.squareSize,
-              pieces: data.pieces,
-              startOnLight: data.startLight,
-              onTap: (i) => onPromo(i, data),
-            ),
+          PositionedPieceSelector(
+            data: data,
+            boardState: widget.state,
+            boardSize: widget.size,
+            theme: widget.theme,
+            pieceSet: widget.pieceSet,
+            squareSize: 50,
+            onTap: (i) => onPromo(i, data),
           ),
       ],
     );
   }
-}
-
-/// Also used for gating.
-class PieceSelectorData {
-  final int square;
-  final Offset offset;
-  final double squareSize;
-  final bool startLight;
-  final List<String?> pieces;
-  final bool gate;
-  final int? gatingSquare;
-
-  PieceSelectorData({
-    required this.square,
-    required this.offset,
-    required this.squareSize,
-    required this.startLight,
-    required this.pieces,
-    this.gate = false,
-    this.gatingSquare,
-  });
-
-  @override
-  String toString() => 'PieceSelectorData($square, $offset, $pieces)';
 }

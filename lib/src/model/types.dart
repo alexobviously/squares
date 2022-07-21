@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 /// A function that returns an `int`.
@@ -29,4 +30,26 @@ enum PlayState {
   finished;
 
   bool get playing => this == ourTurn || this == theirTurn;
+}
+
+class PieceSelectorData extends Equatable {
+  final int square;
+  final bool startLight;
+  final List<String?> pieces;
+  final bool gate;
+  final int? gatingSquare;
+
+  PieceSelectorData({
+    required this.square,
+    required this.startLight,
+    required this.pieces,
+    this.gate = false,
+    this.gatingSquare,
+  });
+
+  @override
+  String toString() => 'PieceSelectorData($square, $square, $pieces)';
+
+  @override
+  List<Object?> get props => [square, pieces, gate];
 }
