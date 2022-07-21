@@ -1,3 +1,9 @@
+### 1.0.0
+- Major refactor with improved stability, better performance and better organised code.
+- Board is now composed of separate background, target and piece layers.
+- BoardController has better composed logic.
+- There are many breaking changes here, but if you're exclusively using `BoardController` you will likely only run into a few parameter name changes. `Board` has changed completely.
+
 ### 0.4.0
 - Reworked promotion logic.
 - Supported flex gating variants like Seirawan chess.

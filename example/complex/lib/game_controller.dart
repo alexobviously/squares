@@ -8,7 +8,7 @@ class GameController extends Cubit<GameState> {
   GameController() : super(GameState.initial());
   bishop.Game? game;
   bishop.Engine? engine;
-  int humanPlayer = WHITE;
+  int humanPlayer = Squares.white;
   bishop.Variant? get variant => game?.variant;
 
   void emitState([bool thinking = false]) {
@@ -58,7 +58,7 @@ class GameController extends Cubit<GameState> {
     engine = bishop.Engine(game: game!);
     if (humanPlayer != null) this.humanPlayer = humanPlayer;
     emitState();
-    if (humanPlayer == BLACK) {
+    if (humanPlayer == Squares.black) {
       flipBoard();
     }
     if (game!.turn != humanPlayer) {
@@ -141,7 +141,11 @@ class GameState extends Equatable {
     this.history = const [],
   });
   factory GameState.initial() => GameState(
-      state: PlayState.idle, size: BoardSize.standard(), board: BoardState.empty(), moves: []);
+        state: PlayState.idle,
+        size: BoardSize.standard,
+        board: BoardState.empty(),
+        moves: [],
+      );
 
   GameState copyWith({
     PlayState? state,

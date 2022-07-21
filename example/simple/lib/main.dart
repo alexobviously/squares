@@ -3,7 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:bishop/bishop.dart' as bishop;
 import 'package:squares/squares.dart';
-import 'package:square_bishop/square_bishop.dart';
+import 'package:square_bishop/square_bishop.dart' hide PlayState;
+import 'package:square_bishop/square_bishop.dart' as sb show PlayState;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,8 +34,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late bishop.Game game;
   late SquaresState state;
-  int player = WHITE;
+  int player = Squares.white;
   bool aiThinking = false;
+  bool flipBoard = false;
 
   @override
   void initState() {
@@ -48,13 +50,14 @@ class _HomePageState extends State<HomePage> {
     if (ss) setState(() {});
   }
 
+  void _flipBoard() => setState(() => flipBoard = !flipBoard);
+
   void _onMove(Move move) async {
-    print('_onMove $move');
     bool result = game.makeSquaresMove(move);
     if (result) {
       setState(() => state = game.squaresState(player));
     }
-    if (state.state == PlayState.playing && !aiThinking) {
+    if (state.state == PlayState.theirTurn && !aiThinking) {
       setState(() => aiThinking = true);
       await Future.delayed(Duration(milliseconds: Random().nextInt(4750) + 250));
       game.makeRandomMove();
@@ -78,10 +81,10 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: BoardController(
+                state: flipBoard ? state.board.copyWith(orientation: player.opponent) : state.board,
+                playState: state.state,
                 pieceSet: PieceSet.merida(),
-                state: state.board,
-                theme: BoardTheme.BROWN,
-                canMove: state.canMove(player),
+                theme: BoardTheme.brown,
                 moves: state.moves,
                 onMove: _onMove,
                 onPremove: _onMove,
@@ -91,6 +94,10 @@ class _HomePageState extends State<HomePage> {
             OutlinedButton(
               onPressed: _resetGame,
               child: const Text('New Game'),
+            ),
+            IconButton(
+              onPressed: _flipBoard,
+              icon: const Icon(Icons.rotate_left),
             ),
           ],
         ),

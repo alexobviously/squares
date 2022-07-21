@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:squares/squares.dart';
-import 'package:squares/src/move_animation.dart';
+import 'package:squares/src/ui/move_animation.dart';
 
 /// The visual representation of the board. Can be used by itself to simply display
-/// a board, or in conjunction with [BoardController] or some other wrapper to
+/// a board, or in conjunction with [OldBoardController] or some other wrapper to
 /// manage its state and handle interactions.
-class Board extends StatelessWidget {
+class OldBoard extends StatelessWidget {
   /// A key for the board.
   final GlobalKey boardKey;
 
@@ -22,7 +22,7 @@ class Board extends StatelessWidget {
   final BoardSize size;
 
   /// Widget builders for the various types of square highlights used.
-  late final HighlightTheme highlightTheme;
+  late final MarkerTheme highlightTheme;
 
   /// The currently selected square index.
   final int? selection;
@@ -75,13 +75,13 @@ class Board extends StatelessWidget {
   /// Defaults to [Curves.easeInQuad].
   final Curve? animationCurve;
 
-  Board({
+  OldBoard({
     required this.boardKey,
     required this.pieceSet,
     required this.state,
     required this.theme,
     this.size = const BoardSize(8, 8),
-    HighlightTheme? highlightTheme,
+    MarkerTheme? highlightTheme,
     this.selection,
     this.target,
     this.gameOver = false,
@@ -97,7 +97,7 @@ class Board extends StatelessWidget {
     this.allowAnimation = true,
     this.animationDuration,
     this.animationCurve,
-  }) : this.highlightTheme = highlightTheme ?? HighlightTheme.basic;
+  }) : highlightTheme = highlightTheme ?? MarkerTheme.basic;
 
   void _onDragCancel(int square) {
     if (onDragCancel != null) onDragCancel!(square);
@@ -137,7 +137,10 @@ class Board extends StatelessWidget {
                 ),
               ),
             ),
-            if (state.lastFrom != null && state.lastFrom != HAND && state.lastTo != null && allowAnimation)
+            if (state.lastFrom != null &&
+                state.lastFrom != Squares.hand &&
+                state.lastTo != null &&
+                allowAnimation)
               Builder(
                 builder: (context) {
                   int r = size.v - size.squareRank(state.lastTo!);
@@ -155,10 +158,10 @@ class Board extends StatelessWidget {
                         orient: false,
                       ),
                     ),
-                    top: state.orientation == WHITE ? squareSize * r : null,
-                    left: state.orientation == WHITE ? squareSize * f : null,
-                    bottom: state.orientation == BLACK ? squareSize * r : null,
-                    right: state.orientation == BLACK ? squareSize * f : null,
+                    top: state.orientation == Squares.white ? squareSize * r : null,
+                    left: state.orientation == Squares.white ? squareSize * f : null,
+                    bottom: state.orientation == Squares.black ? squareSize * r : null,
+                    right: state.orientation == Squares.black ? squareSize * f : null,
                   );
                 },
               ),
@@ -170,15 +173,15 @@ class Board extends StatelessWidget {
 
   Widget _square(BuildContext context, int rank, int file, double squareSize,
       {bool animation = false, bool orient = true}) {
-    int id = (!orient || state.orientation == WHITE ? rank : size.v - rank - 1) * size.h +
-        (!orient || state.orientation == WHITE ? file : size.h - file - 1);
+    int id = (!orient || state.orientation == Squares.white ? rank : size.v - rank - 1) * size.h +
+        (!orient || state.orientation == Squares.white ? file : size.h - file - 1);
     GlobalKey squareKey = GlobalKey();
     String symbol = state.board.length > id ? state.board[id] : '';
     Widget? piece = symbol.isNotEmpty ? pieceSet.piece(context, symbol) : null;
-    num _orientation = state.orientation == WHITE ? 1 : -1;
+    num _orientation = state.orientation == Squares.white ? 1 : -1;
     if (piece != null &&
         state.lastFrom != null &&
-        state.lastFrom != HAND &&
+        state.lastFrom != Squares.hand &&
         state.lastTo != null &&
         state.lastTo == id &&
         allowAnimation) {
@@ -199,10 +202,15 @@ class Board extends StatelessWidget {
       }
     }
     Color squareColour = ((rank + file) % 2 == 0) ? theme.lightSquare : theme.darkSquare;
-    if (state.lastFrom == id || state.lastTo == id) squareColour = Color.alphaBlend(theme.previous, squareColour);
-    if (selection == id) squareColour = Color.alphaBlend(canMove ? theme.selected : theme.premove, squareColour);
-    if (state.checkSquare == id)
+    if (state.lastFrom == id || state.lastTo == id) {
+      squareColour = Color.alphaBlend(theme.previous, squareColour);
+    }
+    if (selection == id) {
+      squareColour = Color.alphaBlend(canMove ? theme.selected : theme.premove, squareColour);
+    }
+    if (state.checkSquare == id) {
       squareColour = Color.alphaBlend(gameOver ? theme.checkmate : theme.check, squareColour);
+    }
     if (target == id) squareColour = Color.alphaBlend(theme.premove, squareColour);
     bool hasHighlight = highlights.contains(id);
     return DragTarget<PartialMove>(

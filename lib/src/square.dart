@@ -46,7 +46,7 @@ class Square extends StatelessWidget {
 
   /// The theme to use when building piece/square highlights.
   /// See `HighlightTheme` for more details.
-  late final HighlightTheme highlightTheme;
+  late final MarkerTheme highlightTheme;
 
   /// Is there a piece on this square?
   bool get hasPiece => piece != null;
@@ -66,8 +66,8 @@ class Square extends StatelessWidget {
     this.onTap,
     this.onDragCancel,
     this.highlight,
-    HighlightTheme? highlightTheme,
-  }) : this.highlightTheme = highlightTheme ?? HighlightTheme.basic;
+    MarkerTheme? highlightTheme,
+  }) : highlightTheme = highlightTheme ?? MarkerTheme.basic;
 
   void _onTap() {
     if (onTap != null) onTap!(squareKey);
@@ -131,7 +131,8 @@ class Square extends StatelessWidget {
               children: [
                 if (hasHighlight && !hasPiece) highlightTheme.empty(context, _size, highlight!),
                 if (hasHighlight && hasPiece) highlightTheme.piece(context, _size, highlight!),
-                if (hasPiece) Container(width: _size, height: _size, child: FittedBox(child: _piece!)),
+                if (hasPiece)
+                  Container(width: _size, height: _size, child: FittedBox(child: _piece!)),
               ],
             ),
           ),

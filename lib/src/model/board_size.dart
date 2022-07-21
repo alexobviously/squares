@@ -10,6 +10,9 @@ class BoardSize {
   /// The vertical size, i.e. number of ranks on the board.
   final int v;
 
+  /// Horizontal size divided by vertical size.
+  double get aspectRatio => h / v;
+
   /// The total number of squares on a board of this size.
   int get numSquares => h * v;
 
@@ -30,12 +33,18 @@ class BoardSize {
   /// A standard 8x8 board.
   static const standard = BoardSize(8, 8);
 
+  /// Gets a square id for [rank], [file] and [orientation].
+  /// Orientation can be 0 (white) or 1 (black);
+  int square(int rank, int file, int orientation) =>
+      (orientation == Squares.white ? rank : v - rank - 1) * h +
+      (orientation == Squares.white ? file : h - file - 1);
+
   /// Returns a human-readable name for a square on a board of this size.
   /// e.g. c1, h6.
   String squareName(int square) {
     int rank = v - (square ~/ h);
     int file = square % h;
-    String fileName = String.fromCharCode(ASCII_a + file);
+    String fileName = String.fromCharCode(asciiA + file);
     return '$fileName$rank';
   }
 
@@ -43,16 +52,16 @@ class BoardSize {
   /// the correct square on a board of this size.
   int squareNumber(String name) {
     name = name.toLowerCase();
-    if (name == 'hand') return HAND;
+    if (name == 'hand') return Squares.hand;
     RegExp rx = RegExp(r'([A-Za-z])([0-9]+)');
     RegExpMatch? match = rx.firstMatch(name);
     assert(match != null, 'Invalid square name: $name');
     assert(match!.groupCount == 2, 'Invalid square name: $name');
-    String file = match!.group(1)!;
-    String rank = match.group(2)!;
-    int _file = file.codeUnits[0] - ASCII_a;
-    int _rank = v - int.parse(rank);
-    int square = _rank * h + _file;
+    String fileStr = match!.group(1)!;
+    String rankStr = match.group(2)!;
+    int file = fileStr.codeUnits[0] - asciiA;
+    int rank = v - int.parse(rankStr);
+    int square = rank * h + file;
     return square;
   }
 
@@ -68,12 +77,18 @@ class BoardSize {
   /// Calculates the difference in files between two squares.
   int fileDiff(int from, int to) => squareFile(to) - squareFile(from);
 
+  /// Returns true if [square] is a light square.
+  bool isLightSquare(int square) => (squareRank(square) + squareFile(square)) % 2 == 0;
+
+  /// Returns true if [square] is a dark square.
+  bool isDarkSquare(int square) => !isLightSquare(square);
+
   /// Create a `Move` from an algebraic string (e.g. a2a3, g6f3) for a board
   /// of this size.
   Move moveFromAlgebraic(String alg) {
     if (alg[1] == '@') {
       // it's a drop
-      int from = HAND;
+      int from = Squares.hand;
       int to = squareNumber(alg.substring(2, 4));
       return Move(from: from, to: to, piece: alg[0].toUpperCase());
     }
@@ -83,11 +98,11 @@ class BoardSize {
     String? piece;
     int? gatingSquare;
     String? promo;
-    List<String> _sections = alg.split('/');
-    if (_sections.length > 1) {
-      String _gate = _sections.last;
-      piece = _gate[0];
-      gatingSquare = _gate.length > 2 ? squareNumber(_gate.substring(1, 3)) : from;
+    List<String> sections = alg.split('/');
+    if (sections.length > 1) {
+      String gate = sections.last;
+      piece = gate[0];
+      gatingSquare = gate.length > 2 ? squareNumber(gate.substring(1, 3)) : from;
     } else {
       promo = (alg.length > 4) ? alg[4] : null;
     }

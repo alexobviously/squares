@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:squares/squares.dart';
+import 'package:squares/src/board_controller.dart';
 
 class GamePage extends StatefulWidget {
   final GameController game;
   final PieceSet pieceSet;
   final BoardTheme theme;
-  final HighlightTheme? highlightTheme;
+  final MarkerTheme? highlightTheme;
   GamePage({
     Key? key,
     required this.game,
@@ -55,7 +56,7 @@ class _GamePageState extends State<GamePage> {
               if (_hands) _hand(1 - _orientation),
               Padding(
                 padding: EdgeInsets.all(4.0),
-                child: BoardController(
+                child: OldBoardController(
                   state: state.board,
                   pieceSet: widget.pieceSet,
                   theme: widget.theme,
@@ -105,8 +106,9 @@ class _GamePageState extends State<GamePage> {
               theme: widget.theme,
               pieceSet: widget.pieceSet,
               pieces: state.hands[player],
-              fixedPieces:
-                  STANDARD_PIECES.map((x) => player == WHITE ? x : x.toLowerCase()).toList(),
+              fixedPieces: Squares.standardPieces
+                  .map((x) => player == Squares.white ? x : x.toLowerCase())
+                  .toList(),
               squareSize: 37,
               badgeColour: Colors.blue,
             );
