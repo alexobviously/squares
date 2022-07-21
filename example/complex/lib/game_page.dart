@@ -105,8 +105,9 @@ class _GamePageState extends State<GamePage> {
               theme: widget.theme,
               pieceSet: widget.pieceSet,
               pieces: state.hands[player],
-              fixedPieces:
-                  standardPieces.map((x) => player == Squares.white ? x : x.toLowerCase()).toList(),
+              fixedPieces: Squares.standardPieces
+                  .map((x) => player == Squares.white ? x : x.toLowerCase())
+                  .toList(),
               squareSize: 37,
               badgeColour: Colors.blue,
             );
