@@ -23,18 +23,18 @@ class GameManager extends Cubit<GameManagerState> {
     PieceSet.merida(),
     PieceSet.letters(style: TextStyle(fontWeight: FontWeight.bold, fontStyle: FontStyle.italic)),
     emojiPieceSet,
-    svgPieceSet(folder: 'assets/kaneo/', symbols: PieceSet.EXTENDED_SYMBOLS),
+    svgPieceSet(folder: 'assets/kaneo/', symbols: PieceSet.extendedSymbols),
   ];
   int themeIndex = 0;
   List<BoardTheme> themes = [
-    BoardTheme.BROWN,
-    BoardTheme.BLUEGREY,
-    BoardTheme.PINK,
+    BoardTheme.brown,
+    BoardTheme.blueGrey,
+    BoardTheme.pink,
   ];
   int highlightThemeIndex = 0;
-  List<HighlightTheme> highlightThemes = [
-    HighlightTheme.basic,
-    HighlightTheme.square,
+  List<MarkerTheme> highlightThemes = [
+    MarkerTheme.basic,
+    MarkerTheme.square,
   ];
 
   void createGame(GameConfig config) {
@@ -74,7 +74,8 @@ class GameManager extends Cubit<GameManagerState> {
     emit(state.copyWith(highlightTheme: highlightThemes[index]));
   }
 
-  void nextHighlightTheme() => changeHighlightTheme((highlightThemeIndex + 1) % highlightThemes.length);
+  void nextHighlightTheme() =>
+      changeHighlightTheme((highlightThemeIndex + 1) % highlightThemes.length);
 }
 
 class GameManagerState {
@@ -82,7 +83,7 @@ class GameManagerState {
   final int pieceSetIndex;
   final PieceSet pieceSet;
   final BoardTheme theme;
-  final HighlightTheme highlightTheme;
+  final MarkerTheme highlightTheme;
   GameManagerState({
     required this.games,
     required this.pieceSetIndex,
@@ -94,8 +95,8 @@ class GameManagerState {
         games: [],
         pieceSetIndex: 0,
         pieceSet: PieceSet.merida(),
-        theme: BoardTheme.BROWN,
-        highlightTheme: HighlightTheme.basic,
+        theme: BoardTheme.brown,
+        highlightTheme: MarkerTheme.basic,
       );
 
   GameManagerState copyWith({
@@ -103,7 +104,7 @@ class GameManagerState {
     int? pieceSetIndex,
     PieceSet? pieceSet,
     BoardTheme? theme,
-    HighlightTheme? highlightTheme,
+    MarkerTheme? highlightTheme,
   }) =>
       GameManagerState(
         games: games ?? this.games,

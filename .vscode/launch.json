@@ -6,24 +6,26 @@
     "configurations": [
         {
             "name": "squares",
+            "cwd": "example/complex",
             "request": "launch",
             "type": "dart"
         },
         {
             "name": "squares (profile mode)",
+            "cwd": "example/complex",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "complex",
-            "cwd": "example/complex",
+            "name": "simple example",
+            "cwd": "example/simple",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "complex (profile mode)",
-            "cwd": "example/complex",
+            "name": "simple example (profile mode)",
+            "cwd": "example/simple",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"

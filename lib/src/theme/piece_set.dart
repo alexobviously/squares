@@ -7,8 +7,12 @@ import 'package:flutter/material.dart';
 /// The keys should be uppercase for white pieces, and lowercase for black,
 /// e.g. a white pawn is 'P' and a black pawn is 'p'.
 class PieceSet {
-  static const List<String> DEFAULT_SYMBOLS = ['P', 'N', 'B', 'R', 'Q', 'K'];
-  static const List<String> EXTENDED_SYMBOLS = ['P', 'N', 'B', 'R', 'Q', 'K', 'A', 'C', 'H', 'E', 'S'];
+  static const List<String> defaultSymbols = ['P', 'N', 'B', 'R', 'Q', 'K'];
+  static const List<String> extendedSymbols = [
+    //
+    'P', 'N', 'B', 'R', 'Q', 'K',
+    'A', 'C', 'H', 'E', 'S',
+  ];
 
   /// The builders used to create the widgets to represent pieces.
   final Map<String, WidgetBuilder> pieces;
@@ -60,7 +64,7 @@ class PieceSet {
   factory PieceSet.merida() => PieceSet.fromImageAssets(
         folder: 'lib/piece_sets/merida/',
         package: 'squares',
-        symbols: EXTENDED_SYMBOLS,
+        symbols: extendedSymbols,
       );
 
   /// Specifies a set of `WidgetBuilders` that render `Text` widgets with only
