@@ -36,6 +36,7 @@ class _HomePageState extends State<HomePage> {
   late SquaresState state;
   int player = Squares.white;
   bool aiThinking = false;
+  bool flipBoard = false;
 
   @override
   void initState() {
@@ -48,6 +49,8 @@ class _HomePageState extends State<HomePage> {
     state = game.squaresState(player);
     if (ss) setState(() {});
   }
+
+  void _flipBoard() => setState(() => flipBoard = !flipBoard);
 
   void _onMove(Move move) async {
     bool result = game.makeSquaresMove(move);
@@ -85,17 +88,8 @@ class _HomePageState extends State<HomePage> {
           children: [
             Padding(
               padding: const EdgeInsets.all(4.0),
-              // child: OldBoardController(
-              //   pieceSet: PieceSet.merida(),
-              //   state: state.board,
-              //   theme: BoardTheme.blueGrey,
-              //   canMove: state.canMove(player),
-              //   moves: state.moves,
-              //   onMove: _onMove,
-              //   onPremove: _onMove,
-              // ),
               child: BoardController(
-                state: state.board,
+                state: flipBoard ? state.board.copyWith(orientation: player.opponent) : state.board,
                 playState: getPlayState(state.state, state.canMove(player)),
                 pieceSet: PieceSet.merida(),
                 theme: BoardTheme.brown,
@@ -103,30 +97,15 @@ class _HomePageState extends State<HomePage> {
                 onMove: _onMove,
                 onPremove: _onMove,
               ),
-              // child: Board(
-              //   pieceSet: PieceSet.merida(),
-              //   state: state.board,
-              //   size: state.size,
-              //   theme: BoardTheme.blueGrey,
-              //   playState: getPlayState(state.state, state.canMove(player)),
-              //   onTap: print,
-              // ),
-              // child: BoardBackground(
-              //   size: state.size,
-              //   theme: BoardTheme.BLUEGREY,
-              //   orientation: BLACK,
-              //   highlights: {4: HighlightType.check, 16: HighlightType.previous},
-              //   markers: {
-              //     22: Marker.empty(HighlightType.premove),
-              //     41: Marker.piece(HighlightType.premove),
-              //     42: Marker.piece(HighlightType.selected),
-              //   },
-              // ),
             ),
             const SizedBox(height: 32),
             OutlinedButton(
               onPressed: _resetGame,
               child: const Text('New Game'),
+            ),
+            IconButton(
+              onPressed: _flipBoard,
+              icon: const Icon(Icons.rotate_left),
             ),
           ],
         ),

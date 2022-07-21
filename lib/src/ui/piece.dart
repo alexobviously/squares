@@ -28,7 +28,7 @@ class Piece extends StatelessWidget {
   final VoidCallback? onTap;
   final VoidCallback? onDragStarted;
   final VoidCallback? onDragCancelled;
-  final VoidCallback? onDragEnd;
+  final void Function(DraggableDetails)? onDragEnd;
 
   const Piece({
     super.key,
@@ -85,7 +85,7 @@ class Piece extends StatelessWidget {
           ),
           onDragStarted: onDragStarted,
           onDraggableCanceled: (_, __) => onDragCancelled?.call(),
-          onDragEnd: (_) => onDragEnd?.call(),
+          onDragEnd: onDragEnd,
           maxSimultaneousDrags: 1,
         );
       },
