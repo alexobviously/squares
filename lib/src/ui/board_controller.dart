@@ -142,7 +142,7 @@ class _BoardControllerState extends State<BoardController> {
       onTap: _onTap,
       acceptDrag: _acceptDrag,
       validateDrag: _validateDrag,
-      onPieceSelected: (d, i) => print('!! $d $i'),
+      onPieceSelected: _onPieceSelected,
     );
   }
 
@@ -176,7 +176,30 @@ class _BoardControllerState extends State<BoardController> {
     setState(() => selection = square);
   }
 
-  void _onPieceSelected(PieceSelectorData data, int index) {}
+  void _onPieceSelected(PieceSelectorData data, int index) {
+    if (pieceSelectors.isEmpty || selection == null || widget.onMove == null) {
+      return _closePieceSelectors();
+    }
+    String? piece = data.pieces[index];
+    if (piece != null) piece = piece.toLowerCase();
+    Move move = !data.gate
+        ? Move(
+            from: selection!,
+            to: data.square,
+            promo: piece,
+          )
+        : Move(
+            from: selection!,
+            to: data.square,
+            piece: piece,
+            gatingSquare: data.gatingSquare,
+          );
+    if (widget.playState != PlayState.theirTurn) {
+      if (widget.onMove != null) _onMove(move);
+    } else {
+      _setPremove(move);
+    }
+  }
 
   bool _validateDrag(PartialMove partial, int to) {
     if (partial.drop) {
@@ -272,6 +295,9 @@ class _BoardControllerState extends State<BoardController> {
         .toList();
     List<String?> pieces = moves.map<String?>((e) => (gate ? e.piece : e.promo) ?? '').toList();
     pieces.sort(_promoComp);
+    if (widget.state.player == Squares.white) {
+      pieces = pieces.map<String?>((e) => e!.toUpperCase()).toList();
+    }
     if (gate) {
       pieces.insert(0, null);
     }
