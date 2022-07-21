@@ -1,4 +1,9 @@
-# Squares
+<p align="center">
+<img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/banner.png" height="100" alt="Squares" />
+</p>
+
+---
+
 ### A flexible chessboard widget for Flutter.
 
 Squares is a chessboard like you've never seen before. Or more accurately, it is a chessboard very much like the ones you have seen before, but one that can do a pretty wide variety of things.
@@ -13,34 +18,34 @@ Squares has a stateless `Board` widget that can used to display a complete board
 * Highlighting previous moves, possible moves, check/checkmate
 * Board themes
 <br>
-<img src="https://raw.githubusercontent.com/alexobviously/squares/main/screenshots/themes.gif" width="300"/>
+<img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/themes.gif" width="300"/>
 
 * Highlight themes
 <br>
-<img src="https://raw.githubusercontent.com/alexobviously/squares/main/screenshots/highlight_themes.gif" width="300"/>
+<img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/highlight_themes.gif" width="300"/>
 
 * Piece animations
 <br>
-<img src="https://raw.githubusercontent.com/alexobviously/squares/main/screenshots/animations.gif" width="300"/>
+<img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/animations.gif" width="300"/>
 
 * Premoves
 <br>
-<img src="https://raw.githubusercontent.com/alexobviously/squares/main/screenshots/premoves.gif" width="300"/>
+<img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/premoves.gif" width="300"/>
 
 * Supports arbitrary board sizes and pieces
 <br>
-<img src="https://raw.githubusercontent.com/alexobviously/squares/main/screenshots/nano.gif" width="300"/>
-<img src="https://raw.githubusercontent.com/alexobviously/squares/main/screenshots/capablanca.gif" width="300"/>
-<img src="https://raw.githubusercontent.com/alexobviously/squares/main/screenshots/grand.gif" width="300"/>
+<img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/nano.gif" width="300"/>
+<img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/capablanca.gif" width="300"/>
+<img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/grand.gif" width="300"/>
 
 * Piece promotion
 <br>
-<img src="https://raw.githubusercontent.com/alexobviously/squares/main/screenshots/promotion.gif" width="300"/>
+<img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/promotion.gif" width="300"/>
 
 * Flexible piece set definitions - any widget will do, use an svg, image asset, text, etc
 <br>
-<img src="https://raw.githubusercontent.com/alexobviously/squares/main/screenshots/piecesets.gif" width="300"/>
+<img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/piecesets.gif" width="300"/>
 
 * Dropping pieces from hands (à la Crazyhouse)
 <br>
-<img src="https://raw.githubusercontent.com/alexobviously/squares/main/screenshots/crazyhouse.gif" width="300"/>
+<img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/crazyhouse.gif" width="300"/>
