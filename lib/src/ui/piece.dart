@@ -46,40 +46,42 @@ class Piece extends StatelessWidget {
     );
     if (!draggable) return piece;
 
-    return LayoutBuilder(builder: (context, constraints) {
-      double size = 50;
-      if (constraints.maxWidth != double.infinity) {
-        size = constraints.maxWidth;
-      } else if (constraints.maxHeight != double.infinity) {
-        size = constraints.maxHeight;
-      }
-      double fbSize = size * dragFeedbackSize;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double size = 50;
+        if (constraints.maxWidth != double.infinity) {
+          size = constraints.maxWidth;
+        } else if (constraints.maxHeight != double.infinity) {
+          size = constraints.maxHeight;
+        }
+        double fbSize = size * dragFeedbackSize;
 
-      return Draggable<PartialMove>(
-        data: move,
-        child: piece,
-        hitTestBehavior: HitTestBehavior.translucent,
-        feedback: Transform.translate(
-          offset: Offset(
-            ((dragFeedbackOffset.dx - 1) * fbSize) / 2,
-            ((dragFeedbackOffset.dy - 1) * fbSize) / 2,
+        return Draggable<PartialMove>(
+          data: move,
+          child: piece,
+          hitTestBehavior: HitTestBehavior.translucent,
+          feedback: Transform.translate(
+            offset: Offset(
+              ((dragFeedbackOffset.dx - 1) * fbSize) / 2,
+              ((dragFeedbackOffset.dy - 1) * fbSize) / 2,
+            ),
+            child: SizedBox(
+              width: fbSize,
+              height: fbSize,
+              child: piece,
+            ),
           ),
-          child: SizedBox(
-            width: fbSize,
-            height: fbSize,
+          dragAnchorStrategy: pointerDragAnchorStrategy,
+          childWhenDragging: Opacity(
+            opacity: 0.5,
             child: piece,
           ),
-        ),
-        dragAnchorStrategy: pointerDragAnchorStrategy,
-        childWhenDragging: Opacity(
-          opacity: 0.5,
-          child: piece,
-        ),
-        onDragStarted: onDragStarted,
-        onDraggableCanceled: (_, __) => onDragCancelled?.call(),
-        onDragEnd: (_) => onDragEnd?.call(),
-        maxSimultaneousDrags: 1,
-      );
-    });
+          onDragStarted: onDragStarted,
+          onDraggableCanceled: (_, __) => onDragCancelled?.call(),
+          onDragEnd: (_) => onDragEnd?.call(),
+          maxSimultaneousDrags: 1,
+        );
+      },
+    );
   }
 }

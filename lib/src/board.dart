@@ -3,7 +3,7 @@ import 'package:squares/squares.dart';
 import 'package:squares/src/move_animation.dart';
 
 /// The visual representation of the board. Can be used by itself to simply display
-/// a board, or in conjunction with [BoardController] or some other wrapper to
+/// a board, or in conjunction with [OldBoardController] or some other wrapper to
 /// manage its state and handle interactions.
 class OldBoard extends StatelessWidget {
   /// A key for the board.

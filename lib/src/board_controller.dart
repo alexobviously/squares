@@ -4,7 +4,7 @@ import 'board.dart';
 
 /// A wrapper that handles interactions and certain elements of board state
 /// (such as premoves) for a [Board].
-class BoardController extends StatefulWidget {
+class OldBoardController extends StatefulWidget {
   /// The set of widgets to use for pieces on the board.
   final PieceSet pieceSet;
 
@@ -60,7 +60,7 @@ class BoardController extends StatefulWidget {
   /// Defaults to [Curves.easeInQuad].
   final Curve? animationCurve;
 
-  BoardController({
+  OldBoardController({
     required this.pieceSet,
     required this.state,
     required this.theme,
@@ -103,10 +103,10 @@ class BoardController extends StatefulWidget {
   }
 
   @override
-  _BoardControllerState createState() => _BoardControllerState();
+  _OldBoardControllerState createState() => _OldBoardControllerState();
 }
 
-class _BoardControllerState extends State<BoardController> {
+class _OldBoardControllerState extends State<OldBoardController> {
   int? selection;
   int? target;
   List<Move> dests = [];
@@ -153,7 +153,9 @@ class _BoardControllerState extends State<BoardController> {
                     .where((e) => e.from == selection && e.to == square && e.gate)
                     .toList();
                 Set<int?> gatingSquares = {};
-                for (Move m in _moves) gatingSquares.add(m.gatingSquare);
+                for (Move m in _moves) {
+                  gatingSquares.add(m.gatingSquare);
+                }
                 for (int? x in gatingSquares) {
                   openPieceSelector(square, squareKey, gate: true, gatingSquare: x);
                 }

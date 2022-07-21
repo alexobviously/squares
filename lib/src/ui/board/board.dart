@@ -7,11 +7,11 @@ part 'board_pieces.dart';
 part 'board_targets.dart';
 
 class Board extends StatelessWidget {
-  /// The set of widgets to use for pieces on the board.
-  final PieceSet pieceSet;
-
   /// The state of the board - which pieces are on which squares, etc.
   final BoardState state;
+
+  /// The set of widgets to use for pieces on the board.
+  final PieceSet pieceSet;
 
   /// Colour scheme for the board.
   final BoardTheme theme;
@@ -28,11 +28,8 @@ class Board extends StatelessWidget {
   /// The currently selected target square index (for premoves).
   final int? target;
 
-  /// Is the game over?
-  final bool gameOver;
-
-  /// If false, premoves will be allowed.
-  final bool canMove;
+  /// The state of the game, from the perspective of the player.
+  final PlayState playState;
 
   /// Whether pieces should be draggable or not.
   final bool draggable;
@@ -61,29 +58,28 @@ class Board extends StatelessWidget {
 
   /// A list of highlighted square indices. Usually this will correspond to squares
   /// that the selected piece can move to.
-  final List<int> highlights;
+  final List<int> markers;
 
   /// If true and there is a last move, it will be animated.
-  final bool allowAnimation;
+  final bool animateLastMove;
 
   /// How long move animations take to play.
-  final Duration? animationDuration;
+  final Duration animationDuration;
 
   /// Animation curve for piece movements.
   /// Defaults to [Curves.easeInQuad].
-  final Curve? animationCurve;
+  final Curve animationCurve;
 
   Board({
     super.key,
-    required this.pieceSet,
     required this.state,
+    this.playState = PlayState.observing,
+    required this.pieceSet,
     required this.theme,
     this.size = BoardSize.standard,
     MarkerTheme? markerTheme,
     this.selection,
     this.target,
-    this.gameOver = false,
-    this.canMove = false,
     this.draggable = true,
     this.dragFeedbackSize = 2.0,
     this.dragFeedbackOffset = const Offset(0.0, -1.0),
@@ -91,10 +87,10 @@ class Board extends StatelessWidget {
     this.onDragCancel,
     this.validateDrag,
     this.acceptDrag,
-    this.highlights = const [],
-    this.allowAnimation = true,
-    this.animationDuration,
-    this.animationCurve,
+    this.markers = const [],
+    this.animateLastMove = true,
+    this.animationDuration = Squares.defaultAnimationDuration,
+    this.animationCurve = Squares.defaultAnimationCurve,
   }) : markerTheme = markerTheme ?? MarkerTheme.basic;
 
   @override
@@ -110,8 +106,19 @@ class Board extends StatelessWidget {
                 size: size,
                 orientation: state.orientation,
                 theme: theme,
-                highlights: {},
-                markers: {},
+                highlights: generateHighlights(
+                  state: state,
+                  selection: selection,
+                  target: target,
+                  playState: playState,
+                ),
+                markers: generateMarkers(
+                  state: state,
+                  squares: markers,
+                  colour: playState != PlayState.theirTurn
+                      ? HighlightType.selected
+                      : HighlightType.premove,
+                ),
                 markerTheme: markerTheme,
               ),
               BoardTargets(

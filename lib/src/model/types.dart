@@ -21,3 +21,12 @@ enum HighlightType {
   selected,
   premove,
 }
+
+enum PlayState {
+  observing,
+  ourTurn,
+  theirTurn,
+  finished;
+
+  bool get playing => this == ourTurn || this == theirTurn;
+}

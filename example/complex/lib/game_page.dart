@@ -55,7 +55,7 @@ class _GamePageState extends State<GamePage> {
               if (_hands) _hand(1 - _orientation),
               Padding(
                 padding: EdgeInsets.all(4.0),
-                child: BoardController(
+                child: OldBoardController(
                   state: state.board,
                   pieceSet: widget.pieceSet,
                   theme: widget.theme,

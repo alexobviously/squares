@@ -3,7 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:bishop/bishop.dart' as bishop;
 import 'package:squares/squares.dart';
-import 'package:square_bishop/square_bishop.dart';
+import 'package:square_bishop/square_bishop.dart' hide PlayState;
+import 'package:square_bishop/square_bishop.dart' as sb show PlayState;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,12 +50,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onMove(Move move) async {
-    print('_onMove $move');
     bool result = game.makeSquaresMove(move);
     if (result) {
       setState(() => state = game.squaresState(player));
     }
-    if (state.state == PlayState.playing && !aiThinking) {
+    if (state.state == sb.PlayState.playing && !aiThinking && !state.canMove(player)) {
       setState(() => aiThinking = true);
       await Future.delayed(Duration(milliseconds: Random().nextInt(4750) + 250));
       game.makeRandomMove();
@@ -63,6 +63,14 @@ class _HomePageState extends State<HomePage> {
         state = game.squaresState(player);
       });
     }
+  }
+
+  // TODO: remove this on square_bishop upgrade
+  PlayState getPlayState(sb.PlayState sbp, bool canMove) {
+    if (sbp == sb.PlayState.idle) return PlayState.observing;
+    if (sbp == sb.PlayState.finished) return PlayState.finished;
+    if (canMove) return PlayState.ourTurn;
+    return PlayState.theirTurn;
   }
 
   @override
@@ -77,23 +85,32 @@ class _HomePageState extends State<HomePage> {
           children: [
             Padding(
               padding: const EdgeInsets.all(4.0),
-              // child: BoardController(
+              // child: OldBoardController(
               //   pieceSet: PieceSet.merida(),
               //   state: state.board,
-              //   theme: BoardTheme.BLUEGREY,
+              //   theme: BoardTheme.blueGrey,
               //   canMove: state.canMove(player),
               //   moves: state.moves,
               //   onMove: _onMove,
               //   onPremove: _onMove,
               // ),
-              child: Board(
-                pieceSet: PieceSet.merida(),
+              child: BoardController(
                 state: state.board,
-                size: state.size,
-                theme: BoardTheme.blueGrey,
-                canMove: state.canMove(player),
-                onTap: print,
+                playState: getPlayState(state.state, state.canMove(player)),
+                pieceSet: PieceSet.merida(),
+                theme: BoardTheme.brown,
+                moves: state.moves,
+                onMove: _onMove,
+                onPremove: _onMove,
               ),
+              // child: Board(
+              //   pieceSet: PieceSet.merida(),
+              //   state: state.board,
+              //   size: state.size,
+              //   theme: BoardTheme.blueGrey,
+              //   playState: getPlayState(state.state, state.canMove(player)),
+              //   onTap: print,
+              // ),
               // child: BoardBackground(
               //   size: state.size,
               //   theme: BoardTheme.BLUEGREY,

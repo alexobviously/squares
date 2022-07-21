@@ -38,7 +38,12 @@ class BoardPieces extends StatelessWidget {
   Widget _piece(BuildContext context, int rank, int file, double squareSize) {
     int id = size.square(rank, file, state.orientation);
     String symbol = state.board.length > id ? state.board[id] : '';
-    Widget piece = symbol.isNotEmpty ? pieceSet.piece(context, symbol) : Container();
+    Widget piece = symbol.isNotEmpty
+        ? pieceSet.piece(context, symbol)
+        : SizedBox(
+            width: squareSize,
+            height: squareSize,
+          );
     return Piece(
       child: piece,
       move: PartialMove(
