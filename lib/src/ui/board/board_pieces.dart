@@ -1,5 +1,7 @@
 part of 'board.dart';
 
+// TODO: don't allow opponent pieces to be dragged
+
 class BoardPieces extends StatefulWidget {
   /// The set of widgets to use for pieces on the board.
   final PieceSet pieceSet;
@@ -13,6 +15,16 @@ class BoardPieces extends StatefulWidget {
   /// Are the pieces draggable?
   final bool draggable;
 
+  /// If true and there is a last move, it will be animated.
+  final bool animatePieces;
+
+  /// How long move animations take to play.
+  final Duration animationDuration;
+
+  /// Animation curve for piece movements.
+  /// Defaults to [Curves.easeInQuad].
+  final Curve animationCurve;
+
   /// Called when a piece is tapped.
   final void Function(int)? onTap;
   final void Function(int)? onDragStarted;
@@ -25,6 +37,9 @@ class BoardPieces extends StatefulWidget {
     required this.state,
     this.size = BoardSize.standard,
     this.draggable = true,
+    this.animatePieces = true,
+    this.animationDuration = Squares.defaultAnimationDuration,
+    this.animationCurve = Squares.defaultAnimationCurve,
     this.onTap,
     this.onDragStarted,
     this.onDragCancelled,
@@ -37,6 +52,12 @@ class BoardPieces extends StatefulWidget {
 
 class _BoardPiecesState extends State<BoardPieces> {
   int? currentDrag;
+
+  // @override
+  // void didUpdateWidget(covariant BoardPieces oldWidget) {
+  //   // TODO: implement didUpdateWidget
+  //   super.didUpdateWidget(oldWidget);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +76,7 @@ class _BoardPiecesState extends State<BoardPieces> {
             width: squareSize,
             height: squareSize,
           );
-    return Piece(
+    final p = Piece(
       child: piece,
       draggable: currentDrag != null ? currentDrag == id : widget.draggable,
       interactible: currentDrag == null || currentDrag == id,
@@ -68,6 +89,22 @@ class _BoardPiecesState extends State<BoardPieces> {
       onDragCancelled: () => _onDragCancelled(id),
       onDragEnd: () => _onDragEnd(id),
     );
+    if (widget.state.lastTo == id &&
+        widget.state.lastFrom != Squares.hand &&
+        symbol.isNotEmpty &&
+        widget.animatePieces) {
+      int orientation = widget.state.orientation == Squares.white ? 1 : -1;
+      return MoveAnimation(
+        child: p,
+        x: -widget.size.fileDiff(widget.state.lastFrom!, widget.state.lastTo!).toDouble() *
+            orientation,
+        y: widget.size.rankDiff(widget.state.lastFrom!, widget.state.lastTo!).toDouble() *
+            orientation,
+        duration: widget.animationDuration,
+        curve: widget.animationCurve,
+      );
+    }
+    return p;
   }
 
   void _onDragStarted(int id) {

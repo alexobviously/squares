@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:squares/squares.dart';
-import 'package:squares/src/move_animation.dart';
+import 'package:squares/src/ui/move_animation.dart';
 
 /// The visual representation of the board. Can be used by itself to simply display
 /// a board, or in conjunction with [OldBoardController] or some other wrapper to

@@ -67,7 +67,7 @@ class Board extends StatelessWidget {
   final List<int> markers;
 
   /// If true and there is a last move, it will be animated.
-  final bool animateLastMove;
+  final bool animatePieces;
 
   /// How long move animations take to play.
   final Duration animationDuration;
@@ -96,7 +96,7 @@ class Board extends StatelessWidget {
     this.validateDrag,
     this.acceptDrag,
     this.markers = const [],
-    this.animateLastMove = true,
+    this.animatePieces = true,
     this.animationDuration = Squares.defaultAnimationDuration,
     this.animationCurve = Squares.defaultAnimationCurve,
   }) : markerTheme = markerTheme ?? MarkerTheme.basic;
@@ -142,7 +142,9 @@ class Board extends StatelessWidget {
                 size: size,
                 onTap: onTap,
                 onDragStarted: onTap,
-                // onDragEnd: onTap,
+                animatePieces: animatePieces,
+                animationDuration: animationDuration,
+                animationCurve: animationCurve,
               ),
               for (PieceSelectorData data in pieceSelectors)
                 PositionedPieceSelector(

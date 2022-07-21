@@ -132,7 +132,7 @@ class _BoardControllerState extends State<BoardController> {
       draggable: widget.draggable,
       dragFeedbackSize: widget.dragFeedbackSize,
       dragFeedbackOffset: widget.dragFeedbackOffset,
-      animateLastMove: widget.animatePieces,
+      animatePieces: widget.animatePieces,
       animationDuration: widget.animationDuration,
       animationCurve: widget.animationCurve,
       selection: selection,

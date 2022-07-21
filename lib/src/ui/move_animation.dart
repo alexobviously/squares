@@ -29,10 +29,12 @@ class _MoveAnimationState extends State<MoveAnimation> with SingleTickerProvider
   late final Animation<Offset> _offsetAnimation = Tween<Offset>(
     begin: Offset(widget.x, widget.y),
     end: Offset.zero,
-  ).animate(CurvedAnimation(
-    parent: _controller,
-    curve: widget.curve,
-  ));
+  ).animate(
+    CurvedAnimation(
+      parent: _controller,
+      curve: widget.curve,
+    ),
+  );
 
   @override
   void dispose() {

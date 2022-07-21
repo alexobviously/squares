@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _resetGame([bool ss = true]) {
-    game = bishop.Game(variant: bishop.Variant.standard(), fen: '8/5P2/3k4/8/8/8/2K5/8 w - - 0 1');
+    game = bishop.Game(variant: bishop.Variant.standard());
     state = game.squaresState(player);
     if (ss) setState(() {});
   }
