@@ -3,7 +3,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:squares/squares.dart';
-import 'package:square_bishop/square_bishop.dart';
 
 class GameController extends Cubit<GameState> {
   GameController() : super(GameState.initial());
@@ -76,7 +75,7 @@ class GameController extends Cubit<GameState> {
       print('move $alg not found');
       print(game!.generateLegalMoves().map((e) => game!.toAlgebraic(e)).toList());
     } else {
-      bool res = game!.makeMove(m);
+      game!.makeMove(m);
       emitState();
       //Future.delayed(Duration(milliseconds: 200)).then((_) => engineMove());
       engineMove();

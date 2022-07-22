@@ -11,6 +11,13 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = ThemeData(
+      primarySwatch: Colors.blueGrey,
+      fontFamily: GoogleFonts.cairo().fontFamily,
+    );
+    theme = theme.copyWith(
+      colorScheme: theme.colorScheme.copyWith(secondary: Colors.cyan),
+    );
     return MultiBlocProvider(
       providers: [
         BlocProvider<GameManager>(
@@ -19,11 +26,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Squares Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blueGrey,
-          accentColor: Colors.cyan,
-          fontFamily: GoogleFonts.cairo().fontFamily,
-        ),
+        theme: theme,
         home: HomeView(),
       ),
     );

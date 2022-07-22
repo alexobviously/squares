@@ -3,8 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:bishop/bishop.dart' as bishop;
 import 'package:squares/squares.dart';
-import 'package:square_bishop/square_bishop.dart' hide PlayState;
-import 'package:square_bishop/square_bishop.dart' as sb show PlayState;
+import 'package:square_bishop/square_bishop.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
