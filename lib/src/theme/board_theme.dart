@@ -65,7 +65,7 @@ class BoardTheme {
   static const brown = BoardTheme(
     lightSquare: Color(0xfff0d9b6),
     darkSquare: Color(0xffb58863),
-    check: Color(0xffcb3927),
+    check: Color(0xffeb5160),
     checkmate: Colors.orange,
     previous: Color(0x809cc700),
     selected: Color(0x8014551e),
@@ -76,7 +76,7 @@ class BoardTheme {
   static const blueGrey = BoardTheme(
     lightSquare: Color(0xffdee3e6),
     darkSquare: Color(0xff788a94),
-    check: Color(0xffcb3927),
+    check: Color(0xffeb5160),
     checkmate: Colors.orange,
     previous: Color(0x809bc700),
     selected: Color(0x8014551e),
@@ -92,5 +92,16 @@ class BoardTheme {
     previous: Color(0xff6ad1eb),
     selected: Color(0x8014551e),
     premove: Color(0x807b56b3),
+  );
+
+  /// A tribute.
+  static const dart = BoardTheme(
+    lightSquare: Color(0xff41c4ff),
+    darkSquare: Color(0xff0f659f),
+    check: Color(0xffeb5160),
+    checkmate: Color(0xff56351e),
+    previous: Color(0xffa9fbd7),
+    selected: Color(0xfff6f1d1),
+    premove: Color(0xffe3d8f1),
   );
 }

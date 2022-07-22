@@ -30,6 +30,7 @@ class GameManager extends Cubit<GameManagerState> {
     BoardTheme.brown,
     BoardTheme.blueGrey,
     BoardTheme.pink,
+    BoardTheme.dart,
   ];
   int highlightThemeIndex = 0;
   List<MarkerTheme> highlightThemes = [
