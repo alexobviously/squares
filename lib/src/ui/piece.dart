@@ -25,9 +25,16 @@ class Piece extends StatelessWidget {
   /// the bottom of the piece will be anchored to the finger.
   final Offset dragFeedbackOffset;
 
+  /// Called when the piece is tapped.
   final VoidCallback? onTap;
+
+  /// Called when a drag is started.
   final VoidCallback? onDragStarted;
+
+  /// Called when a drag is cancelled.
   final VoidCallback? onDragCancelled;
+
+  /// Called when a drag ends, i.e. it was dropped on a target.
   final void Function(DraggableDetails)? onDragEnd;
 
   const Piece({

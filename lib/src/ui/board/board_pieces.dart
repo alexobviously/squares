@@ -27,8 +27,14 @@ class BoardPieces extends StatefulWidget {
 
   /// Called when a piece is tapped.
   final void Function(int)? onTap;
+
+  /// Called when a drag is started.
   final void Function(int)? onDragStarted;
+
+  /// Called when a drag is cancelled.
   final void Function(int)? onDragCancelled;
+
+  /// Called when a drag ends, i.e. a piece was dropped on a target.
   final void Function(int)? onDragEnd;
 
   const BoardPieces({
