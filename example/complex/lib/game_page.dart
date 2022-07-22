@@ -31,7 +31,6 @@ class _GamePageState extends State<GamePage> {
   }
 
   void _onPremove(Move move) {
-    print('On premove: $move (${widget.game.state.size.moveToAlgebraic(move)})');
     widget.game.makeMove(move);
   }
 
@@ -101,15 +100,21 @@ class _GamePageState extends State<GamePage> {
         child: BlocBuilder<GameController, GameState>(
           bloc: widget.game,
           builder: (_context, state) {
-            return Hand(
-              theme: widget.theme,
-              pieceSet: widget.pieceSet,
-              pieces: state.hands[player],
-              fixedPieces: Squares.standardPieces
-                  .map((x) => player == Squares.white ? x : x.toLowerCase())
-                  .toList(),
-              squareSize: 37,
-              badgeColour: Colors.blue,
+            return LayoutBuilder(
+              builder: (context, constraints) {
+                double width = constraints.maxWidth;
+                double squareSize = width / state.size.h;
+                return Hand(
+                  theme: widget.theme,
+                  pieceSet: widget.pieceSet,
+                  pieces: state.hands[player],
+                  fixedPieces: Squares.standardPieces
+                      .map((x) => player == Squares.white ? x : x.toLowerCase())
+                      .toList(),
+                  squareSize: squareSize,
+                  badgeColour: Colors.blue,
+                );
+              },
             );
           },
         ),

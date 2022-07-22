@@ -77,7 +77,6 @@ class GameController extends Cubit<GameState> {
       print(game!.generateLegalMoves().map((e) => game!.toAlgebraic(e)).toList());
     } else {
       bool res = game!.makeMove(m);
-      print('result for move $m ($alg): $res');
       emitState();
       //Future.delayed(Duration(milliseconds: 200)).then((_) => engineMove());
       engineMove();

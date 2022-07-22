@@ -279,7 +279,6 @@ class _OldBoardControllerState extends State<OldBoardController> {
         .toList();
     List<String?> pieces = _moves.map<String?>((e) => (gate ? e.piece : e.promo) ?? '').toList();
     pieces.sort(_promoComp);
-    print('pieces: $pieces');
     if (widget.state.player == Squares.white) {
       pieces = pieces.map<String?>((e) => e!.toUpperCase()).toList();
     }

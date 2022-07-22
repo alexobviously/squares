@@ -213,7 +213,7 @@ class _BoardControllerState extends State<BoardController> {
 
   void _acceptDrag(PartialMove partial, int to) {
     if (partial.drop) {
-      // onDrop(partial, to, squareKey);
+      _onDrop(partial, to);
     } else {
       _setSelection(partial.from);
       // afterDrag = true;
@@ -336,5 +336,19 @@ class _BoardControllerState extends State<BoardController> {
     if (a == null) return -1;
     if (b == null) return 1;
     return _promoOrder.indexOf(a).compareTo(_promoOrder.indexOf(b));
+  }
+
+  void _onDrop(PartialMove partial, int to) {
+    List<Move> targetMoves =
+        widget.drops.where((m) => m.piece == partial.piece && m.to == to).toList();
+    if (targetMoves.isEmpty) {
+      _clearSelection();
+    } else {
+      if (widget.playState == PlayState.ourTurn) {
+        _onMove(targetMoves.first);
+      } else if (widget.playState == PlayState.theirTurn) {
+        _setPremove(targetMoves.first);
+      }
+    }
   }
 }

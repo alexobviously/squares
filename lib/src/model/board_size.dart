@@ -90,7 +90,7 @@ class BoardSize {
       // it's a drop
       int from = Squares.hand;
       int to = squareNumber(alg.substring(2, 4));
-      return Move(from: from, to: to, piece: alg[0].toUpperCase());
+      return Move(from: from, to: to, piece: alg[0]);
     }
     int from = squareNumber(alg.substring(0, 2));
     int to = squareNumber(alg.substring(2, 4));

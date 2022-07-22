@@ -16,13 +16,15 @@ class Hand extends StatelessWidget {
 
   /// A list of the piece types that should be fixed in the hand. These will always be
   /// present in the hand, in dulled form, even if there are no pieces of their type available.
-  final List<String>? fixedPieces;
+  final List<String> fixedPieces;
 
-  // Position of piece count badges.
+  /// Position of piece count badges.
   final BadgePosition? badgePosition;
-  // Shape of piece count badges.
+
+  /// Shape of piece count badges.
   final BadgeShape badgeShape;
-  // Colour of piece count badges.
+
+  /// Colour of piece count badges.
   final Color badgeColour;
 
   const Hand({
@@ -31,7 +33,7 @@ class Hand extends StatelessWidget {
     required this.theme,
     required this.pieceSet,
     required this.pieces,
-    this.fixedPieces,
+    this.fixedPieces = const [],
     this.badgePosition,
     this.badgeShape = BadgeShape.circle,
     this.badgeColour = Colors.red,
@@ -40,28 +42,17 @@ class Hand extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Map<String, int> pieceMap = {};
-    if (fixedPieces != null) fixedPieces!.forEach((p) => pieceMap[p] = 0);
-    pieces.forEach((p) => pieceMap[p] = (!pieceMap.containsKey(p) ? 1 : pieceMap[p]! + 1));
+    for (String p in fixedPieces) {
+      pieceMap[p] = 0;
+    }
+    for (String p in pieces) {
+      pieceMap[p] = (!pieceMap.containsKey(p) ? 1 : pieceMap[p]! + 1);
+    }
     List<Widget> squares = [];
-    int i = 0;
     pieceMap.forEach((symbol, n) {
-      Widget square = Square(
-        id: Squares.hand,
-        draggable: n > 0,
-        squareKey: GlobalKey(),
-        colour: Color(0x00000000),
-        piece: symbol.isNotEmpty
-            ? Opacity(
-                opacity: n > 0 ? 1.0 : 0.5,
-                child: pieceSet.piece(context, symbol),
-              )
-            : null,
-        symbol: symbol,
-        // onTap: (key) => print('onTap $symbol'),
-        // onDragCancel: () => print('onDC $symbol'),
-      );
+      Widget piece = _piece(context, symbol, n);
       if (n > 0) {
-        square = Badge(
+        piece = Badge(
           position: badgePosition,
           shape: badgeShape,
           badgeColor: badgeColour,
@@ -69,11 +60,10 @@ class Hand extends StatelessWidget {
             '$n',
             style: TextStyle(color: Colors.white),
           ),
-          child: square,
+          child: piece,
         );
       }
-      squares.add(square);
-      i++;
+      squares.add(piece);
     });
     return Container(
       height: squareSize,
@@ -81,5 +71,30 @@ class Hand extends StatelessWidget {
         children: squares,
       ),
     );
+  }
+
+  Widget _piece(
+    BuildContext context,
+    String symbol,
+    int count,
+  ) {
+    Widget piece = symbol.isNotEmpty
+        ? Opacity(
+            opacity: count > 0 ? 1.0 : 0.5,
+            child: pieceSet.piece(context, symbol),
+          )
+        : SizedBox(
+            width: squareSize,
+            height: squareSize,
+          );
+    final p = Piece(
+      child: piece,
+      draggable: count > 0,
+      move: PartialMove(
+        from: Squares.hand,
+        piece: symbol,
+      ),
+    );
+    return p;
   }
 }
