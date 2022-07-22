@@ -2,8 +2,6 @@
 <img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/banner.png" height="100" alt="Squares" />
 </p>
 
----
-
 ### A flexible chessboard widget for Flutter.
 
 Squares is a chessboard like you've never seen before. Or more accurately, it is a chessboard very much like the ones you have seen before, but one that can do a pretty wide variety of things.
