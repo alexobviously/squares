@@ -1,9 +1,14 @@
 part of 'board.dart';
 
+/// A function to build a widget from [rank], [file] and [squareSize].
 typedef SquareBuilder = Widget Function(int rank, int file, double squareSize);
 
+///  Builds a grid of widgets of [size], according to [builder].
 class BoardBuilder extends StatelessWidget {
+  /// A function to build a widget from [rank], [file] and [squareSize].
   final SquareBuilder builder;
+
+  /// The size of the board.
   final BoardSize size;
 
   const BoardBuilder({

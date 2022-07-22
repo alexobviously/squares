@@ -1,5 +1,6 @@
 part of 'board.dart';
 
+/// The background layer of a board. Contains coloured boxes, potentially with markers.
 class BoardBackground extends StatelessWidget {
   /// Dimensions of the board.
   final BoardSize size;

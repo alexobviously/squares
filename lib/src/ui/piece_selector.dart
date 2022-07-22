@@ -3,13 +3,22 @@ import 'package:squares/squares.dart';
 
 /// A popup widget used to select pieces to be used for promotion, or for gating.
 class PieceSelector extends StatelessWidget {
+  /// Data object holding the configuration for the selector.
   final PieceSelectorData data;
+
+  /// The theme to use for the 'squares' behind the pieces.
   final BoardTheme theme;
 
   /// Widget builders for the various types of square markers used.
   late final MarkerTheme markerTheme;
+
+  /// The set of widgets to use for the pieces.
   final PieceSet pieceSet;
+
+  /// The size (width/height) of one square.
   final double squareSize;
+
+  /// Called when a piece is tapped.
   final Function(int)? onTap;
 
   PieceSelector({
@@ -54,16 +63,30 @@ class PieceSelector extends StatelessWidget {
   }
 }
 
+/// A piece selector, positioned relative to a board presumably behind it.
 class PositionedPieceSelector extends StatelessWidget {
+  /// Data object holding the configuration for the selector.
   final PieceSelectorData data;
+
+  /// The current state of the board behind this piece selector.
   final BoardState boardState;
+
+  /// The size of the board behind this piece selector.
   final BoardSize boardSize;
+
+  /// The theme to use for the 'squares' behind the pieces.
   final BoardTheme theme;
 
   /// Widget builders for the various types of square markers used.
   late final MarkerTheme markerTheme;
+
+  /// The set of widgets to use for the pieces.
   final PieceSet pieceSet;
+
+  /// The size (width/height) of one square.
   final double squareSize;
+
+  /// Called when a piece is tapped.
   final Function(int)? onTap;
 
   PositionedPieceSelector({

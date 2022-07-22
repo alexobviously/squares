@@ -2,6 +2,7 @@ part of 'board.dart';
 
 // TODO: don't allow opponent pieces to be dragged
 
+/// The piece layer for a board. Contains pieces and empty boxes.
 class BoardPieces extends StatefulWidget {
   /// The set of widgets to use for pieces on the board.
   final PieceSet pieceSet;

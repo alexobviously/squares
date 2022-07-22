@@ -6,6 +6,9 @@ part 'board_builder.dart';
 part 'board_pieces.dart';
 part 'board_targets.dart';
 
+/// The visual representation of the board. Can be used by itself to simply display
+/// a board, or in conjunction with [BoardController] or some other wrapper to
+/// manage its state and handle interactions.
 class Board extends StatelessWidget {
   /// The state of the board - which pieces are on which squares, etc.
   final BoardState state;

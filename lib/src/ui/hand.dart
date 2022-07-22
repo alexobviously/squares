@@ -4,10 +4,16 @@ import 'package:squares/squares.dart';
 
 /// A hand of pieces to drop from, such as in Crazyhouse.
 class Hand extends StatelessWidget {
-  // The width/height of one square.
+  // The size (width/height) of one square.
   final double squareSize;
+
+  /// Whether to stack duplicate pieces, or lay them out individually.
   final bool stackPieces;
+
+  /// The theme to derive colours from.
   final BoardTheme theme;
+
+  /// The set of widgets to use for pieces on the board.
   final PieceSet pieceSet;
 
   /// A list of the pieces in the hand. These should be single character piece symbols.

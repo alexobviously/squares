@@ -1,5 +1,7 @@
 part of 'board.dart';
 
+/// The target layer of a board.
+/// Contains the invisible widgets that handle gestures.
 class BoardTargets extends StatelessWidget {
   /// Dimensions of the board.
   final BoardSize size;
@@ -10,6 +12,8 @@ class BoardTargets extends StatelessWidget {
   final int orientation;
 
   /// Called when a square is tapped.
+  /// Note that if a piece is above this square, it will absorb the tap, so both
+  /// [onTap] functions need to be handled.
   final Function(int)? onTap;
 
   /// Called when a piece moves over a new square. This includes external pieces,
