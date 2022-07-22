@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: BoardController(
-                state: flipBoard ? state.board.copyWith(orientation: player.opponent) : state.board,
+                state: flipBoard ? state.board.flipped() : state.board,
                 playState: state.state,
                 pieceSet: PieceSet.merida(),
                 theme: BoardTheme.brown,

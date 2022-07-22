@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:squares/squares.dart';
+import 'package:square_bishop/square_bishop.dart';
 
 class GameController extends Cubit<GameState> {
   GameController() : super(GameState.initial());
@@ -141,7 +142,7 @@ class GameState extends Equatable {
     this.history = const [],
   });
   factory GameState.initial() => GameState(
-        state: PlayState.idle,
+        state: PlayState.observing,
         size: BoardSize.standard,
         board: BoardState.empty(),
         moves: [],
@@ -172,11 +173,4 @@ class GameState extends Equatable {
 
   List<Object> get props => [state, size, board, moves, hands, thinking];
   bool get stringify => true;
-}
-
-enum PlayState {
-  idle,
-  ourTurn,
-  theirTurn,
-  finished,
 }

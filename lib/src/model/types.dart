@@ -38,6 +38,7 @@ class PieceSelectorData extends Equatable {
   final List<String?> pieces;
   final bool gate;
   final int? gatingSquare;
+  final bool disambiguateGating;
 
   PieceSelectorData({
     required this.square,
@@ -45,6 +46,7 @@ class PieceSelectorData extends Equatable {
     required this.pieces,
     this.gate = false,
     this.gatingSquare,
+    this.disambiguateGating = false,
   });
 
   @override

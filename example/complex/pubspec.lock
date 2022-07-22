@@ -18,11 +18,9 @@ packages:
   bishop:
     dependency: "direct main"
     description:
-      path: "."
-      ref: master
-      resolved-ref: "4797ca8654ab968d8e2304a3d00963726602b405"
-      url: "git@github.com:alexobviously/bishop.git"
-    source: git
+      name: bishop
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.3.3"
   bloc:
     dependency: "direct main"
@@ -312,13 +310,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.2"
+  square_bishop:
+    dependency: "direct main"
+    description:
+      name: square_bishop
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0-dev.1"
   squares:
     dependency: "direct main"
     description:
       path: "../.."
       relative: true
     source: path
-    version: "0.4.0"
+    version: "1.0.0-dev.3"
   stack_trace:
     dependency: transitive
     description:
@@ -390,5 +395,5 @@ packages:
     source: hosted
     version: "5.3.1"
 sdks:
-  dart: ">=2.17.0 <3.0.0"
+  dart: ">=2.17.0-0 <3.0.0"
   flutter: ">=2.10.0-0"

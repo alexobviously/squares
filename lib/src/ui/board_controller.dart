@@ -192,7 +192,7 @@ class _BoardControllerState extends State<BoardController> {
             from: selection!,
             to: data.square,
             piece: piece,
-            gatingSquare: data.gatingSquare,
+            gatingSquare: data.disambiguateGating ? data.gatingSquare : null,
           );
     if (widget.playState != PlayState.theirTurn) {
       if (widget.onMove != null) _onMove(move);
@@ -242,7 +242,12 @@ class _BoardControllerState extends State<BoardController> {
         gatingSquares.add(m.gatingSquare);
       }
       for (int? x in gatingSquares) {
-        _openPieceSelector(square, gate: true, gatingSquare: x);
+        _openPieceSelector(
+          square,
+          gate: true,
+          gatingSquare: x,
+          disambiguateGating: gatingSquares.length > 1,
+        );
       }
     } else if (promoting) {
       _openPieceSelector(square);
@@ -287,7 +292,12 @@ class _BoardControllerState extends State<BoardController> {
     widget.onSetPremove?.call(move);
   }
 
-  void _openPieceSelector(int square, {bool gate = false, int? gatingSquare}) {
+  void _openPieceSelector(
+    int square, {
+    bool gate = false,
+    int? gatingSquare,
+    bool disambiguateGating = false,
+  }) {
     List<Move> moves = widget.moves
         .where(
           (e) => e.to == square && (gate ? e.gate : e.promotion) && e.gatingSquare == gatingSquare,
@@ -310,6 +320,7 @@ class _BoardControllerState extends State<BoardController> {
           pieces: pieces,
           gate: gate,
           gatingSquare: gatingSquare,
+          disambiguateGating: disambiguateGating,
         ),
       );
     });

@@ -12,10 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
     
-  bishop: 
-    git:
-      url: git@github.com:alexobviously/bishop.git
-      ref: master
+  bishop: ^0.3.3
   badges: ^2.0.1
   bloc: ^7.0.0
   dots_indicator: ^2.0.0
@@ -25,6 +22,11 @@ dependencies:
   flutter_svg: ^1.0.0
   google_fonts: ^2.2.0
   material_design_icons_flutter: ^5.0.5955-rc.1
+  squares:
+    path: ../../
+  square_bishop: ^0.2.0-dev.1
+
+dependency_overrides:
   squares:
     path: ../../
 

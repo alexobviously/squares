@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:squares/squares.dart';
-import 'package:squares/src/board_controller.dart';
 
 class GamePage extends StatefulWidget {
   final GameController game;
@@ -56,16 +55,16 @@ class _GamePageState extends State<GamePage> {
               if (_hands) _hand(1 - _orientation),
               Padding(
                 padding: EdgeInsets.all(4.0),
-                child: OldBoardController(
+                child: BoardController(
                   state: state.board,
+                  playState: state.state,
                   pieceSet: widget.pieceSet,
                   theme: widget.theme,
                   size: state.size,
-                  highlightTheme: widget.highlightTheme,
+                  markerTheme: widget.highlightTheme,
                   onMove: _onMove,
                   onPremove: _onPremove,
                   moves: state.moves,
-                  canMove: state.canMove,
                   draggable: true,
                   dragFeedbackSize: kIsWeb ? 1.5 : 2.0,
                   dragFeedbackOffset: kIsWeb ? Offset(0.0, 0.0) : Offset(0.0, -1.0),
