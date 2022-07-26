@@ -289,6 +289,7 @@ class _BoardControllerState extends State<BoardController> {
       target = null;
       dests = widget.moveMap[square] ?? [];
       pieceSelectors = [];
+      premove = null;
     });
   }
 
