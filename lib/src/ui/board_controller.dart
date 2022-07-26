@@ -289,6 +289,7 @@ class _BoardControllerState extends State<BoardController> {
   void _setPremove(Move move) {
     premove = move;
     _setTarget(move.to);
+    _closePieceSelectors();
     widget.onSetPremove?.call(move);
   }
 

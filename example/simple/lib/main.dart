@@ -87,7 +87,10 @@ class _HomePageState extends State<HomePage> {
                 moves: state.moves,
                 onMove: _onMove,
                 onPremove: _onMove,
-                markerTheme: MarkerTheme(empty: MarkerTheme.dot, piece: MarkerTheme.corners()),
+                markerTheme: MarkerTheme(
+                  empty: MarkerTheme.dot,
+                  piece: MarkerTheme.corners(),
+                ),
               ),
             ),
             const SizedBox(height: 32),
