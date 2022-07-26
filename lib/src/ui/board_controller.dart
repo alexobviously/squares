@@ -358,12 +358,10 @@ class _BoardControllerState extends State<BoardController> {
     setState(() => pieceSelectors = []);
   }
 
-  // TODO: find a more permanent solution - maybe this should be done in bishop?
-  static const _promoOrder = ['d', 'q', 'a', 'c', 'r', 'b', 'n', 'p'];
   int _promoComp(String? a, String? b) {
     if (a == null) return -1;
     if (b == null) return 1;
-    return _promoOrder.indexOf(a).compareTo(_promoOrder.indexOf(b));
+    return widget.pieceHierarchy.indexOf(a).compareTo(widget.pieceHierarchy.indexOf(b));
   }
 
   void _onDrop(PartialMove partial, int to) {
