@@ -1,6 +1,7 @@
 ### 1.0.1
+- Fixed piece selectors not closing after premoves.
+- Premoves can now be cancelled by selecting another square.
 - `MarkerTheme.corners()` - piece marker that draws triangles in the corners of the square.
-- Fixed piece selectors not closing on premoves.
 - `BoardController.promotionBehaviour` - this allows different behaviours to be specified: always show the selector (default), always auto select the best piece, or auto select only for premoves.
 - `BoardController.pieceHierarchy` - allows the relative hierarchy of pieces to be specified, for use in auto promotion and ordering the pieces in the selector.
 
