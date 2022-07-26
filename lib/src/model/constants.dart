@@ -15,6 +15,7 @@ class Squares {
   static const int black = 1;
   static const int hand = -2;
   static const List<String> standardPieces = ['Q', 'R', 'B', 'N', 'P'];
+  static const List<String> defaultPieceHierarchy = ['d', 'q', 'a', 'c', 'r', 'b', 'n', 'p'];
 
   static const defaultAnimationDuration = Duration(milliseconds: 250);
   static const defaultAnimationCurve = Curves.easeInQuad;

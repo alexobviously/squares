@@ -29,6 +29,17 @@ class BoardController extends StatefulWidget {
   /// Called when a premove is triggered.
   final void Function(Move)? onPremove;
 
+  /// How to behave on promotion moves.
+  final PromotionBehaviour promotionBehaviour;
+
+  /// The relative hierarchy of pieces, specified by their symbols, in order
+  /// from best to worst. Used in ordering the pieces in piece selectors, and
+  /// in deciding which piece to auto promote to.
+  /// Note that this won't change which pieces are available in selectors - that
+  /// depends on the moves available - it only orders them.
+  /// All symbols should be lower case.
+  final List<String> pieceHierarchy;
+
   /// A list of moves that can be played/premoved.
   final List<Move> moves;
 
@@ -57,6 +68,8 @@ class BoardController extends StatefulWidget {
   late final Map<int, List<Move>> moveMap;
   late final List<Move> drops;
 
+  String get bestPiece => pieceHierarchy.isNotEmpty ? pieceHierarchy.first : 'q';
+
   BoardController({
     super.key,
     required this.state,
@@ -68,6 +81,8 @@ class BoardController extends StatefulWidget {
     this.onMove,
     this.onSetPremove,
     this.onPremove,
+    this.promotionBehaviour = PromotionBehaviour.alwaysSelect,
+    this.pieceHierarchy = Squares.defaultPieceHierarchy,
     this.moves = const [],
     this.draggable = true,
     this.dragFeedbackSize = 2.0,
@@ -171,7 +186,7 @@ class _BoardControllerState extends State<BoardController> {
       return _handleMoveTap(square, _onMove);
     }
     if (widget.playState == PlayState.theirTurn) {
-      return _handleMoveTap(square, _setPremove);
+      return _handleMoveTap(square, _setPremove, true);
     }
     setState(() => selection = square);
   }
@@ -221,7 +236,11 @@ class _BoardControllerState extends State<BoardController> {
     }
   }
 
-  void _handleMoveTap(int square, void Function(Move)? onMove) {
+  void _handleMoveTap(
+    int square,
+    void Function(Move)? onMove, [
+    bool isPremove = false,
+  ]) {
     if (selection == null) {
       return _setSelection(square);
     }
@@ -250,6 +269,14 @@ class _BoardControllerState extends State<BoardController> {
         );
       }
     } else if (promoting) {
+      bool showSelector = widget.promotionBehaviour == PromotionBehaviour.alwaysSelect ||
+          (!isPremove && widget.promotionBehaviour == PromotionBehaviour.autoPremove);
+      if (!showSelector) {
+        final m = promoMoves.bestPromo(widget.pieceHierarchy);
+        if (m != null) {
+          return onMove?.call(m);
+        }
+      }
       _openPieceSelector(square);
     } else {
       onMove?.call(moves.first);

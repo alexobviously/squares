@@ -84,3 +84,18 @@ class PieceSelectorData extends Equatable {
   @override
   List<Object?> get props => [square, pieces, gate];
 }
+
+/// Behaviour to use on promotion, regarding showing the piece selector.
+/// * alwaysSelect: always show the piece selector.
+/// * autoPremove: don't show the piece selector for premoves, pick the best piece.
+/// * alwaysAuto: never show the piece selector, pick the best piece.
+enum PromotionBehaviour {
+  /// Always show the piece selector.
+  alwaysSelect,
+
+  /// Don't show the piece selector for premoves, pick the best piece.
+  autoPremove,
+
+  /// Never show the piece selector, pick the best piece.
+  alwaysAuto,
+}
