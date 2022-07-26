@@ -1,3 +1,6 @@
+### 1.0.1
+- `MarkerTheme.corners()` - piece marker that draws triangles in the corners of the square.
+
 ### 1.0.0
 - Major refactor with improved stability, better performance and better organised code.
 - Board is now composed of separate background, target and piece layers.

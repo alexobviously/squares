@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:squares/src/model/types.dart';
 
+part 'corners_marker.dart';
+
 /// A theme that specifies a number of widget builder functions, used to define
 /// how various markers are drawn on the board.
 class MarkerTheme {
@@ -83,6 +85,14 @@ class MarkerTheme {
             color: colour,
             width: size / 16,
           ),
+        ),
+      );
+
+  static MarkerBuilder corners([double scale = 0.2]) => (context, size, colour) => CustomPaint(
+        painter: CornersPainter(colour: colour, scale: scale),
+        child: Container(
+          width: size,
+          height: size,
         ),
       );
 }
