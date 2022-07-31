@@ -1,3 +1,11 @@
+### 1.0.2
+- Support for overlays and underlays in `Board`.
+- `BoardOverlay`, which draws widgets on squares, and `PieceOverlay`.
+- `BoardController` now shows translucent premove promo/gate pieces.
+- Fixed a bug that stopped white playing hand drops.
+- Fixed various bugs with colours of pieces in selectors.
+- `BoardState.player` is now `turn`, for clarity.
+
 ### 1.0.1
 - Fixed piece selectors not closing after premoves.
 - Premoves can now be cancelled by selecting another square.
