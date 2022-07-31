@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class GameFullscreen extends StatelessWidget {
   final GamePage gamePage;
-  const GameFullscreen(this.gamePage, {Key? key}) : super(key: key);
+  const GameFullscreen(this.gamePage, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class GameFullscreen extends StatelessWidget {
         game: gamePage.game,
         pieceSet: gamePage.pieceSet,
         theme: gamePage.theme,
-        highlightTheme: gamePage.highlightTheme,
+        markerTheme: gamePage.markerTheme,
       ),
     );
   }

@@ -84,20 +84,20 @@ class GameManagerState {
   final int pieceSetIndex;
   final PieceSet pieceSet;
   final BoardTheme theme;
-  final MarkerTheme highlightTheme;
+  final MarkerTheme markerTheme;
   GameManagerState({
     required this.games,
     required this.pieceSetIndex,
     required this.pieceSet,
     required this.theme,
-    required this.highlightTheme,
+    required this.markerTheme,
   });
   factory GameManagerState.initial() => GameManagerState(
         games: [],
         pieceSetIndex: 0,
         pieceSet: PieceSet.merida(),
         theme: BoardTheme.brown,
-        highlightTheme: MarkerTheme.basic,
+        markerTheme: MarkerTheme.basic,
       );
 
   GameManagerState copyWith({
@@ -112,6 +112,6 @@ class GameManagerState {
         pieceSetIndex: pieceSetIndex ?? this.pieceSetIndex,
         pieceSet: pieceSet ?? this.pieceSet,
         theme: theme ?? this.theme,
-        highlightTheme: highlightTheme ?? this.highlightTheme,
+        markerTheme: highlightTheme ?? this.markerTheme,
       );
 }

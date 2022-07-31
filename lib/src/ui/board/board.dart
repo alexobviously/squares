@@ -89,6 +89,11 @@ class Board extends StatelessWidget {
   /// to preserve board behaviour.
   final List<Widget> overlays;
 
+  /// Set this to true if an external drag is in progress.
+  /// When true, this disables the gesture detectors on the piece layer,
+  /// allowing external drags to land.
+  final bool externalDrag;
+
   Board({
     super.key,
     required this.state,
@@ -114,6 +119,7 @@ class Board extends StatelessWidget {
     this.animationCurve = Squares.defaultAnimationCurve,
     this.underlays = const [],
     this.overlays = const [],
+    this.externalDrag = false,
   }) : markerTheme = markerTheme ?? MarkerTheme.basic;
 
   @override
@@ -161,6 +167,7 @@ class Board extends StatelessWidget {
                 animatePieces: animatePieces,
                 animationDuration: animationDuration,
                 animationCurve: animationCurve,
+                ignoreGestures: externalDrag,
               ),
               ...overlays,
               for (PieceSelectorData data in pieceSelectors)

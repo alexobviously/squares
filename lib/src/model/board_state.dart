@@ -21,7 +21,7 @@ class BoardState extends Equatable {
   /// Determines which way around the board is facing.
   /// 0 (white) will place the white pieces at the bottom,
   /// and 1 will place the black pieces there.
-  late final int orientation;
+  final int orientation;
 
   /// The square that the last move started on.
   final int? lastFrom;
@@ -35,16 +35,15 @@ class BoardState extends Equatable {
   /// The player whose turn it isn't.
   int get waitingPlayer => 1 - turn;
 
-  BoardState({
+  const BoardState({
     required this.board,
     this.turn = Squares.white,
     int? orientation,
     this.lastFrom,
     this.lastTo,
     this.checkSquare,
-  }) {
-    this.orientation = orientation ?? turn;
-  }
+  }) : orientation = orientation ?? turn;
+
   factory BoardState.empty() => BoardState(board: []);
 
   BoardState copyWith({
@@ -65,11 +64,27 @@ class BoardState extends Equatable {
     );
   }
 
+  BoardState updateSquares(Map<int, String> updates) {
+    List<String> newBoard = [...board];
+    for (final u in updates.entries) {
+      newBoard[u.key] = u.value;
+    }
+    return copyWith(board: newBoard);
+  }
+
   /// Returns a `BoardState` identical to this one, but with [orientation] flipped.
   BoardState flipped() => copyWith(orientation: 1 - orientation);
 
   int playerForState(PlayState playState) =>
       playState == PlayState.theirTurn ? waitingPlayer : turn;
+
+  /// Returns the fen string - the board part only.
+  String fen([BoardSize size = BoardSize.standard]) {
+    return board
+        .partition(size.h)
+        .map((e) => e.countAndReplace('', (c) => '$c').join(''))
+        .join('/');
+  }
 
   @override
   List<Object?> get props => [board, turn, lastFrom, lastTo, checkSquare, orientation];

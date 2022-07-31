@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const MyAppBar({Key? key}) : super(key: key);
+  const MyAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     return BlocBuilder<GameManager, GameManagerState>(
       builder: (context, state) {
         return AppBar(
-          title: Text('Squares'),
+          title: GestureDetector(
+            onTap: () => Navigator.of(context).popUntil((route) => route.isFirst),
+            child: Text('Squares'),
+          ),
           actions: [
             IconButton(
               onPressed: () => cubit.nextTheme(),

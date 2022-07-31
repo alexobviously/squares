@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class HomeView extends StatefulWidget {
-  HomeView({Key? key}) : super(key: key);
+  HomeView({super.key});
 
   @override
   _HomeViewState createState() => _HomeViewState();
@@ -76,7 +76,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                             game: games[i],
                             theme: state.theme,
                             pieceSet: state.pieceSet,
-                            highlightTheme: state.highlightTheme,
+                            markerTheme: state.markerTheme,
                           );
                           return Card(
                             child: Stack(

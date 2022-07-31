@@ -100,8 +100,8 @@ class BoardTheme {
     darkSquare: Color(0xff0f659f),
     check: Color(0xffeb5160),
     checkmate: Color(0xff56351e),
-    previous: Color(0xffa9fbd7),
-    selected: Color(0xfff6f1d1),
-    premove: Color(0xffe3d8f1),
+    previous: Color(0x80a9fbd7),
+    selected: Color(0x80f6f1d1),
+    premove: Color(0x80e3d8f1),
   );
 }

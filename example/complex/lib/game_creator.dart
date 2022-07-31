@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:squares_complex/board_editor_view.dart';
 import 'package:squares_complex/game_config.dart';
 import 'package:flutter/material.dart';
 import 'package:bishop/bishop.dart' as bishop;
@@ -9,7 +10,7 @@ import 'package:squares/squares.dart';
 class GameCreator extends StatefulWidget {
   final PieceSet pieceSet;
   final Function(GameConfig) onCreate;
-  const GameCreator({Key? key, required this.pieceSet, required this.onCreate}) : super(key: key);
+  const GameCreator({super.key, required this.pieceSet, required this.onCreate});
 
   @override
   State<GameCreator> createState() => _GameCreatorState();
@@ -41,7 +42,7 @@ class _GameCreatorState extends State<GameCreator> {
   static int colour = 1;
   void _changeColour(int c) => setState(() => colour = c);
 
-  void _save() {
+  void _create() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       int _colour = colour == 0
@@ -68,6 +69,24 @@ class _GameCreatorState extends State<GameCreator> {
   void _clearFen() {
     _fenController.clear();
     setState(() => fen = null);
+  }
+
+  Future<void> _goToBoardEditor() async {
+    if (_formKey.currentState!.validate()) {
+      String? fen = await Navigator.of(context).push<String?>(
+        MaterialPageRoute(
+          builder: (context) => BoardEditorView(
+            variant: variants[variant],
+            initialFen: _fenController.text.isNotEmpty ? _fenController.text : null,
+          ),
+        ),
+      );
+      if (fen != null) {
+        setState(() {
+          _fenController.text = fen;
+        });
+      }
+    }
   }
 
   @override
@@ -135,7 +154,11 @@ class _GameCreatorState extends State<GameCreator> {
             ),
           ),
           ElevatedButton(
-            onPressed: _save,
+            onPressed: _goToBoardEditor,
+            child: Text('Board Editor'),
+          ),
+          ElevatedButton(
+            onPressed: _create,
             child: Text('Create Game'),
           ),
         ],

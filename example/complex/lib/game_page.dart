@@ -9,13 +9,13 @@ class GamePage extends StatefulWidget {
   final GameController game;
   final PieceSet pieceSet;
   final BoardTheme theme;
-  final MarkerTheme? highlightTheme;
+  final MarkerTheme? markerTheme;
   GamePage({
     Key? key,
     required this.game,
     required this.pieceSet,
     required this.theme,
-    this.highlightTheme,
+    this.markerTheme,
   }) : super(key: key);
 
   @override
@@ -60,7 +60,7 @@ class _GamePageState extends State<GamePage> {
                   pieceSet: widget.pieceSet,
                   theme: widget.theme,
                   size: state.size,
-                  markerTheme: widget.highlightTheme,
+                  markerTheme: widget.markerTheme,
                   onMove: _onMove,
                   onPremove: _onPremove,
                   moves: state.moves,
@@ -85,6 +85,7 @@ class _GamePageState extends State<GamePage> {
                   ),
                 ],
               ),
+              SelectableText(state.board.fen(state.size)),
             ],
           ),
         );
@@ -108,7 +109,7 @@ class _GamePageState extends State<GamePage> {
                   theme: widget.theme,
                   pieceSet: widget.pieceSet,
                   pieces: state.hands[player],
-                  fixedPieces: Squares.standardPieces
+                  fixedPieces: widget.game.variant!.commonPieceSymbols.reversed
                       .map((x) => player == Squares.white ? x : x.toLowerCase())
                       .toList(),
                   squareSize: squareSize,

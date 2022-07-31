@@ -6,13 +6,13 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.1.4
 
 environment:
-  sdk: ">=2.15.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
     
-  bishop: ^0.4.0
+  bishop: ^0.5.1
   badges: ^2.0.1
   bloc: ^7.0.0
   dots_indicator: ^2.0.0
@@ -24,7 +24,7 @@ dependencies:
   material_design_icons_flutter: ^5.0.5955-rc.1
   squares:
     path: ../../
-  square_bishop: ^0.2.2
+  square_bishop: ^0.2.3
 
 dependency_overrides:
   squares:

@@ -24,6 +24,10 @@ class Hand extends StatelessWidget {
   /// present in the hand, in dulled form, even if there are no pieces of their type available.
   final List<String> fixedPieces;
 
+  /// If true, the number of available pieces will be displayed in a small
+  /// badge above each piece.
+  final bool showCounts;
+
   /// Position of piece count badges.
   final BadgePosition? badgePosition;
 
@@ -33,6 +37,21 @@ class Hand extends StatelessWidget {
   /// Colour of piece count badges.
   final Color badgeColour;
 
+  /// Alignment of piece widgets in the main row.
+  final MainAxisAlignment mainAxisAlignment;
+
+  /// Called when the piece is tapped.
+  final void Function(String)? onTap;
+
+  /// Called when a drag is started.
+  final void Function(String)? onDragStarted;
+
+  /// Called when a drag is cancelled.
+  final void Function(String)? onDragCancelled;
+
+  /// Called when a drag ends, i.e. it was dropped on a target.
+  final void Function(String, DraggableDetails)? onDragEnd;
+
   const Hand({
     required this.squareSize,
     this.stackPieces = true,
@@ -40,9 +59,15 @@ class Hand extends StatelessWidget {
     required this.pieceSet,
     required this.pieces,
     this.fixedPieces = const [],
+    this.showCounts = true,
     this.badgePosition,
     this.badgeShape = BadgeShape.circle,
     this.badgeColour = Colors.red,
+    this.mainAxisAlignment = MainAxisAlignment.start,
+    this.onTap,
+    this.onDragStarted,
+    this.onDragCancelled,
+    this.onDragEnd,
   });
 
   @override
@@ -57,7 +82,7 @@ class Hand extends StatelessWidget {
     List<Widget> squares = [];
     pieceMap.forEach((symbol, n) {
       Widget piece = _piece(context, symbol, n);
-      if (n > 0) {
+      if (n > 0 && showCounts) {
         piece = Badge(
           position: badgePosition,
           shape: badgeShape,
@@ -74,6 +99,7 @@ class Hand extends StatelessWidget {
     return Container(
       height: squareSize,
       child: Row(
+        mainAxisAlignment: mainAxisAlignment,
         children: squares,
       ),
     );
@@ -100,6 +126,10 @@ class Hand extends StatelessWidget {
         from: Squares.hand,
         piece: symbol,
       ),
+      onTap: () => onTap?.call(symbol),
+      onDragStarted: () => onDragStarted?.call(symbol),
+      onDragCancelled: () => onDragCancelled?.call(symbol),
+      onDragEnd: (details) => onDragEnd?.call(symbol, details),
     );
     return p;
   }

@@ -38,6 +38,10 @@ class BoardPieces extends StatefulWidget {
   /// Called when a drag ends, i.e. a piece was dropped on a target.
   final void Function(int)? onDragEnd;
 
+  /// If set to true, all gestures will be ignored by this layer.
+  /// Generally useful if you have an external drag (e.g. from a hand) happening.
+  final bool ignoreGestures;
+
   const BoardPieces({
     super.key,
     required this.pieceSet,
@@ -51,6 +55,7 @@ class BoardPieces extends StatefulWidget {
     this.onDragStarted,
     this.onDragCancelled,
     this.onDragEnd,
+    this.ignoreGestures = false,
   });
 
   @override
@@ -74,9 +79,12 @@ class _BoardPiecesState extends State<BoardPieces> {
 
   @override
   Widget build(BuildContext context) {
-    return BoardBuilder(
-      size: widget.size,
-      builder: (rank, file, squareSize) => _piece(context, rank, file, squareSize),
+    return IgnorePointer(
+      ignoring: widget.ignoreGestures,
+      child: BoardBuilder(
+        size: widget.size,
+        builder: (rank, file, squareSize) => _piece(context, rank, file, squareSize),
+      ),
     );
   }
 

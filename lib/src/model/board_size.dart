@@ -83,6 +83,9 @@ class BoardSize {
   /// Returns true if [square] is a dark square.
   bool isDarkSquare(int square) => !isLightSquare(square);
 
+  /// Returns true if [square] is on the board.
+  bool isOnBoard(int square) => square >= 0 && square < numSquares;
+
   /// Create a `Move` from an algebraic string (e.g. a2a3, g6f3) for a board
   /// of this size.
   Move moveFromAlgebraic(String alg) {
