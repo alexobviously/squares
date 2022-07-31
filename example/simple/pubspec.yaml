@@ -12,11 +12,11 @@ dependencies:
   flutter:
     sdk: flutter
 
-  bishop: ^0.3.3
+  bishop: ^0.4.0
   cupertino_icons: ^1.0.2
   squares:
       path: ../../
-  square_bishop: ^0.2.0-dev.1
+  square_bishop: ^0.2.2
 
 dependency_overrides:
   squares:

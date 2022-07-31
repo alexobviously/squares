@@ -19,5 +19,5 @@ class Squares {
 
   static const defaultAnimationDuration = Duration(milliseconds: 250);
   static const defaultAnimationCurve = Curves.easeInQuad;
-  static const defaultPremovePieceOpacity = 0.5;
+  static const defaultPremovePieceOpacity = 0.75;
 }

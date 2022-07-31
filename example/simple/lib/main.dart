@@ -91,6 +91,7 @@ class _HomePageState extends State<HomePage> {
                   empty: MarkerTheme.dot,
                   piece: MarkerTheme.corners(),
                 ),
+                promotionBehaviour: PromotionBehaviour.autoPremove,
               ),
             ),
             const SizedBox(height: 32),
