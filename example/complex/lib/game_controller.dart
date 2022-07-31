@@ -33,7 +33,7 @@ class GameController extends Cubit<GameState> {
       lastTo: gameInfo.lastTo != null ? size.squareNumber(gameInfo.lastTo!) : null,
       checkSquare: gameInfo.checkSq != null ? size.squareNumber(gameInfo.checkSq!) : null,
       orientation: this.state.board.orientation,
-      player: humanPlayer,
+      turn: game!.turn,
     );
     PlayState _state =
         game!.gameOver ? PlayState.finished : (canMove ? PlayState.ourTurn : PlayState.theirTurn);

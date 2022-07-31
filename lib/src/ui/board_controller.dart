@@ -96,7 +96,6 @@ class BoardController extends StatefulWidget {
     this.animationCurve = Squares.defaultAnimationCurve,
     this.premovePieceOpacity = Squares.defaultPremovePieceOpacity,
   }) {
-    // TODO: abstract this
     moveMap = {};
     drops = [];
     for (Move m in moves) {
@@ -108,15 +107,6 @@ class BoardController extends StatefulWidget {
         moveMap[m.from] = [m];
       } else {
         moveMap[m.from]!.add(m);
-      }
-      // Make pieces with no moves selectable
-      bool whitePlayer = state.player == Squares.white;
-      for (int i = 0; i < state.board.length; i++) {
-        String p = state.board[i];
-        bool whitePiece = p == p.toUpperCase();
-        if (p.isNotEmpty && whitePlayer == whitePiece) {
-          if (!moveMap.containsKey(i)) moveMap[i] = [];
-        }
       }
     }
   }
@@ -131,6 +121,8 @@ class _BoardControllerState extends State<BoardController> {
   Move? premove;
   List<Move> dests = [];
   List<PieceSelectorData> pieceSelectors = [];
+
+  int get player => widget.state.playerForState(widget.playState);
 
   @override
   void didUpdateWidget(covariant BoardController oldWidget) {
@@ -163,14 +155,14 @@ class _BoardControllerState extends State<BoardController> {
       acceptDrag: _acceptDrag,
       validateDrag: _validateDrag,
       onPieceSelected: _onPieceSelected,
-      underlays: [
+      overlays: [
         if (premove?.promotion ?? false)
           PieceOverlay.single(
             size: widget.size,
             orientation: widget.state.orientation,
             pieceSet: widget.pieceSet,
             square: premove!.to,
-            piece: premove!.promo!,
+            piece: pieceForPlayer(premove!.promo!, widget.state.waitingPlayer),
             opacity: widget.premovePieceOpacity,
           ),
         if (premove?.drop ?? false)
@@ -179,7 +171,7 @@ class _BoardControllerState extends State<BoardController> {
             orientation: widget.state.orientation,
             pieceSet: widget.pieceSet,
             square: premove!.dropSquare!,
-            piece: premove!.piece!,
+            piece: pieceForPlayer(premove!.piece!, widget.state.waitingPlayer),
             opacity: widget.premovePieceOpacity,
           ),
       ],
@@ -244,7 +236,7 @@ class _BoardControllerState extends State<BoardController> {
   bool _validateDrag(PartialMove partial, int to) {
     if (partial.drop) {
       if (widget.drops.isEmpty) return false;
-      return widget.drops.where((m) => m.piece == partial.piece && m.to == to).isNotEmpty;
+      return widget.drops.to(to).withPiece(partial.piece).isNotEmpty;
     }
     if (widget.moveMap[partial.from] == null) return false;
     Move? move = widget.moveMap[partial.from]!.firstWhereOrNull((m) => m.to == to);
@@ -272,7 +264,7 @@ class _BoardControllerState extends State<BoardController> {
     if (selection == square) {
       return _clearSelection();
     }
-    final moves = dests.movesTo(square);
+    final moves = dests.to(square);
     if (moves.isEmpty) {
       return _setSelection(square);
     }
@@ -353,13 +345,14 @@ class _BoardControllerState extends State<BoardController> {
     bool disambiguateGating = false,
   }) {
     List<Move> moves = widget.moves
+        .to(square)
         .where(
-          (e) => e.to == square && (gate ? e.gate : e.promotion) && e.gatingSquare == gatingSquare,
+          (e) => (gate ? e.gate : e.promotion) && e.gatingSquare == gatingSquare,
         )
         .toList();
     List<String?> pieces = moves.map<String?>((e) => (gate ? e.piece : e.promo) ?? '').toList();
     pieces.sort(_promoComp);
-    if (widget.state.player == Squares.white) {
+    if (player == Squares.white) {
       pieces = pieces.map<String?>((e) => e!.toUpperCase()).toList();
     }
     if (gate) {
@@ -391,8 +384,7 @@ class _BoardControllerState extends State<BoardController> {
   }
 
   void _onDrop(PartialMove partial, int to) {
-    List<Move> targetMoves =
-        widget.drops.where((m) => m.piece == partial.piece && m.to == to).toList();
+    List<Move> targetMoves = widget.drops.to(to).withPiece(partial.piece);
     if (targetMoves.isEmpty) {
       _clearSelection();
     } else {

@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:squares/squares.dart';
 
 /// A representation of a state of a board.
-/// Stores the contents of each square in [board], the [player] to move,
+/// Stores the contents of each square in [board], the [turn] to move,
 /// [orientation] of the board, and highlights in [lastFrom], [lastTo] and [checkSquare].
 class BoardState extends Equatable {
   /// A list of the pieces on each square of the board.
@@ -13,7 +13,10 @@ class BoardState extends Equatable {
 
   /// Whose turn is it to play?
   /// 0 for white, 1 for black.
-  final int player;
+  final int turn;
+
+  @Deprecated('Please use [turn] instead')
+  int get player => turn;
 
   /// Determines which way around the board is facing.
   /// 0 (white) will place the white pieces at the bottom,
@@ -29,21 +32,24 @@ class BoardState extends Equatable {
   /// If a king is in check, which square is it on?
   final int? checkSquare;
 
+  /// The player whose turn it isn't.
+  int get waitingPlayer => 1 - turn;
+
   BoardState({
     required this.board,
-    this.player = Squares.white,
+    this.turn = Squares.white,
     int? orientation,
     this.lastFrom,
     this.lastTo,
     this.checkSquare,
   }) {
-    this.orientation = orientation ?? player;
+    this.orientation = orientation ?? turn;
   }
   factory BoardState.empty() => BoardState(board: []);
 
   BoardState copyWith({
     List<String>? board,
-    int? player,
+    int? turn,
     int? orientation,
     int? lastFrom,
     int? lastTo,
@@ -51,7 +57,7 @@ class BoardState extends Equatable {
   }) {
     return BoardState(
       board: board ?? this.board,
-      player: player ?? this.player,
+      turn: turn ?? this.turn,
       orientation: orientation ?? this.orientation,
       lastFrom: lastFrom ?? this.lastFrom,
       lastTo: lastTo ?? this.lastTo,
@@ -62,6 +68,9 @@ class BoardState extends Equatable {
   /// Returns a `BoardState` identical to this one, but with [orientation] flipped.
   BoardState flipped() => copyWith(orientation: 1 - orientation);
 
+  int playerForState(PlayState playState) =>
+      playState == PlayState.theirTurn ? waitingPlayer : turn;
+
   @override
-  List<Object?> get props => [board, player, lastFrom, lastTo, checkSquare, orientation];
+  List<Object?> get props => [board, turn, lastFrom, lastTo, checkSquare, orientation];
 }

@@ -105,7 +105,7 @@ class PositionedPieceSelector extends StatelessWidget {
     int square = data.gate ? (data.gatingSquare ?? data.square) : data.square;
     int rank = boardSize.squareRank(square) - 1;
     int file = boardSize.squareFile(square);
-    bool flip = (data.gate && boardState.orientation == boardState.player) ||
+    bool flip = (data.gate && boardState.orientation == boardState.turn) ||
         ((boardState.orientation == Squares.white && rank == 0) ||
             (boardState.orientation == Squares.black && rank == boardSize.maxRank));
     if (boardState.orientation == Squares.white) {

@@ -127,7 +127,7 @@ class BoardSize {
       String from = squareName(move.from);
       String to = squareName(move.to);
       String alg = '$from$to';
-      if (move.promotion) alg = '$alg${move.promo}';
+      if (move.promotion) alg = '$alg${move.promo!.toLowerCase()}';
       if (move.gate) {
         alg = '$alg/${move.piece!.toLowerCase()}';
         if (move.gatingSquare != null) alg = '$alg${squareName(move.gatingSquare!)}';
