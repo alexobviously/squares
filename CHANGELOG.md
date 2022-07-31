@@ -1,3 +1,8 @@
+### 1.0.3
+- Board editor page in example.
+- Added a way for external dragged pieces (e.g. from board editor, hands) to land on pieces.
+- Improvements to `Hand` widget.
+
 ### 1.0.2
 - Support for overlays and underlays in `Board`.
 - `BoardOverlay`, which draws widgets on squares, and `PieceOverlay`.
