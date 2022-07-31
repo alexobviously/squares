@@ -35,6 +35,14 @@ class Move {
   /// Whether this is a gated drop, e.g. the drops in Seirawan chess.
   bool get gate => drop && from >= 0;
 
+  /// The square that a dropped piece will be placed on, taking into account
+  /// all types of drops.
+  int? get dropSquare => !drop
+      ? null
+      : gate
+          ? (gatingSquare ?? from)
+          : to;
+
   Move({
     required this.from,
     required this.to,

@@ -79,6 +79,16 @@ class Board extends StatelessWidget {
   /// Defaults to [Curves.easeInQuad].
   final Curve animationCurve;
 
+  /// A list of widgets that will be inserted between the board background and
+  /// the piece layer. Ensure these don't absorb any gestures to preserve board
+  /// behaviour.
+  final List<Widget> underlays;
+
+  /// A list of widgest that will be inserted on top of the piece layer, but
+  /// below any visible piece selectors. Ensure these don't absorb any gestures
+  /// to preserve board behaviour.
+  final List<Widget> overlays;
+
   Board({
     super.key,
     required this.state,
@@ -102,6 +112,8 @@ class Board extends StatelessWidget {
     this.animatePieces = true,
     this.animationDuration = Squares.defaultAnimationDuration,
     this.animationCurve = Squares.defaultAnimationCurve,
+    this.underlays = const [],
+    this.overlays = const [],
   }) : markerTheme = markerTheme ?? MarkerTheme.basic;
 
   @override
@@ -139,6 +151,7 @@ class Board extends StatelessWidget {
                 validateDrag: validateDrag,
                 acceptDrag: acceptDrag,
               ),
+              ...underlays,
               BoardPieces(
                 pieceSet: pieceSet,
                 state: state,
@@ -149,6 +162,7 @@ class Board extends StatelessWidget {
                 animationDuration: animationDuration,
                 animationCurve: animationCurve,
               ),
+              ...overlays,
               for (PieceSelectorData data in pieceSelectors)
                 PositionedPieceSelector(
                   data: data,

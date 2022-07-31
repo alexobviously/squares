@@ -65,6 +65,10 @@ class BoardController extends StatefulWidget {
   /// Defaults to [Curves.easeInQuad].
   final Curve animationCurve;
 
+  /// Opacity of overlay pieces shown on the board resulting from promotion
+  /// or dropping premoves.
+  final double premovePieceOpacity;
+
   late final Map<int, List<Move>> moveMap;
   late final List<Move> drops;
 
@@ -90,6 +94,7 @@ class BoardController extends StatefulWidget {
     this.animatePieces = true,
     this.animationDuration = Squares.defaultAnimationDuration,
     this.animationCurve = Squares.defaultAnimationCurve,
+    this.premovePieceOpacity = Squares.defaultPremovePieceOpacity,
   }) {
     // TODO: abstract this
     moveMap = {};
@@ -158,6 +163,26 @@ class _BoardControllerState extends State<BoardController> {
       acceptDrag: _acceptDrag,
       validateDrag: _validateDrag,
       onPieceSelected: _onPieceSelected,
+      underlays: [
+        if (premove?.promotion ?? false)
+          PieceOverlay.single(
+            size: widget.size,
+            orientation: widget.state.orientation,
+            pieceSet: widget.pieceSet,
+            square: premove!.to,
+            piece: premove!.promo!,
+            opacity: widget.premovePieceOpacity,
+          ),
+        if (premove?.drop ?? false)
+          PieceOverlay.single(
+            size: widget.size,
+            orientation: widget.state.orientation,
+            pieceSet: widget.pieceSet,
+            square: premove!.dropSquare!,
+            piece: premove!.piece!,
+            opacity: widget.premovePieceOpacity,
+          ),
+      ],
     );
   }
 

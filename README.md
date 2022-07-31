@@ -18,7 +18,7 @@ Squares has a stateless `Board` widget that can used to display a complete board
 <br>
 <img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/themes.gif" width="300"/>
 
-* Highlight themes
+* Marker themes
 <br>
 <img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/highlight_themes.gif" width="300"/>
 
