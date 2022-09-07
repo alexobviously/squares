@@ -1,3 +1,6 @@
+### 1.0.4
+- `MarkerTheme.cross()` - marker that builds a cross in a square.
+
 ### 1.0.3
 - Board editor page in example.
 - Added a way for external dragged pieces (e.g. from board editor, hands) to land on pieces.

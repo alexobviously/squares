@@ -21,7 +21,10 @@ class BoardTargets extends StatelessWidget {
   final bool Function(PartialMove, int)? validateDrag;
 
   /// Called when a square accepts a piece dragged onto it.
-  final Function(PartialMove, int)? acceptDrag;
+  final void Function(PartialMove, int)? acceptDrag;
+
+  /// Called when a draggable leaves a square.
+  final void Function(PartialMove, int)? onDragLeave;
 
   const BoardTargets({
     super.key,
@@ -30,6 +33,7 @@ class BoardTargets extends StatelessWidget {
     this.onTap,
     this.validateDrag,
     this.acceptDrag,
+    this.onDragLeave,
   });
 
   bool _validateDrag(PartialMove? move, int to) {
@@ -40,6 +44,11 @@ class BoardTargets extends StatelessWidget {
   void _acceptDrag(PartialMove? move, int to) {
     if (move == null || acceptDrag == null) return;
     acceptDrag!(move, to);
+  }
+
+  void _onDragLeave(PartialMove? move, int to) {
+    if (move == null || onDragLeave == null) return;
+    onDragLeave!(move, to);
   }
 
   @override
@@ -71,6 +80,7 @@ class BoardTargets extends StatelessWidget {
       },
       onWillAccept: (from) => _validateDrag(from, id),
       onAccept: (from) => _acceptDrag(from, id),
+      onLeave: (from) => _onDragLeave(from, id),
     );
   }
 }

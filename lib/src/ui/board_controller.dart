@@ -72,7 +72,8 @@ class BoardController extends StatefulWidget {
   late final Map<int, List<Move>> moveMap;
   late final List<Move> drops;
 
-  String get bestPiece => pieceHierarchy.isNotEmpty ? pieceHierarchy.first : 'q';
+  String get bestPiece =>
+      pieceHierarchy.isNotEmpty ? pieceHierarchy.first : 'q';
 
   BoardController({
     super.key,
@@ -186,7 +187,8 @@ class _BoardControllerState extends State<BoardController> {
 
     if (premove != null && widget.onPremove != null) {
       final premove = this.premove!;
-      WidgetsBinding.instance.addPostFrameCallback((_) => widget.onPremove!(premove));
+      WidgetsBinding.instance
+          .addPostFrameCallback((_) => widget.onPremove!(premove));
     }
 
     if (target != null) {
@@ -239,7 +241,8 @@ class _BoardControllerState extends State<BoardController> {
       return widget.drops.to(to).withPiece(partial.piece).isNotEmpty;
     }
     if (widget.moveMap[partial.from] == null) return false;
-    Move? move = widget.moveMap[partial.from]!.firstWhereOrNull((m) => m.to == to);
+    Move? move =
+        widget.moveMap[partial.from]!.firstWhereOrNull((m) => m.to == to);
     return move != null;
   }
 
@@ -286,8 +289,10 @@ class _BoardControllerState extends State<BoardController> {
         );
       }
     } else if (promoting) {
-      bool showSelector = widget.promotionBehaviour == PromotionBehaviour.alwaysSelect ||
-          (!isPremove && widget.promotionBehaviour == PromotionBehaviour.autoPremove);
+      bool showSelector =
+          widget.promotionBehaviour == PromotionBehaviour.alwaysSelect ||
+              (!isPremove &&
+                  widget.promotionBehaviour == PromotionBehaviour.autoPremove);
       if (!showSelector) {
         final m = promoMoves.bestPromo(widget.pieceHierarchy);
         if (m != null) {
@@ -347,10 +352,12 @@ class _BoardControllerState extends State<BoardController> {
     List<Move> moves = widget.moves
         .to(square)
         .where(
-          (e) => (gate ? e.gate : e.promotion) && e.gatingSquare == gatingSquare,
+          (e) =>
+              (gate ? e.gate : e.promotion) && e.gatingSquare == gatingSquare,
         )
         .toList();
-    List<String?> pieces = moves.map<String?>((e) => (gate ? e.piece : e.promo) ?? '').toList();
+    List<String?> pieces =
+        moves.map<String?>((e) => (gate ? e.piece : e.promo) ?? '').toList();
     pieces.sort(_promoComp);
     if (player == Squares.white) {
       pieces = pieces.map<String?>((e) => e!.toUpperCase()).toList();
@@ -380,7 +387,9 @@ class _BoardControllerState extends State<BoardController> {
   int _promoComp(String? a, String? b) {
     if (a == null) return -1;
     if (b == null) return 1;
-    return widget.pieceHierarchy.indexOf(a).compareTo(widget.pieceHierarchy.indexOf(b));
+    return widget.pieceHierarchy
+        .indexOf(a)
+        .compareTo(widget.pieceHierarchy.indexOf(b));
   }
 
   void _onDrop(PartialMove partial, int to) {

@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 typedef IntCallback = int Function();
 
 /// A function that builds a widget, given a [context], [size] and [colour].
-typedef MarkerBuilder = Widget Function(BuildContext context, double size, Color colour);
+typedef MarkerBuilder = Widget Function(
+  BuildContext context,
+  double size,
+  Color colour,
+);
 
 /// Data representation of a marker on the board, to simplify building them.
 class Marker {
@@ -15,9 +19,14 @@ class Marker {
   /// Whether the marker is for a square that has a piece on it or not.
   final bool hasPiece;
 
-  const Marker({required this.colour, required this.hasPiece});
-  factory Marker.empty(HighlightType colour) => Marker(colour: colour, hasPiece: false);
-  factory Marker.piece(HighlightType colour) => Marker(colour: colour, hasPiece: true);
+  const Marker({
+    required this.colour,
+    required this.hasPiece,
+  });
+  factory Marker.empty(HighlightType colour) =>
+      Marker(colour: colour, hasPiece: false);
+  factory Marker.piece(HighlightType colour) =>
+      Marker(colour: colour, hasPiece: true);
 }
 
 /// Various types of highlights that might be present on the board.

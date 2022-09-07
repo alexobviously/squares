@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:squares/src/model/types.dart';
 
 part 'corners_marker.dart';
+part 'cross_marker.dart';
 
 /// A theme that specifies a number of widget builder functions, used to define
 /// how various markers are drawn on the board.
@@ -14,7 +15,10 @@ class MarkerTheme {
   /// move to.
   final MarkerBuilder piece;
 
-  const MarkerTheme({required this.empty, required this.piece});
+  const MarkerTheme({
+    required this.empty,
+    required this.piece,
+  });
 
   MarkerTheme copyWith({
     MarkerBuilder? empty,
@@ -26,10 +30,16 @@ class MarkerTheme {
       );
 
   /// The default `MarkerTheme`. Circular dots for empty squares.
-  static MarkerTheme basic = MarkerTheme(empty: dot, piece: roundedOutline);
+  static MarkerTheme basic = MarkerTheme(
+    empty: dot,
+    piece: roundedOutline,
+  );
 
   /// A variant `MarkerTheme` with square dots for empty squares.
-  static MarkerTheme square = MarkerTheme(empty: squareDot, piece: squareOutline);
+  static MarkerTheme square = MarkerTheme(
+    empty: squareDot,
+    piece: squareOutline,
+  );
 
   /// Builds a circular dot in the centre of the square, with a diameter equal
   /// to 1/3 of the width of the square.
@@ -88,11 +98,18 @@ class MarkerTheme {
         ),
       );
 
-  static MarkerBuilder corners([double scale = 0.2]) => (context, size, colour) => CustomPaint(
-        painter: CornersPainter(colour: colour, scale: scale),
-        child: Container(
-          width: size,
-          height: size,
-        ),
-      );
+  static MarkerBuilder corners([double scale = 0.2]) =>
+      (context, size, colour) => CustomPaint(
+            painter: CornersPainter(colour: colour, scale: scale),
+            child: Container(
+              width: size,
+              height: size,
+            ),
+          );
+
+  static MarkerBuilder cross([double scale = 0.75]) =>
+      (context, size, colour) => CustomPaint(
+            painter: CrossPainter(colour: colour, scale: scale),
+            child: Container(width: size, height: size),
+          );
 }

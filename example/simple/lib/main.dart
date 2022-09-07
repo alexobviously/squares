@@ -58,7 +58,8 @@ class _HomePageState extends State<HomePage> {
     }
     if (state.state == PlayState.theirTurn && !aiThinking) {
       setState(() => aiThinking = true);
-      await Future.delayed(Duration(milliseconds: Random().nextInt(4750) + 250));
+      await Future.delayed(
+          Duration(milliseconds: Random().nextInt(4750) + 250));
       game.makeRandomMove();
       setState(() {
         aiThinking = false;
