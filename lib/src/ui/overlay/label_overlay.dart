@@ -43,7 +43,6 @@ class LabelOverlay extends StatelessWidget {
     List<Alignment> alignments =
         _alignments(config.fileLabelPosition, config.rankLabelPosition);
     bool flipped = orientation == Squares.black;
-    int asciiA = config.capitaliseFiles ? asciiAUpper : asciiALower;
     double labelSize = squareSize * config.labelScale;
 
     if (labels) {
@@ -62,12 +61,7 @@ class LabelOverlay extends StatelessWidget {
                     child: Container(
                       // color: Colors.deepOrange.withOpacity(0.5),
                       child: Text(
-                        // '$file',
-                        String.fromCharCode(
-                          flipped
-                              ? (asciiA + size.h - file - 1)
-                              : (asciiA + file),
-                        ),
+                        config.fileLabeller(flipped ? size.h - file - 1 : file),
                         // textHeightBehavior: TextHeightBehavior(
                         //   // applyHeightToFirstAscent: false,
                         //   applyHeightToLastDescent: false,
@@ -95,7 +89,7 @@ class LabelOverlay extends StatelessWidget {
                   child: FittedBox(
                     fit: BoxFit.fitHeight,
                     child: Text(
-                      '${flipped ? (rank + 1) : (size.v - rank)}',
+                      config.rankLabeller(flipped ? rank : size.v - rank - 1),
                       // textHeightBehavior: TextHeightBehavior(
                       //   // applyHeightToFirstAscent: false,
                       //   applyHeightToLastDescent: false,

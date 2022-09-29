@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:squares/squares.dart';
 
 /// A function that returns an `int`.
 typedef IntCallback = int Function();
@@ -119,19 +120,23 @@ enum RankLabelPosition {
   right,
 }
 
+typedef Labeller = String Function(int);
+
 class LabelConfig {
   final bool showLabels;
   final double labelScale;
   final FileLabelPosition fileLabelPosition;
   final RankLabelPosition rankLabelPosition;
-  final bool capitaliseFiles;
+  final Labeller fileLabeller;
+  final Labeller rankLabeller;
 
   const LabelConfig({
-    required this.showLabels,
-    this.labelScale = 0.4,
+    this.showLabels = true,
+    this.labelScale = 0.25,
     this.fileLabelPosition = FileLabelPosition.bottom,
     this.rankLabelPosition = RankLabelPosition.right,
-    this.capitaliseFiles = false,
+    this.fileLabeller = alphaLowerLabel,
+    this.rankLabeller = numericLabel,
   });
 
   static const standard = LabelConfig(showLabels: true);
