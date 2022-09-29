@@ -37,14 +37,16 @@ class BoardBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return BoardBuilder(
       size: size,
-      builder: (rank, file, squareSize) => _square(context, rank, file, squareSize),
+      builder: (rank, file, squareSize) =>
+          _square(context, rank, file, squareSize),
     );
   }
 
   Widget _square(BuildContext context, int rank, int file, double squareSize) {
     int id = size.square(rank, file, orientation);
 
-    Color squareColour = ((rank + file) % 2 == 0) ? theme.lightSquare : theme.darkSquare;
+    Color squareColour =
+        ((rank + file) % 2 == 0) ? theme.lightSquare : theme.darkSquare;
     if (highlights.containsKey(id)) {
       squareColour = Color.alphaBlend(
         theme.highlight(highlights[id]!),

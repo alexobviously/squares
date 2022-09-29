@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeData theme = ThemeData(
       primarySwatch: Colors.blueGrey,
+      // fontFamily: 'Times new roman',
       fontFamily: GoogleFonts.cairo().fontFamily,
     );
     theme = theme.copyWith(

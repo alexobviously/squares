@@ -27,9 +27,7 @@ class BoardOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BoardBuilder(
-      builder: ((rank, file, squareSize) => _child(rank, file, squareSize)),
-    );
+    return BoardBuilder(size: size, builder: _child);
   }
 
   Widget _child(int rank, int file, double squareSize) {

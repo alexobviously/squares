@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:squares/squares.dart';
+import 'package:squares/src/ui/overlay/label_overlay.dart';
 
 part 'board_background.dart';
 part 'board_builder.dart';
@@ -149,6 +150,11 @@ class Board extends StatelessWidget {
                       : HighlightType.premove,
                 ),
                 markerTheme: markerTheme,
+              ),
+              LabelOverlay(
+                size: size,
+                orientation: state.orientation,
+                theme: theme,
               ),
               BoardTargets(
                 size: size,

@@ -44,7 +44,7 @@ class BoardSize {
   String squareName(int square) {
     int rank = v - (square ~/ h);
     int file = square % h;
-    String fileName = String.fromCharCode(asciiA + file);
+    String fileName = String.fromCharCode(asciiALower + file);
     return '$fileName$rank';
   }
 
@@ -59,7 +59,7 @@ class BoardSize {
     assert(match!.groupCount == 2, 'Invalid square name: $name');
     String fileStr = match!.group(1)!;
     String rankStr = match.group(2)!;
-    int file = fileStr.codeUnits[0] - asciiA;
+    int file = fileStr.codeUnits[0] - asciiALower;
     int rank = v - int.parse(rankStr);
     int square = rank * h + file;
     return square;
@@ -78,7 +78,8 @@ class BoardSize {
   int fileDiff(int from, int to) => squareFile(to) - squareFile(from);
 
   /// Returns true if [square] is a light square.
-  bool isLightSquare(int square) => (squareRank(square) + squareFile(square)) % 2 == 0;
+  bool isLightSquare(int square) =>
+      (squareRank(square) + squareFile(square)) % 2 == 0;
 
   /// Returns true if [square] is a dark square.
   bool isDarkSquare(int square) => !isLightSquare(square);
@@ -105,7 +106,8 @@ class BoardSize {
     if (sections.length > 1) {
       String gate = sections.last;
       piece = gate[0];
-      gatingSquare = gate.length > 2 ? squareNumber(gate.substring(1, 3)) : from;
+      gatingSquare =
+          gate.length > 2 ? squareNumber(gate.substring(1, 3)) : from;
     } else {
       promo = (alg.length > 4) ? alg[4] : null;
     }
@@ -133,7 +135,8 @@ class BoardSize {
       if (move.promotion) alg = '$alg${move.promo!.toLowerCase()}';
       if (move.gate) {
         alg = '$alg/${move.piece!.toLowerCase()}';
-        if (move.gatingSquare != null) alg = '$alg${squareName(move.gatingSquare!)}';
+        if (move.gatingSquare != null)
+          alg = '$alg${squareName(move.gatingSquare!)}';
       }
       return alg;
     }

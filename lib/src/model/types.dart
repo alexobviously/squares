@@ -108,3 +108,32 @@ enum PromotionBehaviour {
   /// Never show the piece selector, pick the best piece.
   alwaysAuto,
 }
+
+enum FileLabelPosition {
+  top,
+  bottom,
+}
+
+enum RankLabelPosition {
+  left,
+  right,
+}
+
+class LabelConfig {
+  final bool showLabels;
+  final double labelScale;
+  final FileLabelPosition fileLabelPosition;
+  final RankLabelPosition rankLabelPosition;
+  final bool capitaliseFiles;
+
+  const LabelConfig({
+    required this.showLabels,
+    this.labelScale = 0.4,
+    this.fileLabelPosition = FileLabelPosition.bottom,
+    this.rankLabelPosition = RankLabelPosition.right,
+    this.capitaliseFiles = false,
+  });
+
+  static const standard = LabelConfig(showLabels: true);
+  static const disabled = LabelConfig(showLabels: false);
+}
