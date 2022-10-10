@@ -1,5 +1,6 @@
 ### 1.0.4
 - `MarkerTheme.cross()` - marker that builds a cross in a square.
+- Rank and file labels on the board using `LabelOverlay`.
 
 ### 1.0.3
 - Board editor page in example.

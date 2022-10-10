@@ -69,6 +69,10 @@ class BoardController extends StatefulWidget {
   /// or dropping premoves.
   final double premovePieceOpacity;
 
+  /// Configuration for the rank and file labels on the board.
+  /// Set this to LabelConfig.disabled to hide them entirely.
+  final LabelConfig labelConfig;
+
   late final Map<int, List<Move>> moveMap;
   late final List<Move> drops;
 
@@ -96,6 +100,7 @@ class BoardController extends StatefulWidget {
     this.animationDuration = Squares.defaultAnimationDuration,
     this.animationCurve = Squares.defaultAnimationCurve,
     this.premovePieceOpacity = Squares.defaultPremovePieceOpacity,
+    this.labelConfig = LabelConfig.standard,
   }) {
     moveMap = {};
     drops = [];
@@ -156,6 +161,7 @@ class _BoardControllerState extends State<BoardController> {
       acceptDrag: _acceptDrag,
       validateDrag: _validateDrag,
       onPieceSelected: _onPieceSelected,
+      labelConfig: widget.labelConfig,
       overlays: [
         if (premove?.promotion ?? false)
           PieceOverlay.single(

@@ -122,13 +122,30 @@ enum RankLabelPosition {
 
 typedef Labeller = String Function(int);
 
+/// Configuration for `LabelOverlay`.
 class LabelConfig {
+  /// Whether labels should be shown at all.
   final bool showLabels;
+
+  /// The scale of labels relative to the size of the square, where 1.0 is the
+  /// full width/height of the square.
   final double labelScale;
+
+  /// The position of the file labels (top or bottom).
   final FileLabelPosition fileLabelPosition;
+
+  /// The position of the rank labels (left or right).
   final RankLabelPosition rankLabelPosition;
+
+  /// Defines how file label strings are built from indices.
   final Labeller fileLabeller;
+
+  /// Defines how rank label strings are built from indices.
   final Labeller rankLabeller;
+
+  /// Text style of the labels.
+  /// Will have a colour applied to it depending on the square.
+  final TextStyle textStyle;
 
   const LabelConfig({
     this.showLabels = true,
@@ -137,8 +154,12 @@ class LabelConfig {
     this.rankLabelPosition = RankLabelPosition.right,
     this.fileLabeller = alphaLowerLabel,
     this.rankLabeller = numericLabel,
+    this.textStyle = const TextStyle(height: 1.0, fontWeight: FontWeight.bold),
   });
 
+  /// The standard labelling configuration.
   static const standard = LabelConfig(showLabels: true);
+
+  /// Disabled labels.
   static const disabled = LabelConfig(showLabels: false);
 }

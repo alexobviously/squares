@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:squares/squares.dart';
 
+/// An overlay that builds rank and file labels.
 class LabelOverlay extends StatelessWidget {
+  /// Defines how and where labels are built.
   final LabelConfig config;
 
   /// Dimensions of the board.
@@ -29,7 +31,6 @@ class LabelOverlay extends StatelessWidget {
   }
 
   Widget _square(int rank, int file, double squareSize) {
-    int square = size.square(rank, file, orientation);
     Color textColour =
         ((rank + file) % 2 == 1) ? theme.lightSquare : theme.darkSquare;
     Widget? label;
@@ -44,6 +45,7 @@ class LabelOverlay extends StatelessWidget {
         _alignments(config.fileLabelPosition, config.rankLabelPosition);
     bool flipped = orientation == Squares.black;
     double labelSize = squareSize * config.labelScale;
+    TextStyle ts = config.textStyle.copyWith(color: textColour);
 
     if (labels) {
       label = Stack(
@@ -54,25 +56,12 @@ class LabelOverlay extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(1.0),
                 child: SizedBox(
-                  // width: labelSize,
                   height: labelSize,
                   child: FittedBox(
                     fit: BoxFit.fitHeight,
-                    child: Container(
-                      // color: Colors.deepOrange.withOpacity(0.5),
-                      child: Text(
-                        config.fileLabeller(flipped ? size.h - file - 1 : file),
-                        // textHeightBehavior: TextHeightBehavior(
-                        //   // applyHeightToFirstAscent: false,
-                        //   applyHeightToLastDescent: false,
-                        // ),
-                        style: TextStyle(
-                          color: textColour,
-                          fontWeight: FontWeight.bold,
-                          height: 1.0,
-                          // height: alignments.first.y == 1.0 ? 0.7 : 1.1,
-                        ),
-                      ),
+                    child: Text(
+                      config.fileLabeller(flipped ? size.h - file - 1 : file),
+                      style: ts,
                     ),
                   ),
                 ),
@@ -84,22 +73,12 @@ class LabelOverlay extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(1.0),
                 child: SizedBox(
-                  // width: labelSize,
                   height: labelSize,
                   child: FittedBox(
                     fit: BoxFit.fitHeight,
                     child: Text(
                       config.rankLabeller(flipped ? rank : size.v - rank - 1),
-                      // textHeightBehavior: TextHeightBehavior(
-                      //   // applyHeightToFirstAscent: false,
-                      //   applyHeightToLastDescent: false,
-                      // ),
-                      style: TextStyle(
-                        color: textColour,
-                        fontWeight: FontWeight.bold,
-                        height: 1.0,
-                        // height: 0.7,
-                      ),
+                      style: ts,
                     ),
                   ),
                 ),

@@ -95,6 +95,10 @@ class Board extends StatelessWidget {
   /// allowing external drags to land.
   final bool externalDrag;
 
+  /// Configuration for the rank and file labels on the board.
+  /// Set this to LabelConfig.disabled to hide them entirely.
+  final LabelConfig labelConfig;
+
   Board({
     super.key,
     required this.state,
@@ -121,6 +125,7 @@ class Board extends StatelessWidget {
     this.underlays = const [],
     this.overlays = const [],
     this.externalDrag = false,
+    this.labelConfig = LabelConfig.standard,
   }) : markerTheme = markerTheme ?? MarkerTheme.basic;
 
   @override
@@ -151,11 +156,13 @@ class Board extends StatelessWidget {
                 ),
                 markerTheme: markerTheme,
               ),
-              LabelOverlay(
-                size: size,
-                orientation: state.orientation,
-                theme: theme,
-              ),
+              if (labelConfig.showLabels)
+                LabelOverlay(
+                  config: labelConfig,
+                  size: size,
+                  orientation: state.orientation,
+                  theme: theme,
+                ),
               BoardTargets(
                 size: size,
                 orientation: state.orientation,
