@@ -113,7 +113,11 @@ class Hand extends StatelessWidget {
     Widget piece = symbol.isNotEmpty
         ? Opacity(
             opacity: count > 0 ? 1.0 : 0.5,
-            child: pieceSet.piece(context, symbol),
+            child: SizedBox(
+              width: squareSize,
+              height: squareSize,
+              child: FittedBox(child: pieceSet.piece(context, symbol)),
+            ),
           )
         : SizedBox(
             width: squareSize,

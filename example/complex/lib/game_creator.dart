@@ -10,7 +10,8 @@ import 'package:squares/squares.dart';
 class GameCreator extends StatefulWidget {
   final PieceSet pieceSet;
   final Function(GameConfig) onCreate;
-  const GameCreator({super.key, required this.pieceSet, required this.onCreate});
+  const GameCreator(
+      {super.key, required this.pieceSet, required this.onCreate});
 
   @override
   State<GameCreator> createState() => _GameCreatorState();
@@ -31,7 +32,8 @@ class _GameCreatorState extends State<GameCreator> {
 
   List<DropdownMenuItem<int>> get _variantDropdownItems {
     List<DropdownMenuItem<int>> items = [];
-    variants.asMap().forEach((k, v) => items.add(DropdownMenuItem(value: k, child: Text(v.name))));
+    variants.asMap().forEach(
+        (k, v) => items.add(DropdownMenuItem(value: k, child: Text(v.name))));
     return items;
   }
 
@@ -51,7 +53,8 @@ class _GameCreatorState extends State<GameCreator> {
               ? 1
               : Random().nextInt(2);
       if (fen?.isEmpty ?? false) fen = null;
-      final config = GameConfig(variant: variants[variant], humanPlayer: _colour, fen: fen);
+      final config = GameConfig(
+          variant: variants[variant], humanPlayer: _colour, fen: fen);
       widget.onCreate(config);
     }
   }
@@ -77,7 +80,8 @@ class _GameCreatorState extends State<GameCreator> {
         MaterialPageRoute(
           builder: (context) => BoardEditorView(
             variant: variants[variant],
-            initialFen: _fenController.text.isNotEmpty ? _fenController.text : null,
+            initialFen:
+                _fenController.text.isNotEmpty ? _fenController.text : null,
           ),
         ),
       );
@@ -111,7 +115,7 @@ class _GameCreatorState extends State<GameCreator> {
               Container(
                 width: 32,
                 height: 32,
-                child: widget.pieceSet.piece(context, 'K'),
+                child: FittedBox(child: widget.pieceSet.piece(context, 'K')),
               ),
               Icon(
                 MdiIcons.helpCircleOutline,
@@ -120,7 +124,7 @@ class _GameCreatorState extends State<GameCreator> {
               Container(
                 width: 32,
                 height: 32,
-                child: widget.pieceSet.piece(context, 'k'),
+                child: FittedBox(child: widget.pieceSet.piece(context, 'k')),
               ),
             ],
             isSelected: [colour == 0, colour == 1, colour == 2],

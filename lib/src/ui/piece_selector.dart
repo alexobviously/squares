@@ -32,8 +32,9 @@ class PieceSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> pieces =
-        data.pieces.map((p) => p == null ? Container() : pieceSet.piece(context, p)).toList();
+    List<Widget> pieces = data.pieces
+        .map((p) => p == null ? Container() : pieceSet.piece(context, p))
+        .toList();
     return Container(
       width: squareSize,
       height: squareSize * pieces.length,
@@ -51,7 +52,11 @@ class PieceSelector extends StatelessWidget {
                     child: Stack(
                       children: [
                         markerTheme.piece(context, squareSize, theme.selected),
-                        e.value,
+                        SizedBox(
+                          width: squareSize,
+                          height: squareSize,
+                          child: FittedBox(child: e.value),
+                        ),
                       ],
                     ),
                   ),
@@ -107,7 +112,8 @@ class PositionedPieceSelector extends StatelessWidget {
     int file = boardSize.squareFile(square);
     bool flip = (data.gate && boardState.orientation == boardState.turn) ||
         ((boardState.orientation == Squares.white && rank == 0) ||
-            (boardState.orientation == Squares.black && rank == boardSize.maxRank));
+            (boardState.orientation == Squares.black &&
+                rank == boardSize.maxRank));
     if (boardState.orientation == Squares.white) {
       rank = boardSize.v - rank - 1;
     }
