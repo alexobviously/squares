@@ -72,7 +72,7 @@ class Piece extends StatelessWidget {
 
         return Draggable<PartialMove>(
           data: move,
-          child: piece,
+          child: FittedBox(child: piece),
           hitTestBehavior: HitTestBehavior.translucent,
           feedback: Transform.translate(
             offset: Offset(

@@ -72,7 +72,8 @@ class _BoardPiecesState extends State<BoardPieces> {
     // This prevents the animation from repeating in cases where it shouldn't,
     // e.g. if the board is rotated. It would also be possible to do this with
     // collection's ListEquality or something but this seems efficient.
-    animate = oldWidget.state.board.join() != widget.state.board.join() && !afterDrag;
+    animate =
+        oldWidget.state.board.join() != widget.state.board.join() && !afterDrag;
     afterDrag = false;
     super.didUpdateWidget(oldWidget);
   }
@@ -83,32 +84,35 @@ class _BoardPiecesState extends State<BoardPieces> {
       ignoring: widget.ignoreGestures,
       child: BoardBuilder(
         size: widget.size,
-        builder: (rank, file, squareSize) => _piece(context, rank, file, squareSize),
+        builder: (rank, file, squareSize) =>
+            _piece(context, rank, file, squareSize),
       ),
     );
   }
 
   Widget _piece(BuildContext context, int rank, int file, double squareSize) {
     int id = widget.size.square(rank, file, widget.state.orientation);
-    String symbol = widget.state.board.length > id ? widget.state.board[id] : '';
+    String symbol =
+        widget.state.board.length > id ? widget.state.board[id] : '';
     Widget piece = symbol.isNotEmpty
         ? widget.pieceSet.piece(context, symbol)
-        : SizedBox(
-            width: squareSize,
-            height: squareSize,
-          );
-    final p = Piece(
-      child: piece,
-      draggable: currentDrag != null ? currentDrag == id : widget.draggable,
-      interactible: currentDrag == null || currentDrag == id,
-      move: PartialMove(
-        from: id,
-        piece: symbol,
+        : Container();
+    final p = SizedBox(
+      width: squareSize,
+      height: squareSize,
+      child: Piece(
+        child: piece,
+        draggable: currentDrag != null ? currentDrag == id : widget.draggable,
+        interactible: currentDrag == null || currentDrag == id,
+        move: PartialMove(
+          from: id,
+          piece: symbol,
+        ),
+        onTap: () => widget.onTap?.call(id),
+        onDragStarted: () => _onDragStarted(id),
+        onDragCancelled: () => _onDragCancelled(id),
+        onDragEnd: (details) => _onDragEnd(id, details),
       ),
-      onTap: () => widget.onTap?.call(id),
-      onDragStarted: () => _onDragStarted(id),
-      onDragCancelled: () => _onDragCancelled(id),
-      onDragEnd: (details) => _onDragEnd(id, details),
     );
     if (widget.state.lastTo == id &&
         widget.state.lastFrom != Squares.hand &&
@@ -118,9 +122,13 @@ class _BoardPiecesState extends State<BoardPieces> {
       int orientation = widget.state.orientation == Squares.white ? 1 : -1;
       return MoveAnimation(
         child: p,
-        x: -widget.size.fileDiff(widget.state.lastFrom!, widget.state.lastTo!).toDouble() *
+        x: -widget.size
+                .fileDiff(widget.state.lastFrom!, widget.state.lastTo!)
+                .toDouble() *
             orientation,
-        y: widget.size.rankDiff(widget.state.lastFrom!, widget.state.lastTo!).toDouble() *
+        y: widget.size
+                .rankDiff(widget.state.lastFrom!, widget.state.lastTo!)
+                .toDouble() *
             orientation,
         duration: widget.animationDuration,
         curve: widget.animationCurve,

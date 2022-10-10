@@ -1,6 +1,7 @@
 ### 1.0.4
-- `MarkerTheme.cross()` - marker that builds a cross in a square.
 - Rank and file labels on the board using `LabelOverlay`.
+- Fixed a bug that would cause custom piece sets to sometimes be misaligned.
+- `MarkerTheme.cross()` - marker that builds a cross in a square.
 
 ### 1.0.3
 - Board editor page in example.
