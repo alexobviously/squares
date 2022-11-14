@@ -1,4 +1,6 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:squares_complex/app_bar.dart';
+import 'package:squares_complex/game_manager.dart';
 import 'package:squares_complex/game_page.dart';
 import 'package:flutter/material.dart';
 
@@ -10,11 +12,15 @@ class GameFullscreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(),
-      body: GamePage(
-        game: gamePage.game,
-        pieceSet: gamePage.pieceSet,
-        theme: gamePage.theme,
-        markerTheme: gamePage.markerTheme,
+      body: BlocBuilder<GameManager, GameManagerState>(
+        builder: (context, state) {
+          return GamePage(
+            game: gamePage.game,
+            pieceSet: state.pieceSet,
+            theme: state.theme,
+            markerTheme: state.markerTheme,
+          );
+        },
       ),
     );
   }
