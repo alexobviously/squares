@@ -20,7 +20,7 @@ dependencies:
   flutter_bloc: ^7.1.0
   flutter_spinkit: ^5.0.0
   flutter_svg: ^1.0.0
-  google_fonts: ^2.2.0
+  google_fonts: ^3.0.1
   material_design_icons_flutter: ^5.0.5955-rc.1
   squares:
     path: ../../
