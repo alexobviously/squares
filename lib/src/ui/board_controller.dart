@@ -371,6 +371,14 @@ class _BoardControllerState extends State<BoardController> {
     if (gate) {
       pieces.insert(0, null);
     }
+    //if exists (pawn) move to square without promotion ?
+    if (!gate && moves.isNotEmpty) {
+      for (Move m in widget.moves) {
+        if (m.from == moves[0].from && m.to == square && m.promo == null) {
+          pieces.insert(0, null);
+        }
+      }
+    }
 
     setState(() {
       pieceSelectors.add(
