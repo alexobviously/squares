@@ -1,5 +1,6 @@
 ### 1.0.5
 - Fixed move string parsing for moves from ranks larger than 9 (thanks @malaschitz).
+- Fixed duplicate pieces appearing in piece selector for castling gating moves.
 
 ### 1.0.4
 - Rank and file labels on the board using `LabelOverlay`.

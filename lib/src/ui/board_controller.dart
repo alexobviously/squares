@@ -356,6 +356,7 @@ class _BoardControllerState extends State<BoardController> {
     bool disambiguateGating = false,
   }) {
     List<Move> moves = widget.moves
+        .from(selection!)
         .to(square)
         .where(
           (e) =>

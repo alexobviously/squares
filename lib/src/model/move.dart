@@ -50,7 +50,9 @@ class Move {
     this.piece,
     this.gatingSquare,
   }) {
-    if (from == Squares.hand) assert(piece != null, 'Drop moves require a piece');
+    if (from == Squares.hand) {
+      assert(piece != null, 'Drop moves require a piece');
+    }
   }
 
   /// Provides the most basic algebraic form of the move.
@@ -64,7 +66,8 @@ class Move {
   }
 
   @override
-  String toString() => '$from-$to${promo != null ? '[$promo]' : ''}';
+  String toString() =>
+      '$from-$to${promo != null ? '[$promo]' : ''}${piece != null ? '[$piece]' : ''}';
 }
 
 /// Used for dragging pieces.
