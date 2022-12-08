@@ -1,3 +1,6 @@
+### 1.0.5
+- Fixed move string parsing for moves from ranks larger than 9 (thanks @malaschitz).
+
 ### 1.0.4
 - Rank and file labels on the board using `LabelOverlay`.
 - Fixed a bug that would cause custom piece sets to sometimes be misaligned.

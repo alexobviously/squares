@@ -87,29 +87,38 @@ class BoardSize {
   /// Returns true if [square] is on the board.
   bool isOnBoard(int square) => square >= 0 && square < numSquares;
 
+  static final RegExp _moveRegex =
+      RegExp(r'([a-z][0-9]+)([a-z][0-9]+)([a-z])?');
+
   /// Create a `Move` from an algebraic string (e.g. a2a3, g6f3) for a board
   /// of this size.
   Move moveFromAlgebraic(String alg) {
+    // A normal move - b1c3
+    // A normal move with promo - e7e8q
+    // A drop - e@g7
+    // A gating move - g7f6/e
+    // A disambiguated gating move - e1g1/eh1 (castling)
     if (alg[1] == '@') {
       // it's a drop
       int from = Squares.hand;
-      int to = squareNumber(alg.substring(2, 4));
+      int to = squareNumber(alg.substring(2));
       return Move(from: from, to: to, piece: alg[0]);
     }
-    int from = squareNumber(alg.substring(0, 2));
-    int to = squareNumber(alg.substring(2, 4));
-
+    List<String> sections = alg.split('/');
+    String move = sections.first;
+    final m = _moveRegex.firstMatch(move);
+    if (m == null) {
+      throw Exception('Invalid move string: $alg');
+    }
+    int from = squareNumber(m.group(1)!);
+    int to = squareNumber(m.group(2)!);
+    String? promo = m.group(3);
     String? piece;
     int? gatingSquare;
-    String? promo;
-    List<String> sections = alg.split('/');
     if (sections.length > 1) {
       String gate = sections.last;
       piece = gate[0];
-      gatingSquare =
-          gate.length > 2 ? squareNumber(gate.substring(1, 3)) : from;
-    } else {
-      promo = (alg.length > 4) ? alg[4] : null;
+      gatingSquare = gate.length > 2 ? squareNumber(gate.substring(1)) : from;
     }
 
     return Move(
@@ -135,8 +144,9 @@ class BoardSize {
       if (move.promotion) alg = '$alg${move.promo!.toLowerCase()}';
       if (move.gate) {
         alg = '$alg/${move.piece!.toLowerCase()}';
-        if (move.gatingSquare != null)
+        if (move.gatingSquare != null) {
           alg = '$alg${squareName(move.gatingSquare!)}';
+        }
       }
       return alg;
     }
