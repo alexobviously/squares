@@ -81,6 +81,7 @@ class _GamePageState extends State<GamePage> {
                   labelConfig: widget.game.isXiangqi
                       ? LabelConfig.disabled
                       : LabelConfig.standard,
+                  piecePadding: widget.game.isXiangqi ? 0.05 : 0.0,
                 ),
               ),
               if (_hands) _hand(_orientation),

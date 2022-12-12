@@ -109,6 +109,10 @@ class Board extends StatelessWidget {
   /// of the basic squares in [theme] to transparent.
   final Widget? background;
 
+  /// Padding to add on every side of a piece, relative to the size of the
+  /// square it is on. For example, 0.05 will add 5% padding to each side.
+  final double piecePadding;
+
   Board({
     super.key,
     required this.state,
@@ -138,6 +142,7 @@ class Board extends StatelessWidget {
     this.labelConfig = LabelConfig.standard,
     this.backgroundConfig = BackgroundConfig.standard,
     this.background,
+    this.piecePadding = 0.0,
   }) : markerTheme = markerTheme ?? MarkerTheme.basic;
 
   @override
@@ -195,6 +200,7 @@ class Board extends StatelessWidget {
                 animationDuration: animationDuration,
                 animationCurve: animationCurve,
                 ignoreGestures: externalDrag,
+                piecePadding: piecePadding,
               ),
               ...overlays,
               for (PieceSelectorData data in pieceSelectors)

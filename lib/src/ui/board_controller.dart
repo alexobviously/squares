@@ -83,6 +83,10 @@ class BoardController extends StatefulWidget {
   /// of the basic squares in [theme] to transparent.
   final Widget? background;
 
+  /// Padding to add on every side of a piece, relative to the size of the
+  /// square it is on. For example, 0.05 will add 5% padding to each side.
+  final double piecePadding;
+
   late final Map<int, List<Move>> moveMap;
   late final List<Move> drops;
 
@@ -113,6 +117,7 @@ class BoardController extends StatefulWidget {
     this.labelConfig = LabelConfig.standard,
     this.backgroundConfig = BackgroundConfig.standard,
     this.background,
+    this.piecePadding = 0.0,
   }) {
     moveMap = {};
     drops = [];
@@ -176,6 +181,7 @@ class _BoardControllerState extends State<BoardController> {
       labelConfig: widget.labelConfig,
       backgroundConfig: widget.backgroundConfig,
       background: widget.background,
+      piecePadding: widget.piecePadding,
       overlays: [
         if (premove?.promotion ?? false)
           PieceOverlay.single(

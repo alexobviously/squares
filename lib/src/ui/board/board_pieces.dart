@@ -42,6 +42,10 @@ class BoardPieces extends StatefulWidget {
   /// Generally useful if you have an external drag (e.g. from a hand) happening.
   final bool ignoreGestures;
 
+  /// Padding to add on every side of a piece, relative to the size of the
+  /// square it is on. For example, 0.05 will add 5% padding to each side.
+  final double piecePadding;
+
   const BoardPieces({
     super.key,
     required this.pieceSet,
@@ -56,6 +60,7 @@ class BoardPieces extends StatefulWidget {
     this.onDragCancelled,
     this.onDragEnd,
     this.ignoreGestures = false,
+    this.piecePadding = 0.0,
   });
 
   @override
@@ -100,18 +105,21 @@ class _BoardPiecesState extends State<BoardPieces> {
     final p = SizedBox(
       width: squareSize,
       height: squareSize,
-      child: Piece(
-        child: piece,
-        draggable: currentDrag != null ? currentDrag == id : widget.draggable,
-        interactible: currentDrag == null || currentDrag == id,
-        move: PartialMove(
-          from: id,
-          piece: symbol,
+      child: Padding(
+        padding: EdgeInsets.all(widget.piecePadding * squareSize),
+        child: Piece(
+          child: piece,
+          draggable: currentDrag != null ? currentDrag == id : widget.draggable,
+          interactible: currentDrag == null || currentDrag == id,
+          move: PartialMove(
+            from: id,
+            piece: symbol,
+          ),
+          onTap: () => widget.onTap?.call(id),
+          onDragStarted: () => _onDragStarted(id),
+          onDragCancelled: () => _onDragCancelled(id),
+          onDragEnd: (details) => _onDragEnd(id, details),
         ),
-        onTap: () => widget.onTap?.call(id),
-        onDragStarted: () => _onDragStarted(id),
-        onDragCancelled: () => _onDragCancelled(id),
-        onDragEnd: (details) => _onDragEnd(id, details),
       ),
     );
     if (widget.state.lastTo == id &&

@@ -2,6 +2,7 @@
 - The Xiangqi Update!
 - `BoardConfig` - used to configure the way `BoardBackground` is drawn.
 - Two Xiangqi piece sets and one background image.
+- Parameter on `Board`/`BoardConfig`/`BoardPieces` to allow padding pieces within their squares - `piecePadding`.
 
 ### 1.0.5
 - Fixed move string parsing for moves from ranks larger than 9 (thanks @malaschitz).
