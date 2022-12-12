@@ -13,6 +13,11 @@ class PieceSet {
     'P', 'N', 'B', 'R', 'Q', 'K',
     'A', 'C', 'H', 'E', 'S',
   ];
+  static const List<String> xiangqiSymbols = [
+    //
+    'P', 'N', 'B', 'C',
+    'R', 'A', 'K',
+  ];
 
   /// The builders used to create the widgets to represent pieces.
   final Map<String, WidgetBuilder> pieces;
@@ -39,10 +44,10 @@ class PieceSet {
   }) {
     Map<String, WidgetBuilder> pieces = {};
     for (String symbol in symbols) {
-      pieces[symbol.toUpperCase()] =
-          (BuildContext context) => Image.asset('${folder}w$symbol.$format', package: package);
-      pieces[symbol.toLowerCase()] =
-          (BuildContext context) => Image.asset('${folder}b$symbol.$format', package: package);
+      pieces[symbol.toUpperCase()] = (BuildContext context) =>
+          Image.asset('${folder}w$symbol.$format', package: package);
+      pieces[symbol.toLowerCase()] = (BuildContext context) =>
+          Image.asset('${folder}b$symbol.$format', package: package);
     }
     return PieceSet(pieces: pieces);
   }
@@ -50,7 +55,8 @@ class PieceSet {
   /// Specifies a set of `WidgetBuilders` that render `Text` widgets, using
   /// map of piece keys mapped to strings.
   /// Hint: this works with emojis. See the example app.
-  factory PieceSet.text({required Map<String, String> strings, TextStyle? style}) {
+  factory PieceSet.text(
+      {required Map<String, String> strings, TextStyle? style}) {
     Map<String, WidgetBuilder> pieces = {};
     strings.forEach((k, v) {
       pieces[k] = (BuildContext context) => Text(v, style: style);
@@ -65,6 +71,20 @@ class PieceSet {
         folder: 'lib/piece_sets/merida/',
         package: 'squares',
         symbols: extendedSymbols,
+      );
+
+  /// The traditional Xiangqi piece set.
+  factory PieceSet.xiangqi() => PieceSet.fromImageAssets(
+        folder: 'lib/piece_sets/xiangqi/',
+        package: 'squares',
+        symbols: xiangqiSymbols,
+      );
+
+  /// A Xiangqi piece set using chess-like icons.
+  factory PieceSet.xiangqiIcons() => PieceSet.fromImageAssets(
+        folder: 'lib/piece_sets/xiangqi_icon/',
+        package: 'squares',
+        symbols: xiangqiSymbols,
       );
 
   /// Specifies a set of `WidgetBuilders` that render `Text` widgets with only

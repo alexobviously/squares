@@ -31,4 +31,7 @@ class Squares {
   static const defaultAnimationDuration = Duration(milliseconds: 250);
   static const defaultAnimationCurve = Curves.easeInQuad;
   static const defaultPremovePieceOpacity = 0.75;
+
+  static Widget get xiangqiBackground =>
+      Image.asset('lib/backgrounds/xiangqi.png', package: 'squares');
 }

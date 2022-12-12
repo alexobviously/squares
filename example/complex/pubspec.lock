@@ -21,7 +21,7 @@ packages:
       name: bishop
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.1"
+    version: "0.6.2"
   bloc:
     dependency: "direct main"
     description:
@@ -316,14 +316,14 @@ packages:
       name: square_bishop
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.3"
+    version: "0.2.5"
   squares:
     dependency: "direct main"
     description:
       path: "../.."
       relative: true
     source: path
-    version: "1.0.4"
+    version: "1.0.5"
   stack_trace:
     dependency: transitive
     description:

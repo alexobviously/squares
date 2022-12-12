@@ -2,6 +2,10 @@ part of 'board.dart';
 
 /// The background layer of a board. Contains coloured boxes, potentially with markers.
 class BoardBackground extends StatelessWidget {
+  /// Configuration for the background. Determines which squares to draw, and
+  /// allows an opacity for squares to be defined.
+  final BackgroundConfig config;
+
   /// Dimensions of the board.
   final BoardSize size;
 
@@ -13,7 +17,7 @@ class BoardBackground extends StatelessWidget {
   /// Colour scheme for the board.
   final BoardTheme theme;
 
-  /// Sq=uares that should be highlighted (i.e. have their background colour set).
+  /// Squares that should be highlighted (i.e. have their background colour set).
   /// The key is the square index.
   final Map<int, HighlightType> highlights;
 
@@ -25,6 +29,7 @@ class BoardBackground extends StatelessWidget {
 
   BoardBackground({
     super.key,
+    this.config = BackgroundConfig.standard,
     this.size = BoardSize.standard,
     this.orientation = Squares.white,
     this.theme = BoardTheme.brown,
@@ -45,17 +50,23 @@ class BoardBackground extends StatelessWidget {
   Widget _square(BuildContext context, int rank, int file, double squareSize) {
     int id = size.square(rank, file, orientation);
 
-    Color squareColour =
-        ((rank + file) % 2 == 0) ? theme.lightSquare : theme.darkSquare;
-    if (highlights.containsKey(id)) {
+    Color squareColour = config.drawNormalSquares
+        ? (((rank + file) % 2 == 0) ? theme.lightSquare : theme.darkSquare)
+        : Colors.transparent;
+    if (config.drawHighlightedSquares && highlights.containsKey(id)) {
       squareColour = Color.alphaBlend(
         theme.highlight(highlights[id]!),
         squareColour,
       );
     }
+    if (config.opacity != null &&
+        (squareColour.opacity >= 1.0 || config.modifyTranslucentOpacity)) {
+      squareColour =
+          squareColour.withOpacity(squareColour.opacity * config.opacity!);
+    }
 
     Widget? marker;
-    if (markers.containsKey(id)) {
+    if (config.drawMarkers && markers.containsKey(id)) {
       final m = markers[id]!;
       marker = m.hasPiece
           ? markerTheme.piece(context, squareSize, theme.highlight(m.colour))

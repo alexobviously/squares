@@ -163,3 +163,33 @@ class LabelConfig {
   /// Disabled labels.
   static const disabled = LabelConfig(showLabels: false);
 }
+
+/// Configuration for `BoardBackground`.
+class BackgroundConfig {
+  /// Whether to draw normal squares, i.e. squares that are not highlighted.
+  final bool drawNormalSquares;
+
+  /// Whether to draw squares that are highlighted.
+  final bool drawHighlightedSquares;
+
+  /// Whether to draw markers.
+  final bool drawMarkers;
+
+  /// Opacity modifier for drawn squares.
+  final double? opacity;
+
+  /// Whether to modify the opacity of squares that already have a translucent
+  /// (i.e., not 1.0) opacity.
+  final bool modifyTranslucentOpacity;
+
+  const BackgroundConfig({
+    this.drawNormalSquares = true,
+    this.drawHighlightedSquares = true,
+    this.drawMarkers = true,
+    this.opacity,
+    this.modifyTranslucentOpacity = false,
+  });
+  static const standard = BackgroundConfig();
+  static const noBackground =
+      BackgroundConfig(drawNormalSquares: false, opacity: 0.5);
+}

@@ -21,9 +21,15 @@ class GameManager extends Cubit<GameManagerState> {
   int pieceSetIndex = 0;
   List<PieceSet> pieceSets = [
     PieceSet.merida(),
-    PieceSet.letters(style: TextStyle(fontWeight: FontWeight.bold, fontStyle: FontStyle.italic)),
+    PieceSet.letters(
+        style: TextStyle(
+            fontWeight: FontWeight.bold, fontStyle: FontStyle.italic)),
     emojiPieceSet,
     svgPieceSet(folder: 'assets/kaneo/', symbols: PieceSet.extendedSymbols),
+  ];
+  List<PieceSet> xiangqiPieceSets = [
+    PieceSet.xiangqi(),
+    PieceSet.xiangqiIcons()
   ];
   int themeIndex = 0;
   List<BoardTheme> themes = [
@@ -40,7 +46,11 @@ class GameManager extends Cubit<GameManagerState> {
 
   void createGame(GameConfig config) {
     GameController gc = GameController();
-    gc.startGame(config.variant, humanPlayer: config.humanPlayer, fen: config.fen);
+    gc.startGame(
+      config.variant,
+      humanPlayer: config.humanPlayer,
+      fen: config.fen,
+    );
     List<GameController> _games = List.from(state.games);
     _games.add(gc);
     emit(state.copyWith(games: _games));
@@ -58,7 +68,13 @@ class GameManager extends Cubit<GameManagerState> {
   void changePieceSet(int? index) {
     if (index == null) return;
     pieceSetIndex = index;
-    emit(state.copyWith(pieceSet: pieceSets[index], pieceSetIndex: pieceSetIndex));
+    emit(
+      state.copyWith(
+        pieceSet: pieceSets[index],
+        xiangqiPieceSet: xiangqiPieceSets[index % xiangqiPieceSets.length],
+        pieceSetIndex: pieceSetIndex,
+      ),
+    );
   }
 
   void changeTheme(int? index) {
@@ -83,12 +99,15 @@ class GameManagerState {
   final List<GameController> games;
   final int pieceSetIndex;
   final PieceSet pieceSet;
+  final PieceSet xiangqiPieceSet;
   final BoardTheme theme;
   final MarkerTheme markerTheme;
+
   GameManagerState({
     required this.games,
     required this.pieceSetIndex,
     required this.pieceSet,
+    required this.xiangqiPieceSet,
     required this.theme,
     required this.markerTheme,
   });
@@ -96,6 +115,7 @@ class GameManagerState {
         games: [],
         pieceSetIndex: 0,
         pieceSet: PieceSet.merida(),
+        xiangqiPieceSet: PieceSet.xiangqi(),
         theme: BoardTheme.brown,
         markerTheme: MarkerTheme.basic,
       );
@@ -104,6 +124,7 @@ class GameManagerState {
     List<GameController>? games,
     int? pieceSetIndex,
     PieceSet? pieceSet,
+    PieceSet? xiangqiPieceSet,
     BoardTheme? theme,
     MarkerTheme? highlightTheme,
   }) =>
@@ -111,6 +132,7 @@ class GameManagerState {
         games: games ?? this.games,
         pieceSetIndex: pieceSetIndex ?? this.pieceSetIndex,
         pieceSet: pieceSet ?? this.pieceSet,
+        xiangqiPieceSet: xiangqiPieceSet ?? this.xiangqiPieceSet,
         theme: theme ?? this.theme,
         markerTheme: highlightTheme ?? this.markerTheme,
       );

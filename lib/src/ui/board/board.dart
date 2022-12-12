@@ -99,6 +99,16 @@ class Board extends StatelessWidget {
   /// Set this to LabelConfig.disabled to hide them entirely.
   final LabelConfig labelConfig;
 
+  /// Configuration for the background. Determines which squares to draw, and
+  /// allows an opacity for squares to be defined.
+  final BackgroundConfig backgroundConfig;
+
+  /// A widget to be placed behind everything on the board.
+  /// Useful for games with backgrounds like Xiangqi.
+  /// If you use this then you need to either set [boardConfig] or set the colour
+  /// of the basic squares in [theme] to transparent.
+  final Widget? background;
+
   Board({
     super.key,
     required this.state,
@@ -126,6 +136,8 @@ class Board extends StatelessWidget {
     this.overlays = const [],
     this.externalDrag = false,
     this.labelConfig = LabelConfig.standard,
+    this.backgroundConfig = BackgroundConfig.standard,
+    this.background,
   }) : markerTheme = markerTheme ?? MarkerTheme.basic;
 
   @override
@@ -137,7 +149,9 @@ class Board extends StatelessWidget {
           double squareSize = constraints.maxWidth / size.h;
           return Stack(
             children: [
+              if (background != null) background!,
               BoardBackground(
+                config: backgroundConfig,
                 size: size,
                 orientation: state.orientation,
                 theme: theme,

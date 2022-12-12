@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
     
-  bishop: ^0.5.1
+  bishop: ^0.6.2
   badges: ^2.0.1
   bloc: ^7.0.0
   dots_indicator: ^2.0.0
@@ -24,7 +24,7 @@ dependencies:
   material_design_icons_flutter: ^5.0.5955-rc.1
   squares:
     path: ../../
-  square_bishop: ^0.2.3
+  square_bishop: ^0.2.5
 
 dependency_overrides:
   squares:

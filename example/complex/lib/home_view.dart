@@ -42,7 +42,8 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
     _pageController.dispose();
   }
 
-  void _onCreateGame(GameConfig config) => BlocProvider.of<GameManager>(context).createGame(config);
+  void _onCreateGame(GameConfig config) =>
+      BlocProvider.of<GameManager>(context).createGame(config);
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +77,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                             game: games[i],
                             theme: state.theme,
                             pieceSet: state.pieceSet,
+                            xiangqiPieceSet: state.xiangqiPieceSet,
                             markerTheme: state.markerTheme,
                           );
                           return Card(
@@ -89,7 +91,8 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                                     icon: Icon(MdiIcons.arrowExpand),
                                     onPressed: () => Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) => GameFullscreen(_page),
+                                        builder: (context) =>
+                                            GameFullscreen(_page),
                                       ),
                                     ),
                                   ),

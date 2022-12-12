@@ -17,6 +17,7 @@ class GameFullscreen extends StatelessWidget {
           return GamePage(
             game: gamePage.game,
             pieceSet: state.pieceSet,
+            xiangqiPieceSet: state.xiangqiPieceSet,
             theme: state.theme,
             markerTheme: state.markerTheme,
           );

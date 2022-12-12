@@ -28,6 +28,7 @@ class _GameCreatorState extends State<GameCreator> {
     bishop.Variant.capablanca(),
     bishop.Variant.crazyhouse(),
     bishop.Variant.seirawan(),
+    bishop.Xiangqi.variant(),
   ];
 
   List<DropdownMenuItem<int>> get _variantDropdownItems {

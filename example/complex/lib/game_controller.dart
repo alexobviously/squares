@@ -10,6 +10,7 @@ class GameController extends Cubit<GameState> {
   bishop.Engine? engine;
   int humanPlayer = Squares.white;
   bishop.Variant? get variant => game?.variant.data;
+  bool get isXiangqi => game?.variant.data.name == 'Xiangqi';
 
   void emitState([bool thinking = false]) {
     if (game == null) emit(GameState.initial());
@@ -21,7 +22,8 @@ class GameController extends Cubit<GameState> {
     }
 
     bool canMove = game!.turn == humanPlayer;
-    List<bishop.Move> _moves = canMove ? game!.generateLegalMoves() : game!.generatePremoves();
+    List<bishop.Move> _moves =
+        canMove ? game!.generateLegalMoves() : game!.generatePremoves();
     List<Move> moves = [];
     for (bishop.Move move in _moves) {
       moves.add(convertBishopMove(move));
@@ -29,14 +31,20 @@ class GameController extends Cubit<GameState> {
     bishop.GameInfo gameInfo = game!.info;
     BoardState board = BoardState(
       board: game!.boardSymbols(),
-      lastFrom: gameInfo.lastFrom != null ? size.squareNumber(gameInfo.lastFrom!) : null,
-      lastTo: gameInfo.lastTo != null ? size.squareNumber(gameInfo.lastTo!) : null,
-      checkSquare: gameInfo.checkSq != null ? size.squareNumber(gameInfo.checkSq!) : null,
+      lastFrom: gameInfo.lastFrom != null
+          ? size.squareNumber(gameInfo.lastFrom!)
+          : null,
+      lastTo:
+          gameInfo.lastTo != null ? size.squareNumber(gameInfo.lastTo!) : null,
+      checkSquare: gameInfo.checkSq != null
+          ? size.squareNumber(gameInfo.checkSq!)
+          : null,
       orientation: this.state.board.orientation,
       turn: game!.turn,
     );
-    PlayState _state =
-        game!.gameOver ? PlayState.finished : (canMove ? PlayState.ourTurn : PlayState.theirTurn);
+    PlayState _state = game!.gameOver
+        ? PlayState.finished
+        : (canMove ? PlayState.ourTurn : PlayState.theirTurn);
     emit(
       GameState(
         state: _state,
@@ -44,7 +52,7 @@ class GameController extends Cubit<GameState> {
         size: size,
         board: board,
         moves: moves,
-        hands: game!.handSymbols(),
+        hands: game!.handSymbols,
         history: game!.history
             .where((x) => x.move != null)
             .map((m) => convertBishopMove(m.move!))
@@ -73,7 +81,8 @@ class GameController extends Cubit<GameState> {
     // print('makeMove $alg, ')
     if (m == null) {
       print('move $alg not found');
-      print(game!.generateLegalMoves().map((e) => game!.toAlgebraic(e)).toList());
+      print(
+          game!.generateLegalMoves().map((e) => game!.toAlgebraic(e)).toList());
     } else {
       game!.makeMove(m);
       emitState();
@@ -116,7 +125,8 @@ class GameController extends Cubit<GameState> {
 }
 
 Future<bishop.EngineResult> engineSearch(bishop.Game game) async {
-  return await bishop.Engine(game: game).search(timeLimit: 1000, timeBuffer: 500);
+  return await bishop.Engine(game: game)
+      .search(timeLimit: 1000, timeBuffer: 500);
 }
 
 class GameState extends Equatable {

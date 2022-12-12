@@ -21,4 +21,7 @@ dev_dependencies:
 
 flutter:
   assets:
+    - lib/backgrounds/
     - lib/piece_sets/merida/
+    - lib/piece_sets/xiangqi/
+    - lib/piece_sets/xiangqi_icon/

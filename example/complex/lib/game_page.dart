@@ -8,12 +8,15 @@ import 'package:squares/squares.dart';
 class GamePage extends StatefulWidget {
   final GameController game;
   final PieceSet pieceSet;
+  final PieceSet xiangqiPieceSet;
   final BoardTheme theme;
   final MarkerTheme? markerTheme;
+
   GamePage({
     Key? key,
     required this.game,
     required this.pieceSet,
+    required this.xiangqiPieceSet,
     required this.theme,
     this.markerTheme,
   }) : super(key: key);
@@ -57,7 +60,9 @@ class _GamePageState extends State<GamePage> {
                 child: BoardController(
                   state: state.board,
                   playState: state.state,
-                  pieceSet: widget.pieceSet,
+                  pieceSet: widget.game.isXiangqi
+                      ? widget.xiangqiPieceSet
+                      : widget.pieceSet,
                   theme: widget.theme,
                   size: state.size,
                   markerTheme: widget.markerTheme,
@@ -66,7 +71,16 @@ class _GamePageState extends State<GamePage> {
                   moves: state.moves,
                   draggable: true,
                   dragFeedbackSize: kIsWeb ? 1.5 : 2.0,
-                  dragFeedbackOffset: kIsWeb ? Offset(0.0, 0.0) : Offset(0.0, -1.0),
+                  dragFeedbackOffset:
+                      kIsWeb ? Offset(0.0, 0.0) : Offset(0.0, -1.0),
+                  background:
+                      widget.game.isXiangqi ? Squares.xiangqiBackground : null,
+                  backgroundConfig: widget.game.isXiangqi
+                      ? BackgroundConfig.noBackground
+                      : BackgroundConfig.standard,
+                  labelConfig: widget.game.isXiangqi
+                      ? LabelConfig.disabled
+                      : LabelConfig.standard,
                 ),
               ),
               if (_hands) _hand(_orientation),
@@ -85,7 +99,13 @@ class _GamePageState extends State<GamePage> {
                   ),
                 ],
               ),
-              SelectableText(state.board.fen(state.size)),
+              Container(
+                color: widget.theme.lightSquare.withOpacity(0.5),
+                child: SelectableText(
+                  state.board.fen(state.size),
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ],
           ),
         );

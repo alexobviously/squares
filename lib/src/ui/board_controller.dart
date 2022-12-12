@@ -73,6 +73,16 @@ class BoardController extends StatefulWidget {
   /// Set this to LabelConfig.disabled to hide them entirely.
   final LabelConfig labelConfig;
 
+  /// Configuration for the background. Determines which squares to draw, and
+  /// allows an opacity for squares to be defined.
+  final BackgroundConfig backgroundConfig;
+
+  /// A widget to be placed behind everything on the board.
+  /// Useful for games with backgrounds like Xiangqi.
+  /// If you use this then you need to either set [boardConfig] or set the colour
+  /// of the basic squares in [theme] to transparent.
+  final Widget? background;
+
   late final Map<int, List<Move>> moveMap;
   late final List<Move> drops;
 
@@ -101,6 +111,8 @@ class BoardController extends StatefulWidget {
     this.animationCurve = Squares.defaultAnimationCurve,
     this.premovePieceOpacity = Squares.defaultPremovePieceOpacity,
     this.labelConfig = LabelConfig.standard,
+    this.backgroundConfig = BackgroundConfig.standard,
+    this.background,
   }) {
     moveMap = {};
     drops = [];
@@ -162,6 +174,8 @@ class _BoardControllerState extends State<BoardController> {
       validateDrag: _validateDrag,
       onPieceSelected: _onPieceSelected,
       labelConfig: widget.labelConfig,
+      backgroundConfig: widget.backgroundConfig,
+      background: widget.background,
       overlays: [
         if (premove?.promotion ?? false)
           PieceOverlay.single(
