@@ -105,6 +105,7 @@ class _GamePageState extends State<GamePage> {
                 child: SelectableText(
                   state.board.fen(state.size),
                   textAlign: TextAlign.center,
+                  minLines: 2,
                 ),
               ),
             ],
