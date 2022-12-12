@@ -76,12 +76,12 @@ class _GamePageState extends State<GamePage> {
                   background:
                       widget.game.isXiangqi ? Squares.xiangqiBackground : null,
                   backgroundConfig: widget.game.isXiangqi
-                      ? BackgroundConfig.noBackground
+                      ? BackgroundConfig.xiangqi
                       : BackgroundConfig.standard,
                   labelConfig: widget.game.isXiangqi
                       ? LabelConfig.disabled
                       : LabelConfig.standard,
-                  piecePadding: widget.game.isXiangqi ? 0.05 : 0.0,
+                  piecePadding: widget.game.isXiangqi ? 0.075 : 0.0,
                 ),
               ),
               if (_hands) _hand(_orientation),

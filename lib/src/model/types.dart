@@ -182,14 +182,24 @@ class BackgroundConfig {
   /// (i.e., not 1.0) opacity.
   final bool modifyTranslucentOpacity;
 
+  /// A `BoxDecoration` that will be applied to the main Container for each
+  /// square. You can use this to change its shape, e.g. to make it a circle.
+  final BoxDecoration squareDecoration;
+
   const BackgroundConfig({
     this.drawNormalSquares = true,
     this.drawHighlightedSquares = true,
     this.drawMarkers = true,
     this.opacity,
     this.modifyTranslucentOpacity = false,
+    this.squareDecoration = const BoxDecoration(),
   });
   static const standard = BackgroundConfig();
   static const noBackground =
       BackgroundConfig(drawNormalSquares: false, opacity: 0.5);
+  static const xiangqi = BackgroundConfig(
+    drawNormalSquares: false,
+    opacity: 0.5,
+    squareDecoration: BoxDecoration(shape: BoxShape.circle),
+  );
 }
