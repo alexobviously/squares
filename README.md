@@ -34,7 +34,7 @@ Squares has a stateless `Board` widget that can used to display a complete board
 
 [Contribution guidelines for this project](docs/CONTRIBUTING.md)
 
-![nano](images/nano.gif =300x)
+![nano](images/nano.gif height=300)
 
 <br>
 <img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/nano.gif" width="auto" height="300"/>
