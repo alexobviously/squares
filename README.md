@@ -33,9 +33,11 @@ Squares has a stateless `Board` widget that can used to display a complete board
 * Supports arbitrary board sizes and pieces
 <br>
 <img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/nano.gif" width="300px"/>
+<br>
 <img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/capablanca.gif" width="300px"/>
-
+<br>
 <img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/grand.gif" width="300px"/>
+<br>
 <img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/xiangqi.gif" width="300px"/>
 
 * Piece promotion
