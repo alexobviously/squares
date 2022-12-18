@@ -32,7 +32,7 @@ Squares has a stateless `Board` widget that can used to display a complete board
 
 * Supports arbitrary board sizes and pieces
 <br>
-![nano](/images/nano.gif)
+![nano](https://raw.githubusercontent.com/alexobviously/squares/main/images/nano.gif)
 <img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/nano.gif" width="auto" height="300"/>
 <img src="https://raw.githubusercontent.com/alexobviously/squares/main/images/capablanca.gif" height="300"/>
 
