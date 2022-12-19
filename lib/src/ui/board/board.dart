@@ -50,6 +50,9 @@ class Board extends StatelessWidget {
   /// the bottom of the piece will be anchored to the finger.
   final Offset dragFeedbackOffset;
 
+  /// Which players' pieces we can drag.
+  final PlayerSet dragPermissions;
+
   /// Called when a square is tapped.
   final void Function(int)? onTap;
 
@@ -127,6 +130,7 @@ class Board extends StatelessWidget {
     this.draggable = true,
     this.dragFeedbackSize = 2.0,
     this.dragFeedbackOffset = const Offset(0.0, -1.0),
+    this.dragPermissions = PlayerSet.both,
     this.onTap,
     this.onPieceSelected,
     this.onDragCancel,
@@ -201,6 +205,7 @@ class Board extends StatelessWidget {
                 animationCurve: animationCurve,
                 ignoreGestures: externalDrag,
                 piecePadding: piecePadding,
+                dragPermissions: dragPermissions,
               ),
               ...overlays,
               for (PieceSelectorData data in pieceSelectors)

@@ -1,4 +1,5 @@
 ### 1.1.1
+- Drag permissions changes: `Board` and `BoardPieces` now take a `dragPermissions` param that defines which piece colours can be dragged. `BoardController` implements behaviour that only allows the player's pieces to be dragged (as defined by `playState`).
 - Board editor improvements in the example.
   
 ### 1.1.0

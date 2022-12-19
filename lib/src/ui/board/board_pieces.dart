@@ -1,7 +1,5 @@
 part of 'board.dart';
 
-// TODO: don't allow opponent pieces to be dragged
-
 /// The piece layer for a board. Contains pieces and empty boxes.
 class BoardPieces extends StatefulWidget {
   /// The set of widgets to use for pieces on the board.
@@ -46,6 +44,9 @@ class BoardPieces extends StatefulWidget {
   /// square it is on. For example, 0.05 will add 5% padding to each side.
   final double piecePadding;
 
+  /// Which players' pieces we can drag.
+  final PlayerSet dragPermissions;
+
   const BoardPieces({
     super.key,
     required this.pieceSet,
@@ -61,6 +62,7 @@ class BoardPieces extends StatefulWidget {
     this.onDragEnd,
     this.ignoreGestures = false,
     this.piecePadding = 0.0,
+    this.dragPermissions = PlayerSet.both,
   });
 
   @override
@@ -102,6 +104,14 @@ class _BoardPiecesState extends State<BoardPieces> {
     Widget piece = symbol.isNotEmpty
         ? widget.pieceSet.piece(context, symbol)
         : Container();
+    int? player = symbol.isEmpty
+        ? null
+        : symbol.toLowerCase() == symbol
+            ? Squares.black
+            : Squares.white;
+    bool draggable = widget.draggable &&
+        player != null &&
+        widget.dragPermissions.forPlayer(player);
     final p = SizedBox(
       width: squareSize,
       height: squareSize,
@@ -109,7 +119,7 @@ class _BoardPiecesState extends State<BoardPieces> {
         padding: EdgeInsets.all(widget.piecePadding * squareSize),
         child: Piece(
           child: piece,
-          draggable: currentDrag != null ? currentDrag == id : widget.draggable,
+          draggable: currentDrag != null ? currentDrag == id : draggable,
           interactible: currentDrag == null || currentDrag == id,
           move: PartialMove(
             from: id,

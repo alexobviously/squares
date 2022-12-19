@@ -203,3 +203,19 @@ class BackgroundConfig {
     squareDecoration: BoxDecoration(shape: BoxShape.circle),
   );
 }
+
+/// Just a convenience class for configuring things that could apply to one
+/// player, neither or both.
+class PlayerSet {
+  final bool white;
+  final bool black;
+  bool forPlayer(int player) =>
+      {Squares.white: white, Squares.black: black}[player] ?? false;
+  const PlayerSet(this.white, this.black);
+  static const onlyWhite = PlayerSet(true, false);
+  static const onlyBlack = PlayerSet(false, true);
+  static const neither = PlayerSet(false, false);
+  static const both = PlayerSet(true, true);
+  factory PlayerSet.fromPlayer(int player) =>
+      {Squares.white: onlyWhite, Squares.black: onlyBlack}[player] ?? neither;
+}

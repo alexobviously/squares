@@ -93,6 +93,13 @@ class BoardController extends StatefulWidget {
   String get bestPiece =>
       pieceHierarchy.isNotEmpty ? pieceHierarchy.first : 'q';
 
+  PlayerSet get dragPermissions => {
+        PlayState.ourTurn: PlayerSet.fromPlayer(state.turn),
+        PlayState.theirTurn: PlayerSet.fromPlayer(1 - state.turn),
+        PlayState.observing: PlayerSet.both,
+        PlayState.finished: PlayerSet.neither
+      }[playState]!;
+
   BoardController({
     super.key,
     required this.state,
@@ -167,6 +174,7 @@ class _BoardControllerState extends State<BoardController> {
       draggable: widget.draggable,
       dragFeedbackSize: widget.dragFeedbackSize,
       dragFeedbackOffset: widget.dragFeedbackOffset,
+      dragPermissions: widget.dragPermissions,
       animatePieces: widget.animatePieces,
       animationDuration: widget.animationDuration,
       animationCurve: widget.animationCurve,
