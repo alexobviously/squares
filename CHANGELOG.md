@@ -1,3 +1,5 @@
+### 1.1.1
+- Board editor improvements in the example.
 ### 1.1.0
 - The Xiangqi Update!
 - `BoardConfig` - used to configure the way `BoardBackground` is drawn.

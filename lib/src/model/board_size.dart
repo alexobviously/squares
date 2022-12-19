@@ -151,4 +151,7 @@ class BoardSize {
       return alg;
     }
   }
+
+  @override
+  String toString() => 'BoardSize($h, $v)';
 }

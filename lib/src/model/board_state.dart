@@ -72,6 +72,9 @@ class BoardState extends Equatable {
     return copyWith(board: newBoard);
   }
 
+  BoardState clearBoard(BoardSize size) =>
+      copyWith(board: List.filled(size.numSquares, ''));
+
   /// Returns a `BoardState` identical to this one, but with [orientation] flipped.
   BoardState flipped() => copyWith(orientation: 1 - orientation);
 
@@ -87,5 +90,6 @@ class BoardState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [board, turn, lastFrom, lastTo, checkSquare, orientation];
+  List<Object?> get props =>
+      [board, turn, lastFrom, lastTo, checkSquare, orientation];
 }
