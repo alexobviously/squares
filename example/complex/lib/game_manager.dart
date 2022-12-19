@@ -22,8 +22,11 @@ class GameManager extends Cubit<GameManagerState> {
   List<PieceSet> pieceSets = [
     PieceSet.merida(),
     PieceSet.letters(
-        style: TextStyle(
-            fontWeight: FontWeight.bold, fontStyle: FontStyle.italic)),
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontStyle: FontStyle.italic,
+      ),
+    ),
     emojiPieceSet,
     svgPieceSet(folder: 'assets/kaneo/', symbols: PieceSet.extendedSymbols),
   ];

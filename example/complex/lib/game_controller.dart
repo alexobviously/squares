@@ -82,7 +82,8 @@ class GameController extends Cubit<GameState> {
     if (m == null) {
       print('move $alg not found');
       print(
-          game!.generateLegalMoves().map((e) => game!.toAlgebraic(e)).toList());
+        game!.generateLegalMoves().map((e) => game!.toAlgebraic(e)).toList(),
+      );
     } else {
       game!.makeMove(m);
       emitState();

@@ -10,8 +10,11 @@ import 'package:squares/squares.dart';
 class GameCreator extends StatefulWidget {
   final PieceSet pieceSet;
   final Function(GameConfig) onCreate;
-  const GameCreator(
-      {super.key, required this.pieceSet, required this.onCreate});
+  const GameCreator({
+    super.key,
+    required this.pieceSet,
+    required this.onCreate,
+  });
 
   @override
   State<GameCreator> createState() => _GameCreatorState();
@@ -34,7 +37,8 @@ class _GameCreatorState extends State<GameCreator> {
   List<DropdownMenuItem<int>> get _variantDropdownItems {
     List<DropdownMenuItem<int>> items = [];
     variants.asMap().forEach(
-        (k, v) => items.add(DropdownMenuItem(value: k, child: Text(v.name))));
+          (k, v) => items.add(DropdownMenuItem(value: k, child: Text(v.name))),
+        );
     return items;
   }
 
@@ -55,7 +59,10 @@ class _GameCreatorState extends State<GameCreator> {
               : Random().nextInt(2);
       if (fen?.isEmpty ?? false) fen = null;
       final config = GameConfig(
-          variant: variants[variant], humanPlayer: _colour, fen: fen);
+        variant: variants[variant],
+        humanPlayer: _colour,
+        fen: fen,
+      );
       widget.onCreate(config);
     }
   }

@@ -55,8 +55,10 @@ class PieceSet {
   /// Specifies a set of `WidgetBuilders` that render `Text` widgets, using
   /// map of piece keys mapped to strings.
   /// Hint: this works with emojis. See the example app.
-  factory PieceSet.text(
-      {required Map<String, String> strings, TextStyle? style}) {
+  factory PieceSet.text({
+    required Map<String, String> strings,
+    TextStyle? style,
+  }) {
     Map<String, WidgetBuilder> pieces = {};
     strings.forEach((k, v) {
       pieces[k] = (BuildContext context) => Text(v, style: style);
