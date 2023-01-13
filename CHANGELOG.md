@@ -1,3 +1,7 @@
+### 1.1.2
+- Fixed a bug that would result in incorrect piece selections for optional promotion moves, e.g. Grand Chess (thanks @malaschitz).
+- `theme` parameter is now optional everywhere.
+
 ### 1.1.1
 - Drag permissions changes: `Board` and `BoardPieces` now take a `dragPermissions` param that defines which piece colours can be dragged. `BoardController` implements behaviour that only allows the player's pieces to be dragged (as defined by `playState`).
 - Board editor improvements in the example.

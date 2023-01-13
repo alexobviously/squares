@@ -32,7 +32,7 @@ class BoardBackground extends StatelessWidget {
     this.config = BackgroundConfig.standard,
     this.size = BoardSize.standard,
     this.orientation = Squares.white,
-    this.theme = BoardTheme.brown,
+    this.theme = BoardTheme.blueGrey,
     this.highlights = const {},
     this.markers = const {},
     MarkerTheme? markerTheme,

@@ -55,9 +55,9 @@ class Hand extends StatelessWidget {
   const Hand({
     required this.squareSize,
     this.stackPieces = true,
-    required this.theme,
+    this.theme = BoardTheme.blueGrey,
     required this.pieceSet,
-    required this.pieces,
+    this.pieces = const [],
     this.fixedPieces = const [],
     this.showCounts = true,
     this.badgePosition,

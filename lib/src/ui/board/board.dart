@@ -121,7 +121,7 @@ class Board extends StatelessWidget {
     required this.state,
     this.playState = PlayState.observing,
     required this.pieceSet,
-    required this.theme,
+    this.theme = BoardTheme.blueGrey,
     this.size = BoardSize.standard,
     MarkerTheme? markerTheme,
     this.selection,
