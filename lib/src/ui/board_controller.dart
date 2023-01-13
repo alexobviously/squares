@@ -105,7 +105,7 @@ class BoardController extends StatefulWidget {
     required this.state,
     required this.playState,
     required this.pieceSet,
-    required this.theme,
+    this.theme = BoardTheme.blueGrey,
     this.size = const BoardSize(8, 8),
     this.markerTheme,
     this.onMove,
@@ -387,18 +387,17 @@ class _BoardControllerState extends State<BoardController> {
         .from(selection!)
         .to(square)
         .where(
-          (e) =>
-              (gate ? e.gate : e.promotion) && e.gatingSquare == gatingSquare,
+          (e) => gate
+              ? (e.gatingSquare == gatingSquare || e.gatingSquare == null)
+              : true,
         )
         .toList();
+
     List<String?> pieces =
-        moves.map<String?>((e) => (gate ? e.piece : e.promo) ?? '').toList();
+        moves.map<String?>((e) => gate ? e.piece : e.promo).toList();
     pieces.sort(_promoComp);
     if (player == Squares.white) {
-      pieces = pieces.map<String?>((e) => e!.toUpperCase()).toList();
-    }
-    if (gate) {
-      pieces.insert(0, null);
+      pieces = pieces.map<String?>((e) => e?.toUpperCase()).toList();
     }
 
     setState(() {
