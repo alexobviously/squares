@@ -110,7 +110,7 @@ class _GameCreatorState extends State<GameCreator> {
           Container(height: 32),
           Text(
             'Game Setup',
-            style: Theme.of(context).textTheme.headline5,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
           Divider(),
           DropdownButton<int>(

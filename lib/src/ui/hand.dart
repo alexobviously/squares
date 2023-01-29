@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
+// todo: switch to material's built in badge
 import 'package:squares/squares.dart';
 
 /// A hand of pieces to drop from, such as in Crazyhouse.
@@ -29,13 +30,10 @@ class Hand extends StatelessWidget {
   final bool showCounts;
 
   /// Position of piece count badges.
-  final BadgePosition? badgePosition;
+  final badges.BadgePosition? badgePosition;
 
-  /// Shape of piece count badges.
-  final BadgeShape badgeShape;
-
-  /// Colour of piece count badges.
-  final Color badgeColour;
+  /// The style of the piece count badges.
+  final badges.BadgeStyle badgeStyle;
 
   /// Alignment of piece widgets in the main row.
   final MainAxisAlignment mainAxisAlignment;
@@ -61,8 +59,7 @@ class Hand extends StatelessWidget {
     this.fixedPieces = const [],
     this.showCounts = true,
     this.badgePosition,
-    this.badgeShape = BadgeShape.circle,
-    this.badgeColour = Colors.red,
+    this.badgeStyle = const badges.BadgeStyle(),
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.onTap,
     this.onDragStarted,
@@ -83,10 +80,9 @@ class Hand extends StatelessWidget {
     pieceMap.forEach((symbol, n) {
       Widget piece = _piece(context, symbol, n);
       if (n > 0 && showCounts) {
-        piece = Badge(
+        piece = badges.Badge(
           position: badgePosition,
-          shape: badgeShape,
-          badgeColor: badgeColour,
+          badgeStyle: badgeStyle,
           badgeContent: Text(
             '$n',
             style: TextStyle(color: Colors.white),

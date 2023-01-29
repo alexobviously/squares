@@ -1,6 +1,7 @@
 import 'package:squares_complex/game_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:squares/squares.dart';
@@ -135,7 +136,7 @@ class _GamePageState extends State<GamePage> {
                       .map((x) => player == Squares.white ? x : x.toLowerCase())
                       .toList(),
                   squareSize: squareSize,
-                  badgeColour: Colors.blue,
+                  badgeStyle: badges.BadgeStyle(badgeColor: Colors.blue),
                 );
               },
             );

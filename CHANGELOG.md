@@ -1,3 +1,7 @@
+### 1.1.3
+- Fixed breaking conflict between Flutter 3.7 and the Badges package.
+- Now using Badges 3.0.x, but with the intent to drop the dependency and move to the material badge at some point.
+
 ### 1.1.2
 - Fixed a bug that would result in incorrect piece selections for optional promotion moves, e.g. Grand Chess (thanks @malaschitz).
 - `theme` parameter is now optional everywhere.
