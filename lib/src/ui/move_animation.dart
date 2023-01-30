@@ -31,7 +31,8 @@ class MoveAnimation extends StatefulWidget {
   State<MoveAnimation> createState() => _MoveAnimationState();
 }
 
-class _MoveAnimationState extends State<MoveAnimation> with SingleTickerProviderStateMixin {
+class _MoveAnimationState extends State<MoveAnimation>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     duration: widget.duration,
     vsync: this,

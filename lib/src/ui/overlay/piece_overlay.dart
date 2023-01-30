@@ -52,7 +52,8 @@ class PieceOverlay extends StatelessWidget {
     return BoardOverlay(
       size: size,
       orientation: orientation,
-      children: pieces.map((sq, symbol) => MapEntry(sq, _piece(context, symbol))),
+      children:
+          pieces.map((sq, symbol) => MapEntry(sq, _piece(context, symbol))),
     );
   }
 

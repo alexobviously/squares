@@ -13,7 +13,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       builder: (context, state) {
         return AppBar(
           title: GestureDetector(
-            onTap: () => Navigator.of(context).popUntil((route) => route.isFirst),
+            onTap: () =>
+                Navigator.of(context).popUntil((route) => route.isFirst),
             child: Text('Squares'),
           ),
           actions: [

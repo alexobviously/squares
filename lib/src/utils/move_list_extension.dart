@@ -30,7 +30,8 @@ extension MoveListExtension on Iterable<Move> {
   Move? bestPromo(List<String> pieceHierarchy, [bool strict = false]) {
     final promos = promoMoves;
     for (String p in pieceHierarchy) {
-      final m = promos.firstWhereOrNull((e) => e.promo?.toLowerCase() == p.toLowerCase());
+      final m = promos
+          .firstWhereOrNull((e) => e.promo?.toLowerCase() == p.toLowerCase());
       if (m != null) return m;
     }
     return (promos.isNotEmpty && !strict) ? promos.first : null;
