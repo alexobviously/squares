@@ -45,7 +45,7 @@ class _GamePageState extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
     final _variant = widget.game.variant;
-    bool _hands = _variant?.hands ?? false;
+    bool _hands = _variant?.handOptions.enableHands ?? false;
     return BlocBuilder<GameController, GameState>(
       bloc: widget.game,
       builder: (context, state) {

@@ -3,12 +3,14 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:squares/squares.dart';
+import 'package:squares_complex/game_config.dart';
 
 class GameController extends Cubit<GameState> {
   GameController() : super(GameState.initial());
   bishop.Game? game;
   bishop.Engine? engine;
   int humanPlayer = Squares.white;
+  OpponentType opponentType = OpponentType.ai;
   bishop.Variant? get variant => game?.variant.data;
   bool get isXiangqi => game?.variant.data.name == 'Xiangqi';
 
@@ -21,7 +23,8 @@ class GameController extends Cubit<GameState> {
       return size.moveFromAlgebraic(algebraic);
     }
 
-    bool canMove = game!.turn == humanPlayer;
+    bool canMove =
+        game!.turn == humanPlayer || opponentType == OpponentType.human;
     List<bishop.Move> _moves =
         canMove ? game!.generateLegalMoves() : game!.generatePremoves();
     List<Move> moves = [];
@@ -61,16 +64,22 @@ class GameController extends Cubit<GameState> {
     );
   }
 
-  void startGame(bishop.Variant variant, {String? fen, int? humanPlayer}) {
+  void startGame(
+    bishop.Variant variant, {
+    String? fen,
+    int? humanPlayer,
+    OpponentType? opponentType,
+  }) {
     game = bishop.Game(variant: variant, fen: fen);
     engine = bishop.Engine(game: game!);
     if (humanPlayer != null) this.humanPlayer = humanPlayer;
+    if (opponentType != null) this.opponentType = opponentType;
     emitState();
     if (humanPlayer == Squares.black) {
       flipBoard();
     }
     if (game!.turn != humanPlayer) {
-      engineMove();
+      opponentMove();
     }
   }
 
@@ -88,7 +97,7 @@ class GameController extends Cubit<GameState> {
       game!.makeMove(m);
       emitState();
       //Future.delayed(Duration(milliseconds: 200)).then((_) => engineMove());
-      engineMove();
+      opponentMove();
     }
   }
 
@@ -96,6 +105,15 @@ class GameController extends Cubit<GameState> {
     if (game == null || game!.gameOver) return;
     game!.makeRandomMove();
     emitState();
+  }
+
+  void opponentMove() {
+    if (opponentType == OpponentType.ai) {
+      return engineMove();
+    }
+    if (opponentType == OpponentType.randomMover) {
+      return randomMove();
+    }
   }
 
   void engineMove() async {

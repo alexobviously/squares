@@ -21,10 +21,10 @@ packages:
     dependency: "direct main"
     description:
       name: bishop
-      sha256: "6bef09dbc1700e4a8dd66486df68c9536fd55b368a767fe8a3d7eb414022dde5"
+      sha256: "61c6591769d4c2018d154c4fe5cf54e1019d596bb8db5997f37a999219121c51"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.4"
+    version: "1.0.0"
   bloc:
     dependency: "direct main"
     description:
@@ -348,10 +348,10 @@ packages:
     dependency: "direct main"
     description:
       name: square_bishop
-      sha256: "1570e2782164ae21c204db2c3adbfb87f3c667fd0789599ed9c3ee8ce59459a8"
+      sha256: f61d7ff16846f3a46aeecde61bd0da3fbd8481b63f3bf03c88ce87e951ff32a1
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.8"
+    version: "0.2.9"
   squares:
     dependency: "direct main"
     description:

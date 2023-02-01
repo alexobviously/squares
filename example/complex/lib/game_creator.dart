@@ -32,6 +32,9 @@ class _GameCreatorState extends State<GameCreator> {
     bishop.Variant.crazyhouse(),
     bishop.Variant.seirawan(),
     bishop.Xiangqi.variant(),
+    bishop.Variant.atomic(),
+    bishop.Variant.kingOfTheHill(),
+    bishop.Variant.horde(),
   ];
 
   List<DropdownMenuItem<int>> get _variantDropdownItems {
@@ -49,6 +52,10 @@ class _GameCreatorState extends State<GameCreator> {
   static int colour = 1;
   void _changeColour(int c) => setState(() => colour = c);
 
+  static OpponentType opponentType = OpponentType.ai;
+  void _changeOpponent(OpponentType type) =>
+      setState(() => opponentType = type);
+
   void _create() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
@@ -61,6 +68,7 @@ class _GameCreatorState extends State<GameCreator> {
       final config = GameConfig(
         variant: variants[variant],
         humanPlayer: _colour,
+        opponentType: opponentType,
         fen: fen,
       );
       widget.onCreate(config);
@@ -137,6 +145,13 @@ class _GameCreatorState extends State<GameCreator> {
             ],
             isSelected: [colour == 0, colour == 1, colour == 2],
             onPressed: _changeColour,
+          ),
+          DropdownButton<OpponentType>(
+            value: opponentType,
+            items: OpponentType.values
+                .map((e) => DropdownMenuItem(value: e, child: Text(e.title)))
+                .toList(),
+            onChanged: (v) => _changeOpponent(v ?? OpponentType.ai),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),

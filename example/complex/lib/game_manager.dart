@@ -52,6 +52,7 @@ class GameManager extends Cubit<GameManagerState> {
     gc.startGame(
       config.variant,
       humanPlayer: config.humanPlayer,
+      opponentType: config.opponentType,
       fen: config.fen,
     );
     List<GameController> _games = List.from(state.games);
@@ -60,7 +61,6 @@ class GameManager extends Cubit<GameManagerState> {
   }
 
   void removeGame(int index) {
-    print('removegame $index ${state.games.length}');
     if (index >= 0 && index < state.games.length) {
       List<GameController> _games = List.from(state.games);
       _games.removeAt(index);
