@@ -75,7 +75,6 @@ class BoardBackground extends StatelessWidget {
 
     return AnimatedDecorationContainer(
       duration: const Duration(milliseconds: 100),
-      clipBehavior: Clip.none,
       decoration: config.squareDecoration.copyWith(color: squareColour),
       width: squareSize,
       height: squareSize,
