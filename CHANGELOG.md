@@ -1,3 +1,7 @@
+### 1.1.4
+- Fixed janky resizing behaviour on web (thanks @deathcoder).
+- Example: opponent type options (AI, random mover, human).
+
 ### 1.1.3
 - Fixed breaking conflict between Flutter 3.7 and the Badges package.
 - Now using Badges 3.0.x, but with the intent to drop the dependency and move to the material badge at some point.
