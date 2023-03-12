@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:squares/squares.dart';
 
-PieceSet svgPieceSet(
-    {required String folder, String? package, required List<String> symbols}) {
+PieceSet svgPieceSet({
+  required String folder,
+  String? package,
+  required List<String> symbols,
+}) {
   Map<String, WidgetBuilder> pieces = {};
   for (String symbol in symbols) {
     pieces[symbol.toUpperCase()] = (BuildContext context) =>

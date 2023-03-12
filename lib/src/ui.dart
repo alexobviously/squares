@@ -1,3 +1,4 @@
+export 'ui/animated_decoration_container.dart';
 export 'ui/board/board.dart';
 export 'ui/board_controller.dart';
 export 'ui/hand.dart';
