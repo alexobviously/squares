@@ -11,7 +11,7 @@ class PieceSet {
   static const List<String> extendedSymbols = [
     //
     'P', 'N', 'B', 'R', 'Q', 'K',
-    'A', 'C', 'H', 'E', 'S',
+    'A', 'C', 'H', 'E', 'S', 'X',
   ];
   static const List<String> xiangqiSymbols = [
     //

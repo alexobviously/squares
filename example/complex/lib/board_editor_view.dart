@@ -10,7 +10,6 @@ import 'package:squares_complex/game_manager.dart';
 class BoardEditorView extends StatefulWidget {
   final bp.Variant variant;
   final String? initialFen;
-
   const BoardEditorView({
     super.key,
     required this.variant,

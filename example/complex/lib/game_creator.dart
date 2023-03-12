@@ -32,9 +32,12 @@ class _GameCreatorState extends State<GameCreator> {
     bishop.Variant.crazyhouse(),
     bishop.Variant.seirawan(),
     bishop.Xiangqi.variant(),
+    bishop.Xiangqi.mini(),
     bishop.Variant.atomic(),
     bishop.Variant.kingOfTheHill(),
     bishop.Variant.horde(),
+    bishop.MiscVariants.dart(),
+    bishop.CommonVariants.antichess(),
   ];
 
   List<DropdownMenuItem<int>> get _variantDropdownItems {

@@ -21,10 +21,10 @@ packages:
     dependency: "direct main"
     description:
       name: bishop
-      sha256: "0e877c8043a57d0d8d35dca37771e6040fd16aaa72e4e0e92c1ab7e8302c63b7"
+      sha256: "9ecaf91e8c8b6a0107e62987cdd79d663bf4c00d638428566e1923d12efb42d9"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.0"
+    version: "1.2.8"
   boolean_selector:
     dependency: transitive
     description:
@@ -164,10 +164,10 @@ packages:
     dependency: "direct main"
     description:
       name: square_bishop
-      sha256: "351a39a520c45c0486bb2893fcc2d5ac9d003e4b3c4f4bb4c2c170cce86cf846"
+      sha256: a8975284f219b029ff1f22ca917b383fea4ada6b4feabf6f636166f3bdf0305c
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.2"
+    version: "0.2.13"
   squares:
     dependency: "direct main"
     description:
@@ -224,5 +224,5 @@ packages:
     source: hosted
     version: "2.1.4"
 sdks:
-  dart: ">=2.18.0 <4.0.0"
+  dart: ">=2.18.0 <3.0.0"
   flutter: ">=1.17.0"
