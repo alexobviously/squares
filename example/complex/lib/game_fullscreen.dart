@@ -11,7 +11,7 @@ class GameFullscreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(),
+      appBar: const MyAppBar(),
       body: BlocBuilder<GameManager, GameManagerState>(
         builder: (context, state) {
           return GamePage(

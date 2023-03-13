@@ -42,7 +42,7 @@ class GameController extends Cubit<GameState> {
       checkSquare: gameInfo.checkSq != null
           ? size.squareNumber(gameInfo.checkSq!)
           : null,
-      orientation: this.state.board.orientation,
+      orientation: state.board.orientation,
       turn: game!.turn,
     );
     PlayState _state = game!.gameOver
@@ -118,7 +118,7 @@ class GameController extends Cubit<GameState> {
 
   void engineMove() async {
     emitState(true);
-    await Future.delayed(Duration(milliseconds: 250));
+    await Future.delayed(const Duration(milliseconds: 250));
     //bishop.EngineResult result = await engine!.search();
     bishop.EngineResult result = await compute(engineSearch, game!);
     if (result.hasMove) {
@@ -159,7 +159,7 @@ class GameState extends Equatable {
 
   bool get canMove => state == PlayState.ourTurn;
 
-  GameState({
+  const GameState({
     required this.state,
     required this.size,
     required this.board,
@@ -172,7 +172,7 @@ class GameState extends Equatable {
         state: PlayState.observing,
         size: BoardSize.standard,
         board: BoardState.empty(),
-        moves: [],
+        moves: const [],
       );
 
   GameState copyWith({
@@ -198,6 +198,8 @@ class GameState extends Equatable {
 
   GameState flipped() => copyWith(board: board.flipped());
 
+  @override
   List<Object> get props => [state, size, board, moves, hands, thinking];
+  @override
   bool get stringify => true;
 }

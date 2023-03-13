@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class HomeView extends StatefulWidget {
-  HomeView({super.key});
+  const HomeView({super.key});
 
   @override
   _HomeViewState createState() => _HomeViewState();
@@ -49,7 +49,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<GameManager>(context);
     return Scaffold(
-      appBar: MyAppBar(),
+      appBar: const MyAppBar(),
       body: BlocBuilder<GameManager, GameManagerState>(
         builder: (context, state) {
           final games = state.games;
@@ -67,7 +67,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                         if (i == games.length) {
                           return Card(
                             child: GameCreator(
-                              key: ValueKey('creator'),
+                              key: const ValueKey('creator'),
                               pieceSet: state.pieceSet,
                               onCreate: _onCreateGame,
                             ),
@@ -88,7 +88,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                                   top: 4.0,
                                   right: 4.0,
                                   child: IconButton(
-                                    icon: Icon(MdiIcons.arrowExpand),
+                                    icon: const Icon(MdiIcons.arrowExpand),
                                     onPressed: () => Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) =>
@@ -101,7 +101,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                                   top: 4.0,
                                   left: 4.0,
                                   child: IconButton(
-                                    icon: Icon(MdiIcons.close),
+                                    icon: const Icon(MdiIcons.close),
                                     onPressed: () => cubit.removeGame(i),
                                   ),
                                 ),
@@ -117,7 +117,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                     position: _page,
                     onTap: (x) => _pageController.animateToPage(
                       x.round(),
-                      duration: Duration(milliseconds: 250),
+                      duration: const Duration(milliseconds: 250),
                       curve: Curves.easeInQuad,
                     ),
                   )

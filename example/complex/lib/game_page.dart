@@ -13,7 +13,7 @@ class GamePage extends StatefulWidget {
   final BoardTheme theme;
   final MarkerTheme? markerTheme;
 
-  GamePage({
+  const GamePage({
     Key? key,
     required this.game,
     required this.pieceSet,
@@ -57,7 +57,7 @@ class _GamePageState extends State<GamePage> {
             children: [
               if (_hands) _hand(1 - _orientation),
               Padding(
-                padding: EdgeInsets.all(4.0),
+                padding: const EdgeInsets.all(4.0),
                 child: BoardController(
                   state: state.board,
                   playState: state.state,
@@ -73,7 +73,7 @@ class _GamePageState extends State<GamePage> {
                   draggable: true,
                   dragFeedbackSize: kIsWeb ? 1.5 : 2.0,
                   dragFeedbackOffset:
-                      kIsWeb ? Offset(0.0, 0.0) : Offset(0.0, -1.0),
+                      kIsWeb ? const Offset(0.0, 0.0) : const Offset(0.0, -1.0),
                   background:
                       widget.game.isXiangqi ? Squares.xiangqiBackground : null,
                   backgroundConfig: widget.game.isXiangqi
@@ -90,13 +90,13 @@ class _GamePageState extends State<GamePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TextButton.icon(
-                    label: Text('Flip Board'),
-                    icon: Icon(MdiIcons.rotate3DVariant),
+                    label: const Text('Flip Board'),
+                    icon: const Icon(MdiIcons.rotate3DVariant),
                     onPressed: _flipBoard,
                   ),
                   TextButton.icon(
-                    label: Text('Resign'),
-                    icon: Icon(MdiIcons.flag),
+                    label: const Text('Resign'),
+                    icon: const Icon(MdiIcons.flag),
                     onPressed: _resign,
                   ),
                 ],
@@ -118,7 +118,7 @@ class _GamePageState extends State<GamePage> {
 
   Widget _hand(int player) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 4.0),
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: Container(
         color: widget.theme.lightSquare,
         child: BlocBuilder<GameController, GameState>(
@@ -136,7 +136,7 @@ class _GamePageState extends State<GamePage> {
                       .map((x) => player == Squares.white ? x : x.toLowerCase())
                       .toList(),
                   squareSize: squareSize,
-                  badgeStyle: badges.BadgeStyle(badgeColor: Colors.blue),
+                  badgeStyle: const badges.BadgeStyle(badgeColor: Colors.blue),
                 );
               },
             );

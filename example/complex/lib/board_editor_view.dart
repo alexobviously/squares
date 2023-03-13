@@ -50,14 +50,15 @@ class _BoardEditorViewState extends State<BoardEditorView> {
 
   void _copyFen() async {
     await Clipboard.setData(ClipboardData(text: state.fen(size)));
+    if (!mounted) return;
     ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text('FEN copied')));
+        .showSnackBar(const SnackBar(content: Text('FEN copied')));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(),
+      appBar: const MyAppBar(),
       body: SafeArea(
         child: BlocBuilder<GameManager, GameManagerState>(
           builder: (context, gm) {
@@ -98,15 +99,15 @@ class _BoardEditorViewState extends State<BoardEditorView> {
                       child: Container(
                         color: gm.theme.previous,
                         height: 100,
-                        padding: EdgeInsets.symmetric(horizontal: 32.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 32.0),
                         child: FittedBox(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children: const [
                               Icon(Icons.delete),
                               Text(
                                 'drag pieces here to remove them',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 20,
                                   // fontWeight: FontWeight.bold,
                                   letterSpacing: 0.2,
@@ -126,7 +127,7 @@ class _BoardEditorViewState extends State<BoardEditorView> {
                   onPressed: () {
                     Navigator.of(context).pop<String?>(state.fen(size));
                   },
-                  child: Text('Use'),
+                  child: const Text('Use'),
                 ),
               ],
             );
@@ -141,7 +142,7 @@ class _BoardEditorViewState extends State<BoardEditorView> {
         .map((x) => player == Squares.white ? x : x.toLowerCase())
         .toList();
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Container(
         color: gm.theme.lightSquare,
         child: LayoutBuilder(

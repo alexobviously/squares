@@ -15,20 +15,20 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           title: GestureDetector(
             onTap: () =>
                 Navigator.of(context).popUntil((route) => route.isFirst),
-            child: Text('Squares'),
+            child: const Text('Squares'),
           ),
           actions: [
             IconButton(
               onPressed: () => cubit.nextTheme(),
-              icon: Icon(MdiIcons.palette),
+              icon: const Icon(MdiIcons.palette),
             ),
             IconButton(
               onPressed: () => cubit.nextHighlightTheme(),
-              icon: Icon(MdiIcons.selectionEllipse),
+              icon: const Icon(MdiIcons.selectionEllipse),
             ),
             DropdownButton<int>(
               value: state.pieceSetIndex,
-              items: [
+              items: const [
                 DropdownMenuItem(
                   child: Text('Merida'),
                   value: 0,
@@ -55,5 +55,5 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(56.0);
+  Size get preferredSize => const Size.fromHeight(56.0);
 }

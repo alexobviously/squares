@@ -22,7 +22,7 @@ class GameManager extends Cubit<GameManagerState> {
   List<PieceSet> pieceSets = [
     PieceSet.merida(),
     PieceSet.letters(
-      style: TextStyle(
+      style: const TextStyle(
         fontWeight: FontWeight.bold,
         fontStyle: FontStyle.italic,
       ),
@@ -91,7 +91,7 @@ class GameManager extends Cubit<GameManagerState> {
   void changeHighlightTheme(int? index) {
     if (index == null) return;
     highlightThemeIndex = index;
-    emit(state.copyWith(highlightTheme: highlightThemes[index]));
+    emit(state.copyWith(markerTheme: highlightThemes[index]));
   }
 
   void nextHighlightTheme() =>
@@ -129,7 +129,7 @@ class GameManagerState {
     PieceSet? pieceSet,
     PieceSet? xiangqiPieceSet,
     BoardTheme? theme,
-    MarkerTheme? highlightTheme,
+    MarkerTheme? markerTheme,
   }) =>
       GameManagerState(
         games: games ?? this.games,
@@ -137,6 +137,6 @@ class GameManagerState {
         pieceSet: pieceSet ?? this.pieceSet,
         xiangqiPieceSet: xiangqiPieceSet ?? this.xiangqiPieceSet,
         theme: theme ?? this.theme,
-        markerTheme: highlightTheme ?? this.markerTheme,
+        markerTheme: markerTheme ?? this.markerTheme,
       );
 }

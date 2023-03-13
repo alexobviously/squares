@@ -81,10 +81,10 @@ class _GameCreatorState extends State<GameCreator> {
   final _formKey = GlobalKey<FormState>();
 
   static String? fen;
-  TextEditingController _fenController = TextEditingController(text: fen);
+  final TextEditingController _fenController = TextEditingController(text: fen);
 
   bool _validateFen(String fen, bishop.Variant? variant) {
-    if (variant == null) variant = bishop.Variant.standard();
+    variant ??= bishop.Variant.standard();
     return bishop.validateFen(variant: variant, fen: fen);
   }
 
@@ -123,7 +123,7 @@ class _GameCreatorState extends State<GameCreator> {
             'Game Setup',
             style: Theme.of(context).textTheme.headlineSmall,
           ),
-          Divider(),
+          const Divider(),
           DropdownButton<int>(
             value: variant,
             items: _variantDropdownItems,
@@ -131,16 +131,16 @@ class _GameCreatorState extends State<GameCreator> {
           ),
           ToggleButtons(
             children: [
-              Container(
+              SizedBox(
                 width: 32,
                 height: 32,
                 child: FittedBox(child: widget.pieceSet.piece(context, 'K')),
               ),
-              Icon(
+              const Icon(
                 MdiIcons.helpCircleOutline,
                 size: 30,
               ),
-              Container(
+              SizedBox(
                 width: 32,
                 height: 32,
                 child: FittedBox(child: widget.pieceSet.piece(context, 'k')),
@@ -167,7 +167,7 @@ class _GameCreatorState extends State<GameCreator> {
                 suffixIcon: _fenController.text.isNotEmpty
                     ? IconButton(
                         onPressed: _clearFen,
-                        icon: Icon(Icons.clear),
+                        icon: const Icon(Icons.clear),
                       )
                     : null,
               ),
@@ -185,11 +185,11 @@ class _GameCreatorState extends State<GameCreator> {
           ),
           ElevatedButton(
             onPressed: _goToBoardEditor,
-            child: Text('Board Editor'),
+            child: const Text('Board Editor'),
           ),
           ElevatedButton(
             onPressed: _create,
-            child: Text('Create Game'),
+            child: const Text('Create Game'),
           ),
         ],
       ),
