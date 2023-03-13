@@ -1,3 +1,5 @@
+import 'package:bishop/bishop.dart' as bp;
+import 'package:flutter/services.dart';
 import 'package:squares_complex/game_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -99,6 +101,12 @@ class _GamePageState extends State<GamePage> {
                     icon: const Icon(MdiIcons.flag),
                     onPressed: _resign,
                   ),
+                  TextButton.icon(
+                    onPressed: () =>
+                        _copyToClipBoard(widget.game.game!.pgn(), 'PGN Copied'),
+                    label: const Text('PGN'),
+                    icon: const Icon(MdiIcons.file),
+                  ),
                 ],
               ),
               Container(
@@ -109,11 +117,27 @@ class _GamePageState extends State<GamePage> {
                   minLines: 2,
                 ),
               ),
+              if (state.result != null)
+                Text(
+                  state.result!.readable,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: widget.theme.darkSquare,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
             ],
           ),
         );
       },
     );
+  }
+
+  void _copyToClipBoard(String data, String snackbarString) async {
+    await Clipboard.setData(ClipboardData(text: data));
+    if (!mounted) return;
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(snackbarString)));
   }
 
   Widget _hand(int player) {

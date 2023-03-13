@@ -60,6 +60,7 @@ class GameController extends Cubit<GameState> {
             .where((x) => x.move != null)
             .map((m) => convertBishopMove(m.move!))
             .toList(),
+        result: game!.result,
       ),
     );
   }
@@ -156,6 +157,7 @@ class GameState extends Equatable {
   final List<List<String>> hands;
   final bool thinking;
   final List<Move> history;
+  final bishop.GameResult? result;
 
   bool get canMove => state == PlayState.ourTurn;
 
@@ -167,6 +169,7 @@ class GameState extends Equatable {
     this.hands = const [[], []],
     this.thinking = false,
     this.history = const [],
+    this.result,
   });
   factory GameState.initial() => GameState(
         state: PlayState.observing,
@@ -184,6 +187,7 @@ class GameState extends Equatable {
     bool? thinking,
     int? orientation,
     List<Move>? history,
+    bishop.GameResult? result,
   }) {
     return GameState(
       state: state ?? this.state,
@@ -193,13 +197,15 @@ class GameState extends Equatable {
       hands: hands ?? this.hands,
       thinking: thinking ?? this.thinking,
       history: history ?? this.history,
+      result: result ?? this.result,
     );
   }
 
   GameState flipped() => copyWith(board: board.flipped());
 
   @override
-  List<Object> get props => [state, size, board, moves, hands, thinking];
+  List<Object?> get props =>
+      [state, size, board, moves, hands, thinking, result];
   @override
   bool get stringify => true;
 }
