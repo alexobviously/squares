@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 /// A version of [AnimatedContainer] that only animates its decorations.
@@ -31,7 +30,8 @@ class AnimatedDecorationContainer extends ImplicitlyAnimatedWidget {
         assert(
           color == null || decoration == null,
           'Cannot provide both a color and a decoration\n'
-          'The color argument is just a shorthand for "decoration: BoxDecoration(color: color)".',
+          'The color argument is just a shorthand for'
+          '"decoration: BoxDecoration(color: color)".',
         ),
         decoration =
             decoration ?? (color != null ? BoxDecoration(color: color) : null),
@@ -94,7 +94,8 @@ class AnimatedDecorationContainer extends ImplicitlyAnimatedWidget {
   /// The transformation matrix to apply before painting the container.
   final Matrix4? transform;
 
-  /// The alignment of the origin, relative to the size of the container, if [transform] is specified.
+  /// The alignment of the origin, relative to the size of the container,
+  /// if [transform] is specified.
   ///
   /// When [transform] is null, the value of this property is ignored.
   ///
@@ -103,12 +104,13 @@ class AnimatedDecorationContainer extends ImplicitlyAnimatedWidget {
   ///  * [Transform.alignment], which is set by this property.
   final AlignmentGeometry? transformAlignment;
 
-  /// The clip behavior when [AnimatedDecorationContainer.decoration] is not null.
+  /// The clip behavior when [AnimatedDecorationContainer.decoration]
+  /// is not null.
   ///
   /// Defaults to [Clip.none]. Must be [Clip.none] if [decoration] is null.
   ///
-  /// Unlike other properties of [AnimatedDecorationContainer], changes to this property
-  /// apply immediately and have no animation.
+  /// Unlike other properties of [AnimatedDecorationContainer],
+  /// changes to this property apply immediately and have no animation.
   ///
   /// If a clip is to be applied, the [Decoration.getClipPath] method
   /// for the provided decoration must return a clip path. (This is not
