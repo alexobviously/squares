@@ -1,3 +1,7 @@
+### 1.1.5
+- Fixed premoves not getting cleared when the board updates after a move, in `BoardController`.
+- Fixed check/mate squares not being shown for moves where the check square is the same as the destination, as is the case for variants like king of the hill.
+
 ### 1.1.4
 - Fixed janky resizing behaviour on web (thanks @deathcoder).
 - Example: opponent type options (AI, random mover, human).

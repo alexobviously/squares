@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:bishop/bishop.dart' as bishop;
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:squares/squares.dart';
 import 'package:squares_complex/game_config.dart';
+import 'package:square_bishop/square_bishop.dart';
 
 class GameController extends Cubit<GameState> {
   GameController() : super(GameState.initial());
@@ -31,20 +34,7 @@ class GameController extends Cubit<GameState> {
     for (bishop.Move move in _moves) {
       moves.add(convertBishopMove(move));
     }
-    bishop.GameInfo gameInfo = game!.info;
-    BoardState board = BoardState(
-      board: game!.boardSymbols(),
-      lastFrom: gameInfo.lastFrom != null
-          ? size.squareNumber(gameInfo.lastFrom!)
-          : null,
-      lastTo:
-          gameInfo.lastTo != null ? size.squareNumber(gameInfo.lastTo!) : null,
-      checkSquare: gameInfo.checkSq != null
-          ? size.squareNumber(gameInfo.checkSq!)
-          : null,
-      orientation: state.board.orientation,
-      turn: game!.turn,
-    );
+    BoardState board = game!.boardState(state.board.orientation);
     PlayState _state = game!.gameOver
         ? PlayState.finished
         : (canMove ? PlayState.ourTurn : PlayState.theirTurn);
@@ -108,7 +98,7 @@ class GameController extends Cubit<GameState> {
     emitState();
   }
 
-  void opponentMove() {
+  Future<void> opponentMove() async {
     if (opponentType == OpponentType.ai) {
       return engineMove();
     }
@@ -117,7 +107,7 @@ class GameController extends Cubit<GameState> {
     }
   }
 
-  void engineMove() async {
+  Future<void> engineMove() async {
     emitState(true);
     await Future.delayed(const Duration(milliseconds: 250));
     //bishop.EngineResult result = await engine!.search();

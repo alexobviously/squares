@@ -37,6 +37,7 @@ class _GameCreatorState extends State<GameCreator> {
     bishop.Variant.kingOfTheHill(),
     bishop.Variant.horde(),
     bishop.MiscVariants.dart(),
+    bishop.MiscVariants.jesonMor(),
     bishop.CommonVariants.antichess(),
   ];
 

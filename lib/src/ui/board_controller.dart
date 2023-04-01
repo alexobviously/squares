@@ -225,6 +225,14 @@ class _BoardControllerState extends State<BoardController> {
           .addPostFrameCallback((_) => widget.onPremove!(premove));
     }
 
+    if (selection != null) {
+      if (premove == null) {
+        _setSelection(selection!);
+      } else {
+        _clearSelection();
+      }
+    }
+
     if (target != null) {
       setState(() {
         premove = null;

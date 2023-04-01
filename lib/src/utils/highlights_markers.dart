@@ -30,12 +30,6 @@ Map<int, HighlightType> generateHighlights({
   Map<int, HighlightType> highlights = {
     if (selection != null) selection: selectionColour,
     if (target != null) target: selectionColour,
-    if (state.checkSquare != null &&
-        state.checkSquare != selection &&
-        state.checkSquare != target)
-      state.checkSquare!: playState == PlayState.finished
-          ? HighlightType.checkmate
-          : HighlightType.check,
     if (state.lastFrom != null &&
         state.lastFrom != selection &&
         state.lastFrom != target)
@@ -44,6 +38,12 @@ Map<int, HighlightType> generateHighlights({
         state.lastTo != selection &&
         state.lastTo != target)
       state.lastTo!: HighlightType.previous,
+    if (state.checkSquare != null &&
+        state.checkSquare != selection &&
+        state.checkSquare != target)
+      state.checkSquare!: playState == PlayState.finished
+          ? HighlightType.checkmate
+          : HighlightType.check,
   };
   return highlights;
 }
