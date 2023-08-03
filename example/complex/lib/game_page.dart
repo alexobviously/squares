@@ -93,19 +93,19 @@ class _GamePageState extends State<GamePage> {
                 children: [
                   TextButton.icon(
                     label: const Text('Flip Board'),
-                    icon: const Icon(MdiIcons.rotate3DVariant),
+                    icon: Icon(MdiIcons.rotate3DVariant),
                     onPressed: _flipBoard,
                   ),
                   TextButton.icon(
                     label: const Text('Resign'),
-                    icon: const Icon(MdiIcons.flag),
+                    icon: Icon(MdiIcons.flag),
                     onPressed: _resign,
                   ),
                   TextButton.icon(
                     onPressed: () =>
                         _copyToClipBoard(widget.game.game!.pgn(), 'PGN Copied'),
                     label: const Text('PGN'),
-                    icon: const Icon(MdiIcons.file),
+                    icon: Icon(MdiIcons.file),
                   ),
                 ],
               ),

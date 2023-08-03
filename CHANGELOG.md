@@ -1,3 +1,6 @@
+### 1.1.6
+- `dragFeedbackSize` and `dragFeedbackOffset` parameters in `Hand` (thanks @callumbeaney).
+
 ### 1.1.5
 - Fixed premoves not getting cleared when the board updates after a move, in `BoardController`.
 - Fixed check/mate squares not being shown for moves where the check square is the same as the destination, as is the case for variants like king of the hill.

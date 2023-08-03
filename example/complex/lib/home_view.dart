@@ -88,7 +88,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                                   top: 4.0,
                                   right: 4.0,
                                   child: IconButton(
-                                    icon: const Icon(MdiIcons.arrowExpand),
+                                    icon: Icon(MdiIcons.arrowExpand),
                                     onPressed: () => Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) =>
@@ -101,7 +101,7 @@ class _HomeViewState extends State<HomeView> with WidgetsBindingObserver {
                                   top: 4.0,
                                   left: 4.0,
                                   child: IconButton(
-                                    icon: const Icon(MdiIcons.close),
+                                    icon: Icon(MdiIcons.close),
                                     onPressed: () => cubit.removeGame(i),
                                   ),
                                 ),

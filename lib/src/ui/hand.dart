@@ -50,6 +50,15 @@ class Hand extends StatelessWidget {
   /// Called when a drag ends, i.e. it was dropped on a target.
   final void Function(String, DraggableDetails)? onDragEnd;
 
+  /// The size of pieces being dragged will be multiplied by this.
+  /// 1.5 is a good value for mobile, but 1.0 is preferable for web.
+  final double dragFeedbackSize;
+
+  /// A vector to offset the position of dragged pieces by, relative to the size of the piece.
+  /// No offset is recommended for web, and Offset(0,-1) for mobile, in which case
+  /// the bottom of the piece will be anchored to the finger.
+  final Offset dragFeedbackOffset;
+
   const Hand({
     required this.squareSize,
     this.stackPieces = true,
@@ -65,6 +74,8 @@ class Hand extends StatelessWidget {
     this.onDragStarted,
     this.onDragCancelled,
     this.onDragEnd,
+    this.dragFeedbackSize = 2.0,
+    this.dragFeedbackOffset = const Offset(0.0, -1.0),
   });
 
   @override
@@ -130,6 +141,8 @@ class Hand extends StatelessWidget {
       onDragStarted: () => onDragStarted?.call(symbol),
       onDragCancelled: () => onDragCancelled?.call(symbol),
       onDragEnd: (details) => onDragEnd?.call(symbol, details),
+      dragFeedbackSize: dragFeedbackSize,
+      dragFeedbackOffset: dragFeedbackOffset,
     );
     return p;
   }

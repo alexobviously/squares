@@ -37,7 +37,7 @@ class _GameCreatorState extends State<GameCreator> {
     bishop.Variant.kingOfTheHill(),
     bishop.Variant.horde(),
     bishop.MiscVariants.dart(),
-    bishop.MiscVariants.jesonMor(),
+    bishop.OtherGames.jesonMor(),
     bishop.CommonVariants.antichess(),
   ];
 
@@ -137,7 +137,7 @@ class _GameCreatorState extends State<GameCreator> {
                 height: 32,
                 child: FittedBox(child: widget.pieceSet.piece(context, 'K')),
               ),
-              const Icon(
+              Icon(
                 MdiIcons.helpCircleOutline,
                 size: 30,
               ),
@@ -162,7 +162,7 @@ class _GameCreatorState extends State<GameCreator> {
             child: TextFormField(
               controller: _fenController,
               decoration: InputDecoration(
-                icon: const Icon(MdiIcons.checkerboard),
+                icon: Icon(MdiIcons.checkerboard),
                 hintText: 'Leave blank for default position',
                 labelText: 'Start position (FEN)',
                 suffixIcon: _fenController.text.isNotEmpty
