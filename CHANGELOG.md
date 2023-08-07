@@ -1,5 +1,7 @@
 ### 1.1.7
-- 
+- `BoardController` can now take `overlays` and `underlays` as parameters, and passes them through to `Board`.
+- `BoardBuilder` now takes a parameter `forceSquareAlignment`, which defaults to true, and forces elements to be aligned to their squares (previously this was not the case).
+- `SquareBuilder` functions (such as those used by `BoardBuilder`) now return `Widget?`, i.e. they can return null. `BoardBuilder` will build an empty container in this case.
 - `LabelConfig` is now exported correctly with the rest of the package.
 
 ### 1.1.6

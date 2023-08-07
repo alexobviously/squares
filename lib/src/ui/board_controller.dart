@@ -87,6 +87,16 @@ class BoardController extends StatefulWidget {
   /// square it is on. For example, 0.05 will add 5% padding to each side.
   final double piecePadding;
 
+  /// A list of widgets that will be inserted between the board background and
+  /// the piece layer. Ensure these don't absorb any gestures to preserve board
+  /// behaviour.
+  final List<Widget> underlays;
+
+  /// A list of widgest that will be inserted on top of the piece layer, but
+  /// below any visible piece selectors. Ensure these don't absorb any gestures
+  /// to preserve board behaviour.
+  final List<Widget> overlays;
+
   late final Map<int, List<Move>> moveMap;
   late final List<Move> drops;
 
@@ -125,6 +135,8 @@ class BoardController extends StatefulWidget {
     this.backgroundConfig = BackgroundConfig.standard,
     this.background,
     this.piecePadding = 0.0,
+    this.overlays = const [],
+    this.underlays = const [],
   }) {
     moveMap = {};
     drops = [];
@@ -190,7 +202,9 @@ class _BoardControllerState extends State<BoardController> {
       backgroundConfig: widget.backgroundConfig,
       background: widget.background,
       piecePadding: widget.piecePadding,
+      underlays: widget.underlays,
       overlays: [
+        ...widget.overlays,
         if (premove?.promotion ?? false)
           PieceOverlay.single(
             size: widget.size,
