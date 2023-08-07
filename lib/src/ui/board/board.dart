@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:squares/squares.dart';
-import 'package:squares/src/ui/overlay/label_overlay.dart';
 
 part 'board_background.dart';
 part 'board_builder.dart';
@@ -88,7 +87,7 @@ class Board extends StatelessWidget {
   /// behaviour.
   final List<Widget> underlays;
 
-  /// A list of widgest that will be inserted on top of the piece layer, but
+  /// A list of widgets that will be inserted on top of the piece layer, but
   /// below any visible piece selectors. Ensure these don't absorb any gestures
   /// to preserve board behaviour.
   final List<Widget> overlays;
