@@ -1,3 +1,7 @@
+### 1.1.7
+- 
+- `LabelConfig` is now exported correctly with the rest of the package.
+
 ### 1.1.6
 - `dragFeedbackSize` and `dragFeedbackOffset` parameters in `Hand` (thanks @callumbeaney).
 
