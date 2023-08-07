@@ -7,6 +7,8 @@ class SquareNumberOverlay extends StatelessWidget {
   /// Required because this is a debugging tool and I want to help you :)
   final int orientation;
 
+  final BoardSize size;
+
   /// Style of the number text.
   final TextStyle? textStyle;
 
@@ -19,6 +21,7 @@ class SquareNumberOverlay extends StatelessWidget {
   const SquareNumberOverlay({
     super.key,
     required this.orientation,
+    this.size = BoardSize.standard,
     this.textStyle,
     this.showCircle = true,
     this.circleColour,
@@ -27,6 +30,8 @@ class SquareNumberOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BoardBuilder.index(
+      orientation: orientation,
+      size: size,
       builder: (i, size) => Padding(
         padding: EdgeInsets.all(size / 4),
         child: Container(
@@ -40,7 +45,6 @@ class SquareNumberOverlay extends StatelessWidget {
           child: FittedBox(child: Center(child: Text('$i', style: textStyle))),
         ),
       ),
-      orientation: orientation,
     );
   }
 }

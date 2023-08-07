@@ -3,6 +3,7 @@
 - `BoardBuilder` now takes a parameter `forceSquareAlignment`, which defaults to true, and forces elements to be aligned to their squares (previously this was not the case).
 - `SquareBuilder` functions (such as those used by `BoardBuilder`) now return `Widget?`, i.e. they can return null. `BoardBuilder` will build an empty container in this case.
 - `BoardBuilder.index()`: a `BoardBuilder` that uses an index, rather than rank and file.
+- `InputOverlay`: an easy way to support common gestures like right clicks and long presses.
 - `SquareNumberOverlay`: an overlay for debugging that shows the square index.
 - `LabelConfig` is now exported correctly with the rest of the package.
 
