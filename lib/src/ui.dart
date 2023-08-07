@@ -5,5 +5,6 @@ export 'ui/hand.dart';
 export 'ui/move_animation.dart';
 export 'ui/overlay/board_overlay.dart';
 export 'ui/overlay/label_overlay.dart';
+export 'ui/overlay/square_number_overlay.dart';
 export 'ui/piece.dart';
 export 'ui/piece_selector.dart';
