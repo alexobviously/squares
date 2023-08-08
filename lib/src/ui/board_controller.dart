@@ -55,6 +55,9 @@ class BoardController extends StatefulWidget {
   /// the bottom of the piece will be anchored to the finger.
   final Offset dragFeedbackOffset;
 
+  /// Builds feedback for squares being hovered over by a dragged piece.
+  final DragTargetFeedback? dragTargetFeedback;
+
   /// If true and there is a last move, it will be animated.
   final bool animatePieces;
 
@@ -127,6 +130,7 @@ class BoardController extends StatefulWidget {
     this.draggable = true,
     this.dragFeedbackSize = 2.0,
     this.dragFeedbackOffset = const Offset(0.0, -1.0),
+    this.dragTargetFeedback,
     this.animatePieces = true,
     this.animationDuration = Squares.defaultAnimationDuration,
     this.animationCurve = Squares.defaultAnimationCurve,
@@ -187,6 +191,7 @@ class _BoardControllerState extends State<BoardController> {
       dragFeedbackSize: widget.dragFeedbackSize,
       dragFeedbackOffset: widget.dragFeedbackOffset,
       dragPermissions: widget.dragPermissions,
+      dragTargetFeedback: widget.dragTargetFeedback,
       animatePieces: widget.animatePieces,
       animationDuration: widget.animationDuration,
       animationCurve: widget.animationCurve,

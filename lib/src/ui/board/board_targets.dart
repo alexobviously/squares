@@ -26,6 +26,9 @@ class BoardTargets extends StatelessWidget {
   /// Called when a draggable leaves a square.
   final void Function(PartialMove, int)? onDragLeave;
 
+  /// Builds feedback for squares being hovered over by a dragged piece.
+  final DragTargetFeedback? feedback;
+
   const BoardTargets({
     super.key,
     this.size = BoardSize.standard,
@@ -34,6 +37,7 @@ class BoardTargets extends StatelessWidget {
     this.validateDrag,
     this.acceptDrag,
     this.onDragLeave,
+    this.feedback,
   });
 
   bool _validateDrag(PartialMove? move, int to) {
@@ -69,12 +73,20 @@ class BoardTargets extends StatelessWidget {
   Widget _target(int id, double squareSize) {
     return DragTarget<PartialMove>(
       builder: (context, accepted, rejected) {
+        if (id == 20) print(':: $id ${accepted.length} ${rejected.length}');
         return GestureDetector(
           onTap: () => onTap?.call(id),
           behavior: HitTestBehavior.opaque,
           child: SizedBox(
             width: squareSize,
             height: squareSize,
+            child: feedback?.build(
+              context: context,
+              id: id,
+              squareSize: squareSize,
+              accepted: accepted,
+              rejected: rejected,
+            ),
           ),
         );
       },

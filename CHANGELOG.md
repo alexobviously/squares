@@ -1,3 +1,6 @@
+### 1.2.1
+- `DragTargetFeedback`: used to build visual feedback for pieces hovering over drag targets in `BoardTargets` / `Board` / `BoardController`.
+
 ### 1.2.0
 - Now requires Dart 3.
 - `BoardController` can now take `overlays` and `underlays` as parameters, and passes them through to `Board`.

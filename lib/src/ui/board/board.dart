@@ -52,6 +52,9 @@ class Board extends StatelessWidget {
   /// Which players' pieces we can drag.
   final PlayerSet dragPermissions;
 
+  /// Builds feedback for squares being hovered over by a dragged piece.
+  final DragTargetFeedback? dragTargetFeedback;
+
   /// Called when a square is tapped.
   final void Function(int)? onTap;
 
@@ -130,6 +133,7 @@ class Board extends StatelessWidget {
     this.dragFeedbackSize = 2.0,
     this.dragFeedbackOffset = const Offset(0.0, -1.0),
     this.dragPermissions = PlayerSet.both,
+    this.dragTargetFeedback,
     this.onTap,
     this.onPieceSelected,
     this.onDragCancel,
@@ -191,6 +195,7 @@ class Board extends StatelessWidget {
                 onTap: onTap,
                 validateDrag: validateDrag,
                 acceptDrag: acceptDrag,
+                feedback: dragTargetFeedback,
               ),
               ...underlays,
               BoardPieces(
