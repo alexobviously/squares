@@ -76,9 +76,8 @@ class _GamePageState extends State<GamePage> {
                   dragFeedbackSize: kIsWeb ? 1.5 : 2.0,
                   dragFeedbackOffset:
                       kIsWeb ? const Offset(0.0, 0.0) : const Offset(0.0, -1.0),
-                  dragTargetFeedback: ColourDragTargetFeedback(
-                    valid: widget.theme.selected.withOpacity(0.2),
-                    invalid: widget.theme.check.withOpacity(0.1),
+                  dragTargetFeedback: ColourDragTargetFeedback.fromTheme(
+                    theme: widget.theme,
                     shape: widget.game.isXiangqi
                         ? BoxShape.circle
                         : BoxShape.rectangle,
